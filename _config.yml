@@ -1,13 +1,13 @@
 # Site
 title: SRE Wiki
 subtitle: Site Reliability Engineering Documentation
-description: Runbooks, SOPs, and Architecture Documentation
+description: Runbooks, SOPs, and Architecture Documentation for SRE Team
 author: SRE Team
-language: en
+language: zh-CN
 timezone: Asia/Shanghai
 
 # URL
-url: https://yourusername.github.io
+url: https://andersthorvald.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -63,7 +63,7 @@ theme: next
 # Deployment
 deploy:
   type: git
-  repo: git@github.com:yourusername/yourusername.github.io.git
+  repo: git@github.com:andersthorvald/andersthorvald.github.io.git
   branch: gh-pages
   token: ''
 
@@ -80,3 +80,26 @@ archive:
 # Category
 category:
   enable: true
+
+# SEO Plugins
+sitemap:
+  path: sitemap.xml
+  template: ./templates/sitemap.xml
+  route:
+    posts: /:year/:month/:day/:title/
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+
+search:
+  path: search.json
+  field: post
+  content: true
+  format: html
+  limit: 100
