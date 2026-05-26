@@ -6,24 +6,21 @@
   <title>SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
-  <style>
+<style>
+body {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);
+  min-height: 100vh;
+  margin: 0;
+}
 /* Dot grid background - soft pink dots that coordinate with pink gradient */
 .dot-grid {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: -1;
+  pointer-events: none; z-index: 0;
   background-image: radial-gradient(circle, rgba(255, 182, 193, 0.4) 1px, transparent 1px);
   background-size: 30px 30px; opacity: 0.6;
 }
-/* Main content wrapper */
-.main-content {
-  position: relative;
-  z-index: 1;
-  background: white;
-  margin: 0 auto;
-  max-width: 1200px;
-}
 /* Particle animation - purple particles */
-.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
 .particle { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; opacity: 0.3; animation: float 15s infinite; }
 .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
 .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
