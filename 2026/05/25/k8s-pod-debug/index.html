@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K8s Pod Debug - SRE Wiki</title>
+  <title>K8s Pod 调试 - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
-
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
@@ -36,10 +35,10 @@
     <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title">K8s Pod Debug Runbook</h1>
+        <h1 class="article-title" data-i18n="kpd_title">K8s Pod 调试手册</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 Runbooks</span>
+          <span data-i18n="article_category">📁 运维手册</span>
           <span class="tag">kubernetes</span>
           <span class="tag">k8s</span>
           <span class="tag">debug</span>
@@ -47,43 +46,43 @@
         </div>
       </div>
       <div class="article-content">
-        <h2>Quick Checks</h2>
-<pre><code># Pod status
+        <h2 data-i18n="kpd_quick">快速检查</h2>
+<pre><code># Pod 状态
 kubectl get pods -n &lt;namespace&gt;
 
-# Pod events
+# Pod 事件
 kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
 
-# Pod logs
+# Pod 日志
 kubectl logs -f &lt;pod-name&gt; -n &lt;namespace&gt; --tail=100</code></pre>
-<h2>Restart Issues</h2>
-<pre><code># Check restart count
+<h2 data-i18n="kpd_restart">重启问题</h2>
+<pre><code># 检查重启次数
 kubectl get pods | grep -v Running
 
-# Check liveness/readiness probes
+# 检查存活探针/就绪探针
 kubectl describe pod &lt;pod-name&gt; | grep -A5 "Liveness\|Readiness"</code></pre>
-<h2>Resource Issues</h2>
-<pre><code># Pod resource usage
+<h2 data-i18n="kpd_resource">资源问题</h2>
+<pre><code># Pod 资源使用情况
 kubectl top pod -n &lt;namespace&gt;
 
-# Node capacity
+# 节点容量
 kubectl describe nodes | grep -A5 "Allocated resources"</code></pre>
-<h2>Network Debug</h2>
+<h2 data-i18n="kpd_network">网络调试</h2>
 <pre><code># Pod IP
 kubectl get pod -o wide
 
-# Service endpoints
+# Service 端点
 kubectl get endpoints &lt;svc-name&gt; -n &lt;namespace&gt;
 
-# DNS resolution test
+# DNS 解析测试
 kubectl run dnsutils --rm -it --image=tutum/dnsutils --restart=Never -- nslookup &lt;service-name&gt;</code></pre>
-<h2>Access Pod Shell</h2>
+<h2 data-i18n="kpd_shell">进入 Pod Shell</h2>
 <pre><code>kubectl exec -it &lt;pod-name&gt; -n &lt;namespace&gt; -- /bin/sh</code></pre>
-<h2>Common Fixes</h2>
-<pre><code># Force restart pod
+<h2 data-i18n="kpd_fix">常见修复</h2>
+<pre><code># 强制重启 Pod
 kubectl delete pod &lt;pod-name&gt; -n &lt;namespace&gt;
 
-# Scale up
+# 扩容
 kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</code></pre>
       </div>
     </article>
@@ -91,7 +90,7 @@ kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText">点赞</span>
+        <span id="likeText" data-i18n="like_text">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -157,6 +156,7 @@ kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
+    I18N.init();
   </script>
 </body>
 </html>

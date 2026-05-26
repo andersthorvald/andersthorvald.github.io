@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Database Failover - SRE Wiki</title>
+  <title>数据库故障转移 - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
-
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
@@ -38,35 +37,35 @@
     
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title">Database Failover Runbook</h1>
+        <h1 class="article-title" data-i18n="db_title">数据库故障转移手册</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 Runbooks</span>
+          <span data-i18n="article_category">📁 运维手册</span>
           <span class="tag">database</span>
           <span class="tag">failover</span>
           <span class="tag">runbook</span>
         </div>
       </div>
       <div class="article-content">
-        <h2>Pre-check</h2>
+        <h2 data-i18n="db_precheck">预先检查</h2>
 <ul>
-<li>Verify primary DB is unreachable from app servers</li>
-<li>Check monitoring alerts for DB health</li>
+<li data-i18n="db_precheck_1">验证应用服务器无法连接主数据库</li>
+<li data-i18n="db_precheck_2">检查监控告警确认数据库健康状态</li>
 </ul>
-<h2>Step 1: Identify Primary Failure</h2>
-<pre><code># Check current primary status
+<h2 data-i18n="db_step1">步骤 1：确认主库故障</h2>
+<pre><code># 检查当前主库状态
 psql -h &lt;primary-host&gt; -c "SELECT pg_is_in_recovery();"</code></pre>
-<h2>Step 2: Promote Replica</h2>
-<pre><code># On replica server
+<h2 data-i18n="db_step2">步骤 2：提升从库</h2>
+<pre><code># 在从库服务器执行
 pg_ctl promote -D /var/lib/postgresql/data</code></pre>
-<h2>Step 3: Update Connection String</h2>
-<pre><code># Update application config
+<h2 data-i18n="db_step3">步骤 3：更新连接字符串</h2>
+<pre><code># 更新应用配置
 DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code></pre>
-<h2>Verification</h2>
+<h2 data-i18n="db_verify">验证</h2>
 <ul>
-<li>Test connection from app servers</li>
-<li>Monitor replication lag on remaining replicas</li>
-<li>Verify read replicas are pointing to new primary</li>
+<li data-i18n="db_verify_1">从应用服务器测试连接</li>
+<li data-i18n="db_verify_2">监控剩余从库的复制延迟</li>
+<li data-i18n="db_verify_3">确认只读从库已指向新主库</li>
 </ul>
       </div>
     </article>
@@ -74,7 +73,7 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText">点赞</span>
+        <span id="likeText" data-i18n="like_text">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -127,7 +126,6 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
     updateDarkByTime();
     setInterval(updateDarkByTime, 60000);
 
-    // Like button
     var articleId = 'database-failover';
     var likes = parseInt(localStorage.getItem('likes-' + articleId) || '0');
     var liked = localStorage.getItem('liked-' + articleId) === 'true';
@@ -141,6 +139,7 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
+    I18N.init();
   </script>
 </body>
 </html>

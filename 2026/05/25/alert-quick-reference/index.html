@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alert Quick Reference - SRE Wiki</title>
+  <title>告警快速参考 - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
-
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
@@ -36,52 +35,52 @@
     <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title">Alert Quick Reference</h1>
+        <h1 class="article-title" data-i18n="aqr_title">告警快速参考</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 References</span>
+          <span data-i18n="article_category">📁 快速参考</span>
           <span class="tag">alerts</span>
           <span class="tag">reference</span>
           <span class="tag">cheatsheet</span>
         </div>
       </div>
       <div class="article-content">
-        <h2>High Priority (P1)</h2>
-<h3>CPU > 90% for 5min</h3>
-<pre><code># Check top processes
+        <h2 data-i18n="aqr_p1_header">高优先级 (P1)</h2>
+<h3 data-i18n="aqr_cpu">CPU > 90% 持续 5 分钟</h3>
+<pre><code># 检查占用最高的进程
 top -b -n 1 | head -20
 dmesg | tail</code></pre>
-<h3>Memory > 95% for 5min</h3>
-<pre><code># OOM killer active?
+<h3 data-i18n="aqr_mem">内存 > 95% 持续 5 分钟</h3>
+<pre><code># OOM killer 是否激活？
 journalctl -k | grep -i "killed process"</code></pre>
-<h3>Disk > 90%</h3>
+<h3 data-i18n="aqr_disk">磁盘使用 > 90%</h3>
 <pre><code>du -sh /* 2>/dev/null | sort -rh | head -10</code></pre>
-<h2>Medium Priority (P2)</h2>
-<h3>Response Time > 2s</h3>
+<h2 data-i18n="aqr_p2_header">中优先级 (P2)</h2>
+<h3 data-i18n="aqr_resp_time">响应时间 > 2 秒</h3>
 <ul>
-<li>Check app logs for slow queries</li>
-<li>Check upstream service health</li>
-<li>Scale if needed: <code>kubectl scale deployment --replicas=+2</code></li>
+<li data-i18n="aqr_resp_time_1">检查应用日志中的慢查询</li>
+<li data-i18n="aqr_resp_time_2">检查上游服务健康状态</li>
+<li data-i18n="aqr_resp_time_3">必要时扩容: <code>kubectl scale deployment --replicas=+2</code></li>
 </ul>
-<h3>Error Rate > 1%</h3>
+<h3 data-i18n="aqr_err_rate">错误率 > 1%</h3>
 <ul>
-<li>Check recent deployments</li>
-<li>Rollback if necessary: <code>helm rollback &lt;release&gt;</code></li>
+<li data-i18n="aqr_err_rate_1">检查最近的部署</li>
+<li data-i18n="aqr_err_rate_2">必要时回滚: <code>helm rollback &lt;release&gt;</code></li>
 </ul>
-<h3>Disk I/O Wait > 20%</h3>
+<h3 data-i18n="aqr_io_wait">磁盘 I/O 等待 > 20%</h3>
 <pre><code>iostat -x 1 5</code></pre>
-<h2>Low Priority (P3)</h2>
-<h3>Certificate Expiry < 30 days</h3>
+<h2 data-i18n="aqr_p3_header">低优先级 (P3)</h2>
+<h3 data-i18n="aqr_cert">证书到期 < 30 天</h3>
 <pre><code>echo | openssl s_client -connect hostname:443 2>/dev/null | openssl x509 -noout -dates</code></pre>
-<h3>Connection Pool > 80%</h3>
-<p>Check application connection pool settings and scale database if needed.</p>
+<h3 data-i18n="aqr_conn_pool">连接池使用 > 80%</h3>
+<p data-i18n="aqr_conn_pool_desc">检查应用连接池设置，必要时扩容数据库。</p>
       </div>
     </article>
 
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText">点赞</span>
+        <span id="likeText" data-i18n="like_text">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -147,6 +146,7 @@ journalctl -k | grep -i "killed process"</code></pre>
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
+    I18N.init();
   </script>
 </body>
 </html>

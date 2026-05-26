@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Service Restart - SRE Wiki</title>
+  <title>服务重启 - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
-
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
@@ -36,41 +35,41 @@
     <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title">Service Restart Runbook</h1>
+        <h1 class="article-title" data-i18n="sr_title">服务重启手册</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 Runbooks</span>
+          <span data-i18n="article_category">📁 运维手册</span>
           <span class="tag">restart</span>
           <span class="tag">service</span>
           <span class="tag">runbook</span>
         </div>
       </div>
       <div class="article-content">
-        <h2>When to Use</h2>
-<p>Service is unresponsive, returning 5xx errors, or hanging requests.</p>
-<h2>Step 1: Check Service Status</h2>
+        <h2 data-i18n="sr_when">何时使用</h2>
+<p data-i18n="sr_when_desc">服务无响应、返回 5xx 错误、或请求挂起时使用此手册。</p>
+<h2 data-i18n="sr_step1">步骤 1：检查服务状态</h2>
 <pre><code>systemctl status &lt;service-name&gt;
 journalctl -u &lt;service-name&gt; -n 50</code></pre>
-<h2>Step 2: Check Resource Usage</h2>
+<h2 data-i18n="sr_step2">步骤 2：检查资源使用</h2>
 <pre><code>top -p $(pgrep -d',' -f &lt;service-name&gt;)
 df -h</code></pre>
-<h2>Step 3: Restart Service</h2>
+<h2 data-i18n="sr_step3">步骤 3：重启服务</h2>
 <pre><code>systemctl restart &lt;service-name&gt;
 sleep 10
 systemctl status &lt;service-name&gt;</code></pre>
-<h2>Step 4: Verify Health</h2>
+<h2 data-i18n="sr_step4">步骤 4：验证健康状态</h2>
 <pre><code>curl -s http://localhost:&lt;port&gt;/health</code></pre>
-<h2>Step 5: Monitor for 5 minutes</h2>
-<p>Watch error rates and latency in Grafana.</p>
-<h2>Escalation</h2>
-<p>If restart fails or service crashes repeatedly, escalate to #sre-incidents.</p>
+<h2 data-i18n="sr_step5">步骤 5：监控 5 分钟</h2>
+<p data-i18n="sr_step5_desc">在 Grafana 中观察错误率和延迟。</p>
+<h2 data-i18n="sr_escalation">升级处理</h2>
+<p data-i18n="sr_escalation_desc">如果重启失败或服务反复崩溃，请升级到 #sre-incidents 群组。</p>
       </div>
     </article>
 
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText">点赞</span>
+        <span id="likeText" data-i18n="like_text">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -136,6 +135,7 @@ systemctl status &lt;service-name&gt;</code></pre>
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
+    I18N.init();
   </script>
 </body>
 </html>

@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SRE Wiki - 站可靠性工程文档中心</title>
-  <meta name="description" content="站可靠性工程(SRE)文档中心，提供运维手册、标准操作流程和快速参考指南。">
+  <title>SRE Wiki - Site Reliability Engineering Documentation</title>
+  <meta name="description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
   
   <!-- Open Graph for WeChat/QQ sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="SRE Wiki - 站可靠性工程文档中心">
-  <meta property="og:description" content="站可靠性工程(SRE)文档中心，提供运维手册、标准操作流程和快速参考指南。">
+  <meta property="og:title" content="SRE Wiki - Site Reliability Engineering Documentation">
+  <meta property="og:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
   <meta property="og:url" content="https://andersthorvald.github.io">
   <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
   <meta property="og:site_name" content="SRE Wiki">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SRE Wiki - 站可靠性工程文档中心">
-  <meta name="twitter:description" content="站可靠性工程(SRE)文档中心，提供运维手册、标准操作流程和快速参考指南。">
+  <meta name="twitter:title" content="SRE Wiki - Site Reliability Engineering Documentation">
+  <meta name="twitter:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
   <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
   
   <link rel="stylesheet" href="/css/article.css">
@@ -130,12 +130,12 @@ body {
   <div class="quick-links">
     <h2 data-i18n="articles_title">快速导航</h2>
     <div class="link-grid">
-      <a href="/2026/05/25/database-failover/" class="link-item"><span>&#128260;</span>Database Failover</a>
-      <a href="/2026/05/25/service-restart/" class="link-item"><span>&#128260;</span>Service Restart</a>
-      <a href="/2026/05/25/incident-response/" class="link-item"><span>&#128544;</span>Incident Response</a>
-      <a href="/2026/05/25/alert-quick-reference/" class="link-item"><span>&#128202;</span>Alert Quick Reference</a>
-      <a href="/2026/05/25/docker-debug/" class="link-item"><span>&#128041;</span>Docker Debug</a>
-      <a href="/2026/05/25/k8s-pod-debug/" class="link-item"><span>&#9917;</span>K8s Pod Debug</a>
+      <a href="/2026/05/25/database-failover/" class="link-item"><span>&#128260;</span><span data-i18n="link_database_failover">Database Failover</span></a>
+      <a href="/2026/05/25/service-restart/" class="link-item"><span>&#128260;</span><span data-i18n="link_service_restart">Service Restart</span></a>
+      <a href="/2026/05/25/incident-response/" class="link-item"><span>&#128544;</span><span data-i18n="link_incident_response">Incident Response</span></a>
+      <a href="/2026/05/25/alert-quick-reference/" class="link-item"><span>&#128202;</span><span data-i18n="link_alert_quick_reference">Alert Quick Reference</span></a>
+      <a href="/2026/05/25/docker-debug/" class="link-item"><span>&#128041;</span><span data-i18n="link_docker_debug">Docker Debug</span></a>
+      <a href="/2026/05/25/k8s-pod-debug/" class="link-item"><span>&#9917;</span><span data-i18n="link_k8s_pod_debug">K8s Pod Debug</span></a>
     </div>
   </div>
 
@@ -188,6 +188,7 @@ body {
     }
     updateDarkByTime();
     setInterval(updateDarkByTime, 60000);
+    I18N.init();
   </script>
 </body>
 </html>
