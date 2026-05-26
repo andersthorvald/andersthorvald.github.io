@@ -3,9 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K8s Pod 调试 - SRE Wiki</title>
+  <title>K8s Pod 调试手册 - SRE Wiki | 运维手册</title>
+  <meta name="description" content="Kubernetes Pod 调试标准操作手册，含 kubectl 命令速查：Pod 状态检查、日志查看、事件分析、存活探针检查、资源使用、网络调试等。">
+  <meta name="keywords" content="Kubernetes, K8s, kubectl, Pod调试, 运维手册, 容器, docker, 探针检查, SRE">
+  <meta name="author" content="Thorvald">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://andersthorvald.github.io/2026/05/25/k8s-pod-debug/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="K8s Pod 调试手册 - SRE Wiki">
+  <meta property="og:description" content="Kubernetes Pod 调试手册：kubectl 命令速查，含状态检查、日志、事件分析、探针检查和资源使用。">
+  <meta property="og:url" content="https://andersthorvald.github.io/2026/05/25/k8s-pod-debug/">
+  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-05-25T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="运维手册">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="K8s Pod 调试手册 - SRE Wiki">
+  <meta name="twitter:description" content="Kubernetes Pod 调试手册 kubectl 命令速查。">
+  <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
+
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "K8s Pod 调试手册",
+    "description": "Kubernetes Pod 调试标准操作手册，含 kubectl 命令速查：Pod 状态检查、日志查看、事件分析、存活探针检查、资源使用、网络调试等。",
+    "datePublished": "2026-05-25",
+    "author": { "@type": "Person", "name": "Thorvald", "url": "https://andersthorvald.github.io/about/" },
+    "publisher": { "@type": "Person", "name": "Thorvald" },
+    "url": "https://andersthorvald.github.io/2026/05/25/k8s-pod-debug/",
+    "proficiencyLevel": "Intermediate"
+  }
+  </script>
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>

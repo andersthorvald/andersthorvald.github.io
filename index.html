@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SRE Wiki - 站点可靠性工程文档中心</title>
-  <meta name="description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
+  <title>SRE Wiki - 站点可靠性工程文档中心 | 运维手册/SOP/快速参考</title>
+  <meta name="description" content="SRE Wiki 是 Thorvald 的站点可靠性工程（SRE）文档中心，提供标准化的故障排查手册、标准操作流程（SOP）和常用命令速查表，涵盖数据库故障转移、服务重启、事件响应、Docker/K8s 调试等运维场景。">
+  <meta name="keywords" content="SRE, 站点可靠性, 运维手册, 数据库故障转移, 服务重启, 事件响应, Docker调试, Kubernetes, K8s, runbook, SOP, 告警处理">
+  <meta name="author" content="Thorvald">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://andersthorvald.github.io/">
 
   <!-- Open Graph for WeChat/QQ sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="SRE Wiki - 站点可靠性工程文档中心">
-  <meta property="og:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
-  <meta property="og:url" content="https://andersthorvald.github.io">
+  <meta property="og:description" content="SRE 运维文档中心：故障排查手册、标准操作流程、告警快速参考，涵盖数据库/Docker/K8s 等场景。">
+  <meta property="og:url" content="https://andersthorvald.github.io/">
   <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
   <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SRE Wiki - 站点可靠性工程文档中心">
-  <meta name="twitter:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
+  <meta name="twitter:description" content="SRE 运维文档中心：故障排查手册、标准操作流程、告警快速参考。">
   <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
 
   <link rel="stylesheet" href="/css/article.css">
@@ -64,6 +69,28 @@
     .stat-number { font-size: 3em; font-weight: bold; display: block; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
     .stat-label { font-size: 1.1em; opacity: 0.9; }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SRE Wiki",
+    "alternateName": "站点可靠性工程文档中心",
+    "url": "https://andersthorvald.github.io/",
+    "description": "SRE 运维文档中心，提供故障排查手册、标准操作流程和告警快速参考。",
+    "author": {
+      "@type": "Person",
+      "name": "Thorvald",
+      "url": "https://andersthorvald.github.io/about/",
+      "email": "17200473849@163.com"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "站点可靠性工程（SRE）",
+      "description": "涵盖数据库故障转移、服务重启、事件响应、Docker/K8s 调试等运维场景"
+    },
+    "keywords": "SRE, 运维, 数据库故障转移, 服务重启, 事件响应, Docker, Kubernetes"
+  }
+  </script>
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
@@ -85,7 +112,7 @@
 
   <div class="main-content">
   <a href="/about/" class="profile-bar">
-      <img src="/images/avatar.jpg" alt="Avatar">
+      <img src="/images/avatar.jpg" alt="Thorvald - SRE Engineer">
       <div class="profile-bar-info">
         <span class="profile-bar-name">Thorvald</span>
         <span class="profile-bar-sub">SRE Engineer</span>

@@ -3,9 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>服务重启 - SRE Wiki</title>
+  <title>服务重启手册 - SRE Wiki | 运维手册</title>
+  <meta name="description" content="Linux 服务重启标准操作手册，服务无响应或 5xx 错误时的故障排查与重启步骤，含 Grafana 监控验证和升级处理流程。">
+  <meta name="keywords" content="服务重启, systemctl, journalctl, 健康检查, 运维手册, SRE, 故障排查">
+  <meta name="author" content="Thorvald">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://andersthorvald.github.io/2026/05/25/service-restart/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="服务重启手册 - SRE Wiki">
+  <meta property="og:description" content="服务重启标准操作手册，含服务状态检查、资源监控、重启步骤、健康验证和 Grafana 监控。">
+  <meta property="og:url" content="https://andersthorvald.github.io/2026/05/25/service-restart/">
+  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-05-25T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="运维手册">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="服务重启手册 - SRE Wiki">
+  <meta name="twitter:description" content="服务重启标准操作手册，含服务状态检查、重启步骤和健康验证。">
+  <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
+
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "服务重启手册",
+    "description": "Linux 服务重启标准操作手册，含状态检查、资源监控、重启步骤、健康验证和 Grafana 监控。",
+    "datePublished": "2026-05-25",
+    "author": { "@type": "Person", "name": "Thorvald", "url": "https://andersthorvald.github.io/about/" },
+    "publisher": { "@type": "Person", "name": "Thorvald" },
+    "url": "https://andersthorvald.github.io/2026/05/25/service-restart/",
+    "proficiencyLevel": "Intermediate"
+  }
+  </script>
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
   <script>
