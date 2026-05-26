@@ -54,7 +54,17 @@ body {
 .lang-btn:hover, .lang-btn.active { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border-color: transparent; }
   </style>
 </head>
-<body>
+<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
+  <script>
+    var hour = new Date().getHours();
+    var isDark = hour < 7 || hour >= 19;
+    var manualSet = localStorage.getItem('dark-mode-manual');
+    if (manualSet !== null) isDark = manualSet === 'true';
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a2e';
+    }
+  </script>
   <div class="dot-grid"></div>
   <div class="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
