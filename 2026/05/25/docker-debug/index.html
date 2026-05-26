@@ -46,44 +46,44 @@
       </div>
       <div class="article-content">
         <h2 data-i18n="dd_inspect">容器检查</h2>
-<pre><code># 列出运行中的容器
+<pre><code><span data-i18n="dd_c1"># 列出运行中的容器</span>
 docker ps
 
-# 容器日志
+<span data-i18n="dd_c2"># 容器日志</span>
 docker logs -f &lt;container-name&gt; --tail 100
 
-# 容器进程列表
+<span data-i18n="dd_c3"># 容器进程列表</span>
 docker top &lt;container-name&gt;
 
-# 容器资源统计
+<span data-i18n="dd_c4"># 容器资源统计</span>
 docker stats --no-stream</code></pre>
 <h2 data-i18n="dd_inside">进入容器内部</h2>
-<pre><code># 进入容器 shell
+<pre><code><span data-i18n="dd_c5"># 进入容器 shell</span>
 docker exec -it &lt;container-name&gt; /bin/sh
 
-# 检查容器文件系统
+<span data-i18n="dd_c6"># 检查容器文件系统</span>
 docker diff &lt;container-name&gt;
 
-# 容器网络信息
+<span data-i18n="dd_c7"># 容器网络信息</span>
 docker inspect &lt;container-name&gt; | jq '.[0].NetworkSettings'</code></pre>
 <h2 data-i18n="dd_network">网络调试</h2>
-<pre><code># 检查 DNS 解析
+<pre><code><span data-i18n="dd_c8"># 检查 DNS 解析</span>
 docker exec &lt;container-name&gt; nslookup &lt;hostname&gt;
 
-# 检查端口连通性
+<span data-i18n="dd_c9"># 检查端口连通性</span>
 docker exec &lt;container-name&gt; nc -zv &lt;host&gt; &lt;port&gt;
 
-# 查看容器网络
+<span data-i18n="dd_c10"># 查看容器网络</span>
 docker network ls
 docker network inspect &lt;network-name&gt;</code></pre>
 <h2 data-i18n="dd_perf">性能</h2>
-<pre><code># 容器资源使用情况
+<pre><code><span data-i18n="dd_c11"># 容器资源使用情况</span>
 docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
-# 检查镜像层大小
+<span data-i18n="dd_c12"># 检查镜像层大小</span>
 docker history &lt;image-name&gt;</code></pre>
 <h2 data-i18n="dd_cleanup">清理</h2>
-<pre><code># 删除未使用的容器/镜像/网络
+<pre><code><span data-i18n="dd_c13"># 删除未使用的容器/镜像/网络</span>
 docker system prune -f</code></pre>
       </div>
     </article>

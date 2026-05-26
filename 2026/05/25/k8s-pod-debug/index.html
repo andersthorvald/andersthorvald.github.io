@@ -47,42 +47,42 @@
       </div>
       <div class="article-content">
         <h2 data-i18n="kpd_quick">快速检查</h2>
-<pre><code># Pod 状态
+<pre><code><span data-i18n="kpd_c1"># Pod 状态</span>
 kubectl get pods -n &lt;namespace&gt;
 
-# Pod 事件
+<span data-i18n="kpd_c2"># Pod 事件</span>
 kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
 
-# Pod 日志
+<span data-i18n="kpd_c3"># Pod 日志</span>
 kubectl logs -f &lt;pod-name&gt; -n &lt;namespace&gt; --tail=100</code></pre>
 <h2 data-i18n="kpd_restart">重启问题</h2>
-<pre><code># 检查重启次数
+<pre><code><span data-i18n="kpd_c4"># 检查重启次数</span>
 kubectl get pods | grep -v Running
 
-# 检查存活探针/就绪探针
+<span data-i18n="kpd_c5"># 检查存活探针/就绪探针</span>
 kubectl describe pod &lt;pod-name&gt; | grep -A5 "Liveness\|Readiness"</code></pre>
 <h2 data-i18n="kpd_resource">资源问题</h2>
-<pre><code># Pod 资源使用情况
+<pre><code><span data-i18n="kpd_c6"># Pod 资源使用情况</span>
 kubectl top pod -n &lt;namespace&gt;
 
-# 节点容量
+<span data-i18n="kpd_c7"># 节点容量</span>
 kubectl describe nodes | grep -A5 "Allocated resources"</code></pre>
 <h2 data-i18n="kpd_network">网络调试</h2>
-<pre><code># Pod IP
+<pre><code><span data-i18n="kpd_c8"># Pod IP</span>
 kubectl get pod -o wide
 
-# Service 端点
+<span data-i18n="kpd_c9"># Service 端点</span>
 kubectl get endpoints &lt;svc-name&gt; -n &lt;namespace&gt;
 
-# DNS 解析测试
+<span data-i18n="kpd_c10"># DNS 解析测试</span>
 kubectl run dnsutils --rm -it --image=tutum/dnsutils --restart=Never -- nslookup &lt;service-name&gt;</code></pre>
 <h2 data-i18n="kpd_shell">进入 Pod Shell</h2>
 <pre><code>kubectl exec -it &lt;pod-name&gt; -n &lt;namespace&gt; -- /bin/sh</code></pre>
 <h2 data-i18n="kpd_fix">常见修复</h2>
-<pre><code># 强制重启 Pod
+<pre><code><span data-i18n="kpd_c11"># 强制重启 Pod</span>
 kubectl delete pod &lt;pod-name&gt; -n &lt;namespace&gt;
 
-# 扩容
+<span data-i18n="kpd_c12"># 扩容</span>
 kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</code></pre>
       </div>
     </article>

@@ -53,13 +53,13 @@
 <li data-i18n="db_precheck_2">检查监控告警确认数据库健康状态</li>
 </ul>
 <h2 data-i18n="db_step1">步骤 1：确认主库故障</h2>
-<pre><code># 检查当前主库状态
+<pre><code><span data-i18n="db_c1"># 检查当前主库状态</span>
 psql -h &lt;primary-host&gt; -c "SELECT pg_is_in_recovery();"</code></pre>
 <h2 data-i18n="db_step2">步骤 2：提升从库</h2>
-<pre><code># 在从库服务器执行
+<pre><code><span data-i18n="db_c2"># 在从库服务器执行</span>
 pg_ctl promote -D /var/lib/postgresql/data</code></pre>
 <h2 data-i18n="db_step3">步骤 3：更新连接字符串</h2>
-<pre><code># 更新应用配置
+<pre><code><span data-i18n="db_c3"># 更新应用配置</span>
 DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code></pre>
 <h2 data-i18n="db_verify">验证</h2>
 <ul>

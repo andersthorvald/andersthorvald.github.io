@@ -47,11 +47,11 @@
       <div class="article-content">
         <h2 data-i18n="aqr_p1_header">高优先级 (P1)</h2>
 <h3 data-i18n="aqr_cpu">CPU > 90% 持续 5 分钟</h3>
-<pre><code># 检查占用最高的进程
+<pre><code><span data-i18n="aqr_c1"># 检查占用最高的进程</span>
 top -b -n 1 | head -20
 dmesg | tail</code></pre>
 <h3 data-i18n="aqr_mem">内存 > 95% 持续 5 分钟</h3>
-<pre><code># OOM killer 是否激活？
+<pre><code><span data-i18n="aqr_c2"># OOM killer 是否激活？</span>
 journalctl -k | grep -i "killed process"</code></pre>
 <h3 data-i18n="aqr_disk">磁盘使用 > 90%</h3>
 <pre><code>du -sh /* 2>/dev/null | sort -rh | head -10</code></pre>
