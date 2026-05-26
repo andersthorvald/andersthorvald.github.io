@@ -166,7 +166,17 @@ var I18N = {
       about_page_title: "About - Thorvald",
       social_bilibili: "Bilibili", social_youtube: "YouTube",
       social_email: "Email", social_wechat: "WeChat",
-      social_x: "X", social_github: "GitHub"
+      social_x: "X", social_github: "GitHub",
+      db_c1: "Check current primary status", db_c2: "Run on replica server", db_c3: "Update application config",
+      aqr_c1: "Check top processes", aqr_c2: "Is OOM killer active?",
+      dd_c1: "List running containers", dd_c2: "Container logs", dd_c3: "Container process list", dd_c4: "Container resource stats",
+      dd_c5: "Enter container shell", dd_c6: "Check container filesystem", dd_c7: "Container network info",
+      dd_c8: "Check DNS resolution", dd_c9: "Check port connectivity", dd_c10: "View container network",
+      dd_c11: "Container resource usage", dd_c12: "Inspect layer sizes", dd_c13: "Remove unused containers/images/networks",
+      kpd_c1: "Pod status", kpd_c2: "Pod events", kpd_c3: "Pod logs", kpd_c4: "Check restart count",
+      kpd_c5: "Check liveness/readiness probes", kpd_c6: "Pod resource usage", kpd_c7: "Node capacity",
+      kpd_c8: "Pod IP", kpd_c9: "Service endpoints", kpd_c10: "DNS resolution test",
+      kpd_c11: "Force restart Pod", kpd_c12: "Scale up"
     },
     ja: {
       lang_zh: "中国語", lang_en: "英語", lang_ja: "日本語", lang_tw: "繁体字",
@@ -250,7 +260,17 @@ var I18N = {
       about_page_title: "概要 - Thorvald",
       social_bilibili: "B站", social_youtube: "YouTube",
       social_email: "メール", social_wechat: "WeChat",
-      social_x: "X", social_github: "GitHub"
+      social_x: "X", social_github: "GitHub",
+      db_c1: "現在の主库の状態を確認", db_c2: "レプリカサーバーで実行", db_c3: "アプリケーション設定を更新日",
+      aqr_c1: "最も占用の高いプロセスを確認", aqr_c2: "OOM killer はفعال؟",
+      dd_c1: "実行中のコンテナを一覧", dd_c2: "コンテナログ", dd_c3: "コンテナプロセス一覧", dd_c4: "コンテナリソース統計",
+      dd_c5: "コンテナシェルに入る", dd_c6: "コンテナファイルシステムを確認", dd_c7: "コンテナネットワーク情報",
+      dd_c8: "DNS解決を確認", dd_c9: "ポート-connectivityを確認", dd_c10: "コンテナネットワークを閲覧",
+      dd_c11: "コンテナリソース使用状況", dd_c12: "レイヤサイズを確認", dd_c13: "未使用のコンテナ/イメージ/ネットワークを削除",
+      kpd_c1: "Pod状態", kpd_c2: "Podイベント", kpd_c3: "Podログ", kpd_c4: "再起動回数をチェック",
+      kpd_c5: "存活探針/就緒探針を確認", kpd_c6: "Podリソース使用状況", kpd_c7: "ノード容量",
+      kpd_c8: "Pod IP", kpd_c9: "Serviceエンドポイント", kpd_c10: "DNS解決テスト",
+      kpd_c11: "強制再起動 Pod", kpd_c12: "スケールアップ"
     },
     "zh-TW": {
       lang_zh: "簡體中文", lang_en: "English", lang_ja: "日本語", lang_tw: "繁體中文",
@@ -358,20 +378,8 @@ var I18N = {
       kpd_c5: "Check liveness/readiness probes", kpd_c6: "Pod resource usage", kpd_c7: "Node capacity",
       kpd_c8: "Pod IP", kpd_c9: "Service endpoints", kpd_c10: "DNS resolution test",
       kpd_c11: "Force restart Pod", kpd_c12: "Scale up"
-    },
-    ja: {
-      social_x: "X", social_github: "GitHub",
-      db_c1: "現在の主库の状態を確認", db_c2: "レプリカサーバーで実行", db_c3: "アプリケーション設定を更新日",
-      aqr_c1: "最も占用の高いプロセスを確認", aqr_c2: "OOM killer はفعال？",
-      dd_c1: "実行中のコンテナを一覧", dd_c2: "コンテナログ", dd_c3: "コンテナプロセス一覧", dd_c4: "コンテナリソース統計",
-      dd_c5: "コンテナシェルに入る", dd_c6: "コンテナファイルシステムを確認", dd_c7: "コンテナネットワーク情報",
-      dd_c8: "DNS解決を確認", dd_c9: "ポート-connectivityを確認", dd_c10: "コンテナネットワークを閲覧",
-      dd_c11: "コンテナリソース使用状況", dd_c12: "レイヤサイズを確認", dd_c13: "未使用のコンテナ/イメージ/ネットワークを削除",
-      kpd_c1: "Pod状態", kpd_c2: "Podイベント", kpd_c3: "Podログ", kpd_c4: "再起動回数をチェック",
-      kpd_c5: "存活探針/就緒探針を確認", kpd_c6: "Podリソース使用状況", kpd_c7: "ノード容量",
-      kpd_c8: "Pod IP", kpd_c9: "Serviceエンドポイント", kpd_c10: "DNS解決テスト",
-      kpd_c11: "強制再起動 Pod", kpd_c12: "スケールアップ"
-    },
+    }
+  },
     "zh-TW": {
       social_x: "X", social_github: "GitHub",
       db_c1: "檢查當前主庫狀態", db_c2: "在從庫服務器執行", db_c3: "更新日應用配置",
