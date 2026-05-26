@@ -84,8 +84,12 @@
 
 .social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
 
-/* QQ icon - remove white background */
-.social-link.qq img { background-color: transparent !important; border: none !important; padding: 0 !important; border-radius: 0 !important; }
+/* QQ icon - use multiply blend to remove white background */
+.social-link.qq img { 
+  background-color: white; 
+  mix-blend-mode: multiply; 
+  border-radius: 8px;
+}
 
 /* ===== Header Profile Bar ===== */
 .profile-bar {
