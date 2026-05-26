@@ -92,14 +92,27 @@ kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</
   <script>
     function toggleDark() {
       document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
       var btn = document.querySelector('.dark-toggle');
       btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     }
-    if (localStorage.getItem('dark-mode') === 'true') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('.dark-toggle').textContent = '☀️';
+    function updateDarkByTime() {
+      var hour = new Date().getHours();
+      var isDark = hour < 7 || hour >= 19;
+      var manualSet = localStorage.getItem('dark-mode-manual');
+      if (manualSet !== null) {
+        isDark = manualSet === 'true';
+      }
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '🌙';
+      }
     }
+    updateDarkByTime();
+    setInterval(updateDarkByTime, 60000);
   </script>
 </body>
 </html>
