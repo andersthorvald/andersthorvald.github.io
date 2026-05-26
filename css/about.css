@@ -84,6 +84,20 @@
 
 .social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
 
+/* QQ icon with custom image */
+.social-link.qq svg { display: none !important; }
+.social-link.qq::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 36px;
+  background-image: url('/images/qq-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 4px;
+}
+
 /* ===== Header Profile Bar ===== */
 .profile-bar {
   display: flex;
