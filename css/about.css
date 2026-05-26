@@ -82,19 +82,6 @@
 .social-link.qq:hover { background: #1296db; color: white; border-color: #1296db; }
 .social-link.email:hover { background: #ff9a9e; color: white; border-color: #ff9a9e; }
 
-/* QQ icon with custom images */
-.social-link.qq svg { display: none; }
-.social-link.qq {
-  background-image: url('/images/qq-normal.png');
-  background-repeat: no-repeat;
-  background-position: center 18px;
-  background-size: 36px 36px;
-  transition: all 0.3s ease;
-}
-.social-link.qq:hover {
-  background-image: url('/images/qq-hover.png');
-  background-size: 40px 40px;
-}
 .social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
 
 /* ===== Header Profile Bar ===== */
