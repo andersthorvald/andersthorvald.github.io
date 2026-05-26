@@ -1,75 +1,45 @@
 ---
-title: Service Restart Runbook
-date: 2026-05-25
-tags: [service, restart, kubernetes]
-categories: [runbook]
+title: Service Restart
+date: 2026-05-25 10:00:00
+tags:
+  - restart
+  - service
+  - runbook
+categories:
+  - Runbooks
 ---
 
 # Service Restart Runbook
 
-## 概述
+## When to Use
+Service is unresponsive, returning 5xx errors, or hanging requests.
 
-> **适用场景**: 服务无响应或异常时的紧急重启操作
-
-## 触发条件
-
-- ❌ 服务健康检查持续失败 (>2分钟)
-- ❌ 请求错误率 > 10%
-- ❌ 服务延迟 > 500ms (P99)
-
-## 诊断步骤
-
+## Step 1: Check Service Status
 ```bash
-# 1. 检查 Pod 状态
-kubectl get pods -n production -l app=YOUR_SERVICE
-
-# 2. 查看最近日志
-kubectl logs YOUR_POD -n production --tail=100
-
-# 3. 检查资源使用
-kubectl top pod YOUR_POD -n production
-
-# 4. 检查事件
-kubectl describe pod YOUR_POD -n production
+systemctl status <service-name>
+journalctl -u <service-name> -n 50
 ```
 
-## 重启步骤
-
-### Step 1: 滚动重启（推荐）
-
+## Step 2: Check Resource Usage
 ```bash
-kubectl rollout restart deployment/YOUR_SERVICE -n production
-
-# 观察重启状态
-kubectl rollout status deployment/YOUR_SERVICE -n production
+top -p $(pgrep -d',' -f <service-name>)
+df -h
 ```
 
-### Step 2: 如果 Pod 卡住，强制删除
-
+## Step 3: Restart Service
 ```bash
-# 删除卡住的 Pod（Deployment 会自动创建新的）
-kubectl delete pod YOUR_POD -n production --force --grace-period=0
+systemctl restart <service-name>
+sleep 10
+systemctl status <service-name>
 ```
 
-### Step 3: 验证服务恢复
-
+## Step 4: Verify Health
 ```bash
-# 检查新 Pod 是否 Running
-kubectl get pods -n production -l app=YOUR_SERVICE -w
-
-# 测试服务响应
-curl -s https://YOUR_SERVICE.example.com/health | jq .
+curl -s http://localhost:<port>/health
 ```
 
-## 验证清单
+## Step 5: Monitor for 5 minutes
+Watch error rates and latency in Grafana.
 
-- [ ] Pod 状态为 Running
-- [ ] 健康检查通过
-- [ ] 错误率恢复正常
-- [ ] 延迟恢复正常
-
-## 后续跟进
-
-- [ ] 检查监控告警是否消除
-- [ ] 查看是否有 OOMKilled 或重启风暴
-- [ ] 如频繁重启，创建 Jira 调查单
+## Escalation
+If restart fails or service crashes repeatedly → escalate to #sre-incidents.

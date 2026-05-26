@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K8s Pod Debug - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/docker-debug/">Docker Debug</a></li>
+      <li><a href="/2026/05/25/service-restart/">Service Restart</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">K8s Pod Debug Runbook</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 Runbooks</span>
+          <span class="tag">kubernetes</span>
+          <span class="tag">k8s</span>
+          <span class="tag">debug</span>
+          <span class="tag">pod</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>Quick Checks</h2>
+<pre><code># Pod status
+kubectl get pods -n &lt;namespace&gt;
+
+# Pod events
+kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
+
+# Pod logs
+kubectl logs -f &lt;pod-name&gt; -n &lt;namespace&gt; --tail=100</code></pre>
+<h2>Restart Issues</h2>
+<pre><code># Check restart count
+kubectl get pods | grep -v Running
+
+# Check liveness/readiness probes
+kubectl describe pod &lt;pod-name&gt; | grep -A5 "Liveness\|Readiness"</code></pre>
+<h2>Resource Issues</h2>
+<pre><code># Pod resource usage
+kubectl top pod -n &lt;namespace&gt;
+
+# Node capacity
+kubectl describe nodes | grep -A5 "Allocated resources"</code></pre>
+<h2>Network Debug</h2>
+<pre><code># Pod IP
+kubectl get pod -o wide
+
+# Service endpoints
+kubectl get endpoints &lt;svc-name&gt; -n &lt;namespace&gt;
+
+# DNS resolution test
+kubectl run dnsutils --rm -it --image=tutum/dnsutils --restart=Never -- nslookup &lt;service-name&gt;</code></pre>
+<h2>Access Pod Shell</h2>
+<pre><code>kubectl exec -it &lt;pod-name&gt; -n &lt;namespace&gt; -- /bin/sh</code></pre>
+<h2>Common Fixes</h2>
+<pre><code># Force restart pod
+kubectl delete pod &lt;pod-name&gt; -n &lt;namespace&gt;
+
+# Scale up
+kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</code></pre>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>

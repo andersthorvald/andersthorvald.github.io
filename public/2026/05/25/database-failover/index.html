@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Failover - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/service-restart/">Service Restart</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+      <li><a href="/2026/05/25/alert-quick-reference/">Alert Reference</a></li>
+    </ul>
+  </header>
+
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Database Failover Runbook</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 Runbooks</span>
+          <span class="tag">database</span>
+          <span class="tag">failover</span>
+          <span class="tag">runbook</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>Pre-check</h2>
+<ul>
+<li>Verify primary DB is unreachable from app servers</li>
+<li>Check monitoring alerts for DB health</li>
+</ul>
+<h2>Step 1: Identify Primary Failure</h2>
+<pre><code># Check current primary status
+psql -h &lt;primary-host&gt; -c "SELECT pg_is_in_recovery();"</code></pre>
+<h2>Step 2: Promote Replica</h2>
+<pre><code># On replica server
+pg_ctl promote -D /var/lib/postgresql/data</code></pre>
+<h2>Step 3: Update Connection Strings</h2>
+<p>Update application config to point to new primary IP.</p>
+<h2>Step 4: Verify Replication</h2>
+<pre><code># Confirm all data synced
+psql -h &lt;new-primary&gt; -c "SELECT * FROM pg_stat_replication;"</code></pre>
+<h2>Step 5: Notify Team</h2>
+<ul>
+<li>Post incident in #sre-incidents</li>
+<li>Update status page</li>
+<li>Schedule post-mortem</li>
+</ul>
+<h2>Rollback</h2>
+<p>If primary recovers, reconfigure as new replica and sync data before switching back.</p>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>

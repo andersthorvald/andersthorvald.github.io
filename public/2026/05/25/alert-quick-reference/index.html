@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alert Quick Reference - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/docker-debug/">Docker Debug</a></li>
+      <li><a href="/2026/05/25/k8s-pod-debug/">K8s Debug</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Alert Quick Reference</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 References</span>
+          <span class="tag">alerts</span>
+          <span class="tag">reference</span>
+          <span class="tag">cheatsheet</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>High Priority (P1)</h2>
+<h3>CPU > 90% for 5min</h3>
+<pre><code># Check top processes
+top -b -n 1 | head -20
+dmesg | tail</code></pre>
+<h3>Memory > 95% for 5min</h3>
+<pre><code># OOM killer active?
+journalctl -k | grep -i "killed process"</code></pre>
+<h3>Disk > 90%</h3>
+<pre><code>du -sh /* 2>/dev/null | sort -rh | head -10</code></pre>
+<h2>Medium Priority (P2)</h2>
+<h3>Response Time > 2s</h3>
+<ul>
+<li>Check app logs for slow queries</li>
+<li>Check upstream service health</li>
+<li>Scale if needed: <code>kubectl scale deployment --replicas=+2</code></li>
+</ul>
+<h3>Error Rate > 1%</h3>
+<ul>
+<li>Check recent deployments</li>
+<li>Rollback if necessary: <code>helm rollback &lt;release&gt;</code></li>
+</ul>
+<h3>Disk I/O Wait > 20%</h3>
+<pre><code>iostat -x 1 5</code></pre>
+<h2>Low Priority (P3)</h2>
+<h3>Certificate Expiry < 30 days</h3>
+<pre><code>echo | openssl s_client -connect hostname:443 2>/dev/null | openssl x509 -noout -dates</code></pre>
+<h3>Connection Pool > 80%</h3>
+<p>Check application connection pool settings and scale database if needed.</p>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>

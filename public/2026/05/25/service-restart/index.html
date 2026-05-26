@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Restart - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/database-failover/">Database Failover</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+      <li><a href="/2026/05/25/k8s-pod-debug/">K8s Debug</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Service Restart Runbook</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 Runbooks</span>
+          <span class="tag">restart</span>
+          <span class="tag">service</span>
+          <span class="tag">runbook</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>When to Use</h2>
+<p>Service is unresponsive, returning 5xx errors, or hanging requests.</p>
+<h2>Step 1: Check Service Status</h2>
+<pre><code>systemctl status &lt;service-name&gt;
+journalctl -u &lt;service-name&gt; -n 50</code></pre>
+<h2>Step 2: Check Resource Usage</h2>
+<pre><code>top -p $(pgrep -d',' -f &lt;service-name&gt;)
+df -h</code></pre>
+<h2>Step 3: Restart Service</h2>
+<pre><code>systemctl restart &lt;service-name&gt;
+sleep 10
+systemctl status &lt;service-name&gt;</code></pre>
+<h2>Step 4: Verify Health</h2>
+<pre><code>curl -s http://localhost:&lt;port&gt;/health</code></pre>
+<h2>Step 5: Monitor for 5 minutes</h2>
+<p>Watch error rates and latency in Grafana.</p>
+<h2>Escalation</h2>
+<p>If restart fails or service crashes repeatedly → escalate to #sre-incidents.</p>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>

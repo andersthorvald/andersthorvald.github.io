@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker Debug - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/k8s-pod-debug/">K8s Debug</a></li>
+      <li><a href="/2026/05/25/alert-quick-reference/">Alert Reference</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Docker Debug Commands</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 Runbooks</span>
+          <span class="tag">docker</span>
+          <span class="tag">debug</span>
+          <span class="tag">container</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>Container Inspection</h2>
+<pre><code># List running containers
+docker ps
+
+# Container logs
+docker logs -f &lt;container-name&gt; --tail 100
+
+# Container process list
+docker top &lt;container-name&gt;
+
+# Container resource stats
+docker stats --no-stream</code></pre>
+<h2>Inside the Container</h2>
+<pre><code># Enter container shell
+docker exec -it &lt;container-name&gt; /bin/sh
+
+# Check container filesystem
+docker diff &lt;container-name&gt;
+
+# Container network
+docker inspect &lt;container-name&gt; | jq '.[0].NetworkSettings'</code></pre>
+<h2>Network Debugging</h2>
+<pre><code># Check DNS resolution
+docker exec &lt;container-name&gt; nslookup &lt;hostname&gt;
+
+# Check port connectivity
+docker exec &lt;container-name&gt; nc -zv &lt;host&gt; &lt;port&gt;
+
+# View container network
+docker network ls
+docker network inspect &lt;network-name&gt;</code></pre>
+<h2>Performance</h2>
+<pre><code># Container resource usage
+docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+
+# Inspect layer sizes
+docker history &lt;image-name&gt;</code></pre>
+<h2>Cleanup</h2>
+<pre><code># Remove unused containers/images/networks
+docker system prune -f</code></pre>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incident Response - SRE Wiki</title>
+  <link rel="stylesheet" href="/css/article.css">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/database-failover/">Database Failover</a></li>
+      <li><a href="/2026/05/25/service-restart/">Service Restart</a></li>
+      <li><a href="/2026/05/25/alert-quick-reference/">Alert Reference</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Incident Response SOP</h1>
+        <div class="article-meta">
+          <span>📅 2026-05-25</span>
+          <span>📁 SOPs</span>
+          <span class="tag">incident</span>
+          <span class="tag">response</span>
+          <span class="tag">sop</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>Severity Levels</h2>
+<table>
+<tr><th>Level</th><th>Response Time</th><th>Example</th></tr>
+<tr><td>P1</td><td>15 min</td><td>Full outage, data loss</td></tr>
+<tr><td>P2</td><td>1 hour</td><td>Partial outage</td></tr>
+<tr><td>P3</td><td>4 hours</td><td>Degraded performance</td></tr>
+</table>
+<h2>Response Steps</h2>
+<h3>1. Acknowledge</h3>
+<ul>
+<li>Claim incident in PagerDuty</li>
+<li>Create incident channel: #inc-YYYYMMDD-description</li>
+</ul>
+<h3>2. Assess</h3>
+<ul>
+<li>Check monitoring dashboards</li>
+<li>Identify blast radius</li>
+<li>Assign roles: Lead, Comms, Tech</li>
+</ul>
+<h3>3. Mitigate</h3>
+<ul>
+<li>Communicate status every 15 min</li>
+<li>Apply fastest mitigation first</li>
+<li>Document actions in real-time</li>
+</ul>
+<h3>4. Resolve</h3>
+<ul>
+<li>Confirm metrics return to normal</li>
+<li>Update status page</li>
+<li>Close incident in PagerDuty</li>
+</ul>
+<h3>5. Follow-up</h3>
+<ul>
+<li>Schedule post-mortem within 48h</li>
+<li>Create action items in Jira</li>
+<li>Update runbooks if gaps found</li>
+</ul>
+<h2>Contacts</h2>
+<ul>
+<li>On-call SRE: PagerDuty</li>
+<li>Engineering Lead: @eng-lead</li>
+<li>Management: @mgt-oncall</li>
+</ul>
+      </div>
+    </article>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </main>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
+</body>
+</html>
