@@ -10,154 +10,88 @@ body {
 a { color: #ff6b9d; text-decoration: none; }
 a:hover { color: #c44569; }
 
-/* ===== Dark Mode Transitions ===== */
-/* Smooth background transitions with staggered timing */
+/* ===== Dark Mode ===== */
 body {
-  transition: 
-    background 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.5s ease, color 0.5s ease;
 }
-
-/* Elegant fade overlay for instant dark feel */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(135deg, #0d0d1a 0%, #12122a 50%, #1a1a3e 100%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9998;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-body.dark-mode::before { opacity: 1; }
-
-/* ===== Dark Mode Styles ===== */
 body.dark-mode {
-  background: linear-gradient(135deg, #0d0d1a 0%, #12122a 50%, #1a1a3e 100%) !important;
-  color: #c0c0d0;
+  background: #12121f !important;
+  color: #e0e0e0;
 }
-
-/* Dot grid - subtle fade */
-body.dark-mode .dot-grid {
-  opacity: 0.15;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Links - smooth color shift */
-body.dark-mode a { color: #ff9a9e; transition: color 0.5s ease; }
+body.dark-mode a { color: #ff9a9e; }
 body.dark-mode a:hover { color: #ff6b9d; }
+body.dark-mode .dot-grid { opacity: 0.08; }
+body.dark-mode .particle { opacity: 0.05 !important; }
 
-/* Cards - elegant background transition with slight blur */
+/* Cards - solid dark background */
 body.dark-mode .article-card,
 body.dark-mode .feature-card,
 body.dark-mode .link-item,
 body.dark-mode .quick-links,
 body.dark-mode .profile-card,
+body.dark-mode .stats,
+body.dark-mode .hero {
+  background: #1a1a2e !important;
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 154, 158, 0.15);
+}
+
+/* Content text */
 body.dark-mode .article-content,
-body.dark-mode .stats {
-  background: rgba(18, 18, 42, 0.92) !important;
-  color: #c0c0d0;
-  border: 1px solid rgba(255, 154, 158, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: 
-    background 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Card hover effects in dark mode */
-body.dark-mode .article-card:hover,
-body.dark-mode .feature-card:hover,
-body.dark-mode .link-item:hover {
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-}
-
-/* Text content - subtle text shadow for depth */
 body.dark-mode .article-content h2,
 body.dark-mode .article-content h3,
-body.dark-mode .article-content li,
 body.dark-mode .article-content p,
+body.dark-mode .article-content li,
 body.dark-mode .article-content td {
-  color: #c0c0d0;
-  transition: 
-    color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    text-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #d0d0e0;
 }
 
-/* Headers - gradient text stays vibrant */
+/* Headers stay colorful */
 body.dark-mode .article-title,
 body.dark-mode .quick-links h2,
 body.dark-mode .feature-card h3,
 body.dark-mode .site-title a,
 body.dark-mode .hero h1 {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-/* Hero section */
-body.dark-mode .hero {
-  background: linear-gradient(135deg, #0d0d1a 0%, #12122a 50%, #1a1a3e 100%) !important;
+/* Header bar */
+body.dark-mode .site-header {
+  background: #0f0f1a !important;
+  border-bottom-color: rgba(255, 154, 158, 0.2);
 }
 
-/* Border colors */
-body.dark-mode .article-header { border-bottom-color: rgba(255, 154, 158, 0.2); }
-body.dark-mode .article-content h2 { border-bottom-color: rgba(255, 154, 158, 0.15); }
-
-/* Language buttons - elegant transition */
+/* Language buttons */
 body.dark-mode .lang-btn {
-  background: rgba(18, 18, 42, 0.9);
+  background: rgba(255, 255, 255, 0.1);
   color: #ff9a9e;
   border-color: rgba(255, 154, 158, 0.3);
-  transition: 
-    background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s ease;
 }
 body.dark-mode .lang-btn:hover,
 body.dark-mode .lang-btn.active {
   background: linear-gradient(135deg, #ff9a9e, #fecfef);
   color: white;
-  border-color: transparent;
-  transform: translateY(-2px);
 }
 
-/* Header bar */
-body.dark-mode .site-header {
-  background: rgba(13, 13, 26, 0.95) !important;
-  border-bottom-color: rgba(255, 154, 158, 0.2);
-  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Dark toggle button - elegant pulse effect */
+/* Dark toggle */
 .dark-toggle {
   position: fixed; bottom: 20px; left: 20px; z-index: 10001;
   width: 48px; height: 48px; border-radius: 50%;
   background: rgba(255, 255, 255, 0.95);
   border: 2px solid rgba(255, 154, 158, 0.4);
   cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center;
-  transition: 
-    all 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s ease;
-  box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 .dark-toggle:hover {
   background: linear-gradient(135deg, #ff9a9e, #fecfef);
-  transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 8px 25px rgba(255, 154, 158, 0.5);
+  transform: scale(1.1);
 }
 body.dark-mode .dark-toggle {
-  background: rgba(18, 18, 42, 0.95);
+  background: #1a1a2e;
   border-color: rgba(255, 154, 158, 0.4);
-}
-
-/* Particles - fade out in dark mode */
-body.dark-mode .particle {
-  opacity: 0.1 !important;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ===== Like Button ===== */
