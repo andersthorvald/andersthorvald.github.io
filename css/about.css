@@ -95,6 +95,7 @@
   background-image: url('/images/qq-hover.png');
   background-size: 40px 40px;
 }
+.social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
 
 /* ===== Header Profile Bar ===== */
 .profile-bar {
