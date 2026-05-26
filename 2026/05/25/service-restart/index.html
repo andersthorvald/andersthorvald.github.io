@@ -63,6 +63,32 @@ systemctl status &lt;service-name&gt;</code></pre>
 <p>If restart fails or service crashes repeatedly, escalate to #sre-incidents.</p>
       </div>
     </article>
+
+    <div class="like-section">
+      <button class="like-btn" id="likeBtn" onclick="toggleLike()">
+        <span class="heart">❤️</span>
+        <span id="likeText">点赞</span>
+        <span id="likeCount">0</span>
+      </button>
+    </div>
+
+    <div class="comments-section">
+      <script src="https://giscus.app/client.js"
+        data-repo="andersthorvald/andersthorvald.github.io"
+        data-repo-id="R_xxxxxxxxxxxxx"
+        data-category="Announcements"
+        data-category-id="DIC_xxxxxxxxxxxxx"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
   </main>
 
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
@@ -92,6 +118,20 @@ systemctl status &lt;service-name&gt;</code></pre>
     }
     updateDarkByTime();
     setInterval(updateDarkByTime, 60000);
+
+    var articleId = 'service-restart';
+    var likes = parseInt(localStorage.getItem('likes-' + articleId) || '0');
+    var liked = localStorage.getItem('liked-' + articleId) === 'true';
+    document.getElementById('likeCount').textContent = likes;
+    if (liked) document.getElementById('likeBtn').classList.add('liked');
+    function toggleLike() {
+      liked = !liked;
+      likes = liked ? likes + 1 : likes - 1;
+      localStorage.setItem('likes-' + articleId, likes);
+      localStorage.setItem('liked-' + articleId, liked);
+      document.getElementById('likeCount').textContent = likes;
+      document.getElementById('likeBtn').classList.toggle('liked', liked);
+    }
   </script>
 </body>
 </html>
