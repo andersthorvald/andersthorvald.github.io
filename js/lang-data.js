@@ -22,6 +22,17 @@ var I18N = {
       feat_sop_desc: "标准操作流程，保证一致性和安全性",
       feat_ref_title: "快速参考",
       feat_ref_desc: "常用命令和配置速查表",
+      // 文章页面
+      article_category: "分类",
+      article_tags: "标签",
+      article_date: "日期",
+      article_back: "返回首页",
+      nav_home: "首页",
+      // About 页面
+      about_title: "关于我",
+      about_subtitle: "了解我更多",
+      about_bio: "热爱技术的 SRE 工程师，专注于保障服务稳定性。业余时间喜欢研究新技术、收集手办、刷 B 站。",
+      about_motto: "只要不影响到他人，自己爱做什么都好"
     },
     en: {
       nav_home: "Home",
@@ -45,6 +56,17 @@ var I18N = {
       feat_sop_desc: "Standard operating procedures for consistency and safety",
       feat_ref_title: "Reference",
       feat_ref_desc: "Common commands and configuration quick reference",
+      // Article pages
+      article_category: "Category",
+      article_tags: "Tags",
+      article_date: "Date",
+      article_back: "Back to Home",
+      nav_home: "Home",
+      // About page
+      about_title: "About Me",
+      about_subtitle: "Learn more about me",
+      about_bio: "SRE engineer passionate about technology, focused on ensuring service stability. In spare time, I enjoy researching new tech, collecting figures, and browsing Bilibili.",
+      about_motto: "As long as it doesn't affect others, feel free to do whatever you want"
     },
     ja: {
       nav_home: "ホーム",
@@ -68,6 +90,17 @@ var I18N = {
       feat_sop_desc: "一貫性と安全性を確保するための標準操作手順",
       feat_ref_title: "リファレンス",
       feat_ref_desc: "一般的なコマンドと構成のクイックリファレンス",
+      // Article pages
+      article_category: "カテゴリー",
+      article_tags: "タグ",
+      article_date: "日付",
+      article_back: "ホームに戻る",
+      nav_home: "ホーム",
+      // About page
+      about_title: "概要",
+      about_subtitle: "もっと私について",
+      about_bio: "サービス安定性の確保に注力する技術愛好家のSREエンジニア。空闲時間には新技術の研究、フィギュア収集、B站閲覧を楽しんでいます。",
+      about_motto: "他人影響を与えない限り、自分の好きなことをすれば良い"
     },
     "zh-TW": {
       nav_home: "首頁",
@@ -91,6 +124,17 @@ var I18N = {
       feat_sop_desc: "標準操作流程，保證一致性和安全性",
       feat_ref_title: "快速參考",
       feat_ref_desc: "常用命令和配置速查表",
+      // Article pages
+      article_category: "分類",
+      article_tags: "標籤",
+      article_date: "日期",
+      article_back: "返回首頁",
+      nav_home: "首頁",
+      // About page
+      about_title: "關於我",
+      about_subtitle: "了解更多",
+      about_bio: "熱愛技術的 SRE 工程師，專注於保障服務穩定性。業餘時間喜歡研究新技術、收集手辦、刷 B 站。",
+      about_motto: "只要不影響到他人，自己愛做什麼都好"
     }
   },
   current: "zh",
@@ -104,6 +148,11 @@ var I18N = {
       this.current = lang;
       localStorage.setItem("sre-wiki-lang", lang);
       this.apply();
+      // Update active button state
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      document.querySelector('.lang-btn[onclick*="switchTo(\'' + lang + '\')"]')?.classList.add('active');
     }
   },
   t: function(key) {
@@ -115,11 +164,7 @@ var I18N = {
       var key = el.getAttribute("data-i18n");
       el.textContent = self.t(key);
     });
-    // Update lang attribute
     document.documentElement.lang = this.current;
-    // Update toggle button text
-    var btn = document.querySelector(".lang-toggle");
-    if (btn) btn.textContent = this.current.toUpperCase();
   }
 };
 document.addEventListener("DOMContentLoaded", function() { I18N.init(); });

@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Database Failover - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
+  <link rel="stylesheet" href="/css/about.css">
+  <style>
+    .lang-switcher { position: fixed; top: 16px; right: 20px; z-index: 1000; display: flex; gap: 6px; }
+    .lang-btn { background: rgba(255,255,255,0.9); border: 2px solid rgba(255,154,158,0.3); border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 700; cursor: pointer; color: #c44569; transition: all 0.2s; text-decoration: none; }
+    .lang-btn:hover, .lang-btn.active { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border-color: transparent; }
+    @media (max-width: 768px) {
+      .lang-switcher { top: 8px; right: 8px; gap: 4px; }
+      .lang-btn { padding: 4px 10px; font-size: 0.75em; }
+      .particles { display: none; }
+    }
+  </style>
 </head>
 <body>
   <div class="dot-grid"></div>
@@ -14,23 +25,29 @@
     <div class="particle"></div><div class="particle"></div>
   </div>
 
+  <div class="lang-switcher">
+    <a href="/" class="lang-btn" onclick="I18N.switchTo('zh'); return true;">中文</a>
+    <a href="/" class="lang-btn" onclick="I18N.switchTo('en'); return true;">EN</a>
+    <a href="/" class="lang-btn" onclick="I18N.switchTo('ja'); return true;">日</a>
+    <a href="/" class="lang-btn" onclick="I18N.switchTo('zh-TW'); return true;">繁</a>
+  </div>
+
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/2026/05/25/service-restart/">Service Restart</a></li>
-      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
-      <li><a href="/2026/05/25/alert-quick-reference/">Alert Reference</a></li>
+      <li><a href="/" data-i18n="nav_home">首页</a></li>
     </ul>
   </header>
 
   <main class="container">
+    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
+    
     <article class="article-card">
       <div class="article-header">
         <h1 class="article-title">Database Failover Runbook</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span>📁 Runbooks</span>
+          <span data-i18n="article_category">📁 Runbooks</span>
           <span class="tag">database</span>
           <span class="tag">failover</span>
           <span class="tag">runbook</span>
@@ -48,26 +65,19 @@ psql -h &lt;primary-host&gt; -c "SELECT pg_is_in_recovery();"</code></pre>
 <h2>Step 2: Promote Replica</h2>
 <pre><code># On replica server
 pg_ctl promote -D /var/lib/postgresql/data</code></pre>
-<h2>Step 3: Update Connection Strings</h2>
-<p>Update application config to point to new primary IP.</p>
-<h2>Step 4: Verify Replication</h2>
-<pre><code># Confirm all data synced
-psql -h &lt;new-primary&gt; -c "SELECT * FROM pg_stat_replication;"</code></pre>
-<h2>Step 5: Notify Team</h2>
+<h2>Step 3: Update Connection String</h2>
+<pre><code># Update application config
+DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code></pre>
+<h2>Verification</h2>
 <ul>
-<li>Post incident in #sre-incidents</li>
-<li>Update status page</li>
-<li>Schedule post-mortem</li>
+<li>Test connection from app servers</li>
+<li>Monitor replication lag on remaining replicas</li>
+<li>Verify read replicas are pointing to new primary</li>
 </ul>
-<h2>Rollback</h2>
-<p>If primary recovers, reconfigure as new replica and sync data before switching back.</p>
       </div>
     </article>
-    <a href="/" class="back-btn">�?Back to Home</a>
   </main>
 
-  <footer class="site-footer">
-    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
-  </footer>
-  <script src="/js/lang-data.js"></script>`n</body>
+  <script src="/js/lang-data.js"></script>
+</body>
 </html>
