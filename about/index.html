@@ -7,14 +7,12 @@
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
   <style>
-    /* Dot grid background */
     .dot-grid {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: -1;
       background-image: radial-gradient(circle, rgba(255, 182, 193, 0.4) 1px, transparent 1px);
       background-size: 30px 30px; opacity: 0.6;
     }
-    /* Particle animation */
     .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
     .particle { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; opacity: 0.3; animation: float 15s infinite; }
     .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
@@ -26,140 +24,34 @@
     .particle:nth-child(7) { left: 70%; animation-delay: 12s; }
     .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
     @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-    
-    /* Page layout */
-    .page-content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    .page-content { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
     .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #ff9a9e;
-      text-decoration: none;
-      font-weight: 600;
-      margin-bottom: 30px;
-      padding: 10px 20px;
-      background: white;
-      border-radius: 25px;
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #ff9a9e; text-decoration: none; font-weight: 600;
+      margin-bottom: 30px; padding: 10px 20px;
+      background: white; border-radius: 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       transition: all 0.3s ease;
     }
-    .back-link:hover {
-      transform: translateX(-5px);
-      box-shadow: 0 6px 20px rgba(255, 154, 158, 0.2);
-    }
-    
-    /* About page specific styles */
-    .about-header {
-      text-align: center;
-      margin-bottom: 40px;
-      animation: fadeInUp 0.6s ease;
-    }
-    .about-header h1 {
-      font-size: 2.5em;
-      background: linear-gradient(135deg, #ff9a9e, #fecfef);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-    }
-    .about-header p {
-      color: #888;
-      font-size: 1.1em;
-    }
-    
-    /* Interest tags */
-    .interests {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 30px 0;
-    }
-    .interest-tag {
-      padding: 8px 20px;
-      background: linear-gradient(135deg, #fff5f5, #fff0f3);
-      border: 2px solid rgba(255,154,158,0.2);
-      border-radius: 25px;
-      color: #c44569;
-      font-size: 0.9em;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    .interest-tag:hover {
-      background: linear-gradient(135deg, #ff9a9e, #fecfef);
-      color: white;
-      transform: scale(1.05);
-    }
-    
-    /* QR Modal */
-    .qr-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      animation: fadeIn 0.3s ease;
-    }
-    .qr-modal.active {
-      display: flex;
-    }
-    .qr-modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      text-align: center;
-      max-width: 350px;
-      animation: scaleIn 0.3s ease;
-    }
-    .qr-modal h3 {
-      margin: 0 0 20px;
-      color: #333;
-      font-size: 1.3em;
-    }
-    .qr-modal img {
-      width: 250px;
-      height: 250px;
-      border-radius: 12px;
-      border: 3px solid rgba(255,154,158,0.3);
-    }
-    .qr-modal p {
-      color: #888;
-      margin: 15px 0 0;
-      font-size: 0.9em;
-    }
-    .qr-modal-close {
-      margin-top: 20px;
-      padding: 10px 30px;
-      background: linear-gradient(135deg, #ff9a9e, #fecfef);
-      color: white;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    .qr-modal-close:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(255, 154, 158, 0.3);
-    }
+    .back-link:hover { transform: translateX(-5px); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.2); }
+    .about-header { text-align: center; margin-bottom: 40px; animation: fadeInUp 0.6s ease; }
+    .about-header h1 { font-size: 2.5em; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+    .about-header p { color: #888; font-size: 1.1em; }
+    .interests { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 30px 0; }
+    .interest-tag { padding: 8px 20px; background: linear-gradient(135deg, #fff5f5, #fff0f3); border: 2px solid rgba(255,154,158,0.2); border-radius: 25px; color: #c44569; font-size: 0.9em; font-weight: 600; transition: all 0.3s ease; }
+    .interest-tag:hover { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; transform: scale(1.05); }
+    .qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+    .qr-modal.active { display: flex; }
+    .qr-modal-content { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 350px; animation: scaleIn 0.3s ease; }
+    .qr-modal h3 { margin: 0 0 20px; color: #333; font-size: 1.3em; }
+    .qr-modal img { width: 250px; height: 250px; border-radius: 12px; border: 3px solid rgba(255,154,158,0.3); }
+    .qr-modal p { color: #888; margin: 15px 0 0; font-size: 0.9em; }
+    .qr-modal-close { margin-top: 20px; padding: 10px 30px; background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+    .qr-modal-close:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.3); }
     @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    
-    @media (max-width: 768px) {
-      .about-header h1 { font-size: 2em; }
-      .qr-modal-content { margin: 20px; padding: 20px; }
-      .qr-modal img { width: 200px; height: 200px; }
-    }
+    @media (max-width: 768px) { .about-header h1 { font-size: 2em; } .qr-modal-content { margin: 20px; padding: 20px; } .qr-modal img { width: 200px; height: 200px; } }
   </style>
 </head>
 <body>
@@ -201,7 +93,7 @@
       </div>
       
       <div class="social-links">
-        <!-- B站 - 跳转个人主页 -->
+        <!-- B站 -->
         <a href="https://space.bilibili.com/3546572096800793" target="_blank" class="social-link bilibili" title="B站主页">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM12 8.5v6.5h1.5v-6.5zm3.5 0v6.5h1.5v-6.5z"/>
@@ -209,7 +101,7 @@
           <span>B站</span>
         </a>
         
-        <!-- YouTube - 跳转个人主页 -->
+        <!-- YouTube -->
         <a href="https://www.youtube.com/@ThorvaldAnders" target="_blank" class="social-link youtube" title="YouTube频道">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
@@ -226,7 +118,7 @@
           <span>邮箱</span>
         </a>
         
-        <!-- 微信 - 弹二维码 -->
+        <!-- 微信 -->
         <a href="#" onclick="showQR('wechat'); return false;" class="social-link wechat" title="微信">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.022 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.87c-.135-.004-.272-.012-.407-.012zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
@@ -234,10 +126,10 @@
           <span>微信</span>
         </a>
         
-        <!-- QQ - 弹二维码 -->
+        <!-- QQ -->
         <a href="#" onclick="showQR('qq'); return false;" class="social-link qq" title="QQ">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.396 1.025.127 0 .319-.058.49-.158.658-.385 1.457-1.088 1.852-1.378.49-.361.593-.346.727-.158.338.475.903 1.025 1.57 1.48.332.227.618.373.87.453.643.205 1.2.254 1.338.254.134 0 .696-.05 1.339-.254.251-.08.538-.226.87-.453.666-.455 1.23-1.005 1.568-1.48.135-.188.239-.203.729.158.395.29 1.193.993 1.852 1.378.17.1.362.158.489.158.226 0 .397-.36.397-1.025 0-2.514-2.162-6.954-2.162-6.954V9.325C18.294 3.364 14.269 2 12.003 2z"/>
+            <path d="M12.003 0C5.397 0 .055 4.338.003 9.573c-.006.52.035 1.044.12 1.553L.01 22.92l11.163-2.72c.49.126.994.202 1.505.226.01-.002.02-.002.03-.002 5.608 0 10.95-4.346 11.002-9.796C24.048 4.34 18.707 0 12.003 0zm-.001 2.338c4.962 0 8.974 3.854 8.997 8.615a8.93 8.93 0 0 1-2.563 6.14l-.232.237-1.207-.293c2.525-1.518 4.3-3.88 4.3-6.084 0-4.416-3.587-8.003-8.003-8.003-4.415 0-8.002 3.587-8.002 8.003 0 2.204 1.775 4.566 4.3 6.084l-1.206.293-.232-.237a8.93 8.93 0 0 1-2.563-6.14c.022-4.76 4.034-8.615 8.997-8.615h.008zm.001 3.968c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 1.968c1.675 0 3.032 1.358 3.032 3.032s-1.357 3.032-3.032 3.032-3.032-1.357-3.032-3.032 1.357-3.032 3.032-3.032zm0 6.032c.83 0 1.5-.672 1.5-1.5s-.67-1.5-1.5-1.5-1.5.672-1.5 1.5.67 1.5 1.5 1.5z"/>
           </svg>
           <span>QQ</span>
         </a>
@@ -245,7 +137,6 @@
     </div>
   </div>
 
-  <!-- QR Code Modal -->
   <div id="qrModal" class="qr-modal" onclick="closeQR(event)">
     <div class="qr-modal-content">
       <h3 id="qrTitle">扫码添加</h3>
@@ -260,7 +151,6 @@
       const modal = document.getElementById('qrModal');
       const img = document.getElementById('qrImage');
       const title = document.getElementById('qrTitle');
-      
       if (type === 'wechat') {
         img.src = '/images/wechat-qr.jpg';
         title.textContent = '微信扫码添加';
@@ -268,22 +158,16 @@
         img.src = '/images/qq-qr.jpg';
         title.textContent = 'QQ扫码添加';
       }
-      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
-    
     function closeQR(e) {
       if (!e || e.target === document.getElementById('qrModal') || e.target.classList.contains('qr-modal-close')) {
         document.getElementById('qrModal').classList.remove('active');
         document.body.style.overflow = '';
       }
     }
-    
-    // ESC key to close modal
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeQR();
-    });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeQR(); });
   </script>
 </body>
 </html>
