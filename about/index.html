@@ -25,10 +25,6 @@
     .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
     @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
     .page-content { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    .lang-switcher { position: fixed; top: 16px; right: 20px; z-index: 1000; display: flex; gap: 6px; }
-    .lang-btn { background: rgba(255,255,255,0.9); border: 2px solid rgba(255,154,158,0.3); border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 700; cursor: pointer; color: #c44569; transition: all 0.2s; text-decoration: none; }
-    .lang-btn:hover, .lang-btn.active { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border-color: transparent; }
-    @media (max-width: 768px) { .lang-switcher { top: 8px; right: 8px; gap: 4px; } .lang-btn { padding: 4px 10px; font-size: 0.75em; } .particles { display: none; } }
     .back-link {
       display: inline-flex; align-items: center; gap: 8px;
       color: #ff9a9e; text-decoration: none; font-weight: 600;
@@ -64,13 +60,6 @@
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
-  </div>
-
-  <div class="lang-switcher">
-    <a href="/" class="lang-btn" onclick="I18N.switchTo('zh'); return true;">中文</a>
-    <a href="/" class="lang-btn" onclick="I18N.switchTo('en'); return true;">EN</a>
-    <a href="/" class="lang-btn" onclick="I18N.switchTo('ja'); return true;">日</a>
-    <a href="/" class="lang-btn" onclick="I18N.switchTo('zh-TW'); return true;">繁</a>
   </div>
 
   <div class="page-content">
@@ -137,12 +126,10 @@
           <span>微信</span>
         </a>
         
-        <!-- X (Twitter) -->
-        <a href="https://x.com/ATA19168" target="_blank" class="social-link x" title="X (Twitter)">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          <span>X</span>
+        <!-- QQ -->
+        <a href="#" onclick="showQR('qq'); return false;" class="social-link qq" title="QQ">
+          <img src="/images/qq-icon.png" alt="QQ" style="width:36px;height:36px;margin-bottom:4px;">
+          <span>QQ</span>
         </a>
         
         <!-- GitHub -->
@@ -188,6 +175,5 @@
     }
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeQR(); });
   </script>
-  <script src="/js/lang-data.js"></script>
 </body>
 </html>
