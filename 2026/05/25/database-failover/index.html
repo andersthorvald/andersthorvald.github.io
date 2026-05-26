@@ -9,6 +9,13 @@
 
 </head>
 <body>
+  <script>
+    var hour = new Date().getHours();
+    var isDark = hour < 7 || hour >= 19;
+    var manualSet = localStorage.getItem('dark-mode-manual');
+    if (manualSet !== null) isDark = manualSet === 'true';
+    if (isDark) document.body.classList.add('dark-mode');
+  </script>
   <div class="lang-switcher">
     <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
     <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
