@@ -1,6 +1,10 @@
 var I18N = {
   data: {
     zh: {
+      lang_zh: "中文",
+      lang_en: "EN",
+      lang_ja: "日",
+      lang_tw: "繁",
       nav_home: "首页",
       nav_articles: "文档",
       nav_about: "关于",
@@ -35,6 +39,10 @@ var I18N = {
       about_motto: "只要不影响到他人，自己爱做什么都好"
     },
     en: {
+      lang_zh: "中文",
+      lang_en: "EN",
+      lang_ja: "日",
+      lang_tw: "繁",
       nav_home: "Home",
       nav_articles: "Docs",
       nav_about: "About",
@@ -69,6 +77,10 @@ var I18N = {
       about_motto: "As long as it doesn't affect others, feel free to do whatever you want"
     },
     ja: {
+      lang_zh: "中文",
+      lang_en: "EN",
+      lang_ja: "日",
+      lang_tw: "繁",
       nav_home: "ホーム",
       nav_articles: "ドキュメント",
       nav_about: "概要",
@@ -103,6 +115,10 @@ var I18N = {
       about_motto: "他人影響を与えない限り、自分の好きなことをすれば良い"
     },
     "zh-TW": {
+      lang_zh: "中文",
+      lang_en: "EN",
+      lang_ja: "日",
+      lang_tw: "繁",
       nav_home: "首頁",
       nav_articles: "文檔",
       nav_about: "關於",
@@ -163,6 +179,11 @@ var I18N = {
     document.querySelectorAll("[data-i18n]").forEach(function(el) {
       var key = el.getAttribute("data-i18n");
       el.textContent = self.t(key);
+    });
+    // Also update language button text
+    document.querySelectorAll('.lang-btn[data-i18n]').forEach(function(btn) {
+      var key = btn.getAttribute("data-i18n");
+      btn.textContent = self.t(key);
     });
     document.documentElement.lang = this.current;
   }
