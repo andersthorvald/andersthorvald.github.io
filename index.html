@@ -180,6 +180,18 @@
 
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
 
+  <!-- Live2D Kanban 看板娘 -->
+  <script src="https://cdn.jsdelivr.net/npm/live2d@0.8.13/autoload.min.js"></script>
+  <script>
+    var hour = new Date().getHours();
+    var isDark = hour < 7 || hour >= 19;
+    var manualSet = localStorage.getItem('dark-mode-manual');
+    if (manualSet !== null) isDark = manualSet === 'true';
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a2e';
+    }
+  </script>
   <script>
     function toggleDark() {
       document.body.classList.toggle('dark-mode');
