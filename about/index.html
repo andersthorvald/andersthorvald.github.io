@@ -60,7 +60,10 @@
     var isDark = hour < 7 || hour >= 19;
     var manualSet = localStorage.getItem('dark-mode-manual');
     if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) document.body.classList.add('dark-mode');
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a2e';
+    }
   </script>
   <div class="dot-grid"></div>
   <div class="particles">

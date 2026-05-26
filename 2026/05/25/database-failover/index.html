@@ -14,7 +14,10 @@
     var isDark = hour < 7 || hour >= 19;
     var manualSet = localStorage.getItem('dark-mode-manual');
     if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) document.body.classList.add('dark-mode');
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      document.body.style.background = '#1a1a2e';
+    }
   </script>
   <div class="lang-switcher">
     <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
