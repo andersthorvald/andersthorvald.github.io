@@ -83,6 +83,7 @@
 .social-link.email:hover { background: #ff9a9e; color: white; border-color: #ff9a9e; }
 
 .social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
+.social-link.x:hover { background: #000000; color: white; border-color: #000000; }
 
 /* ===== Header Profile Bar ===== */
 .profile-bar {
