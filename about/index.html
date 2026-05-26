@@ -126,10 +126,12 @@
           <span>微信</span>
         </a>
         
-        <!-- QQ -->
-        <a href="#" onclick="showQR('qq'); return false;" class="social-link qq" title="QQ">
-          <img src="/images/qq-icon.png" alt="QQ" style="width:36px;height:36px;margin-bottom:4px;">
-          <span>QQ</span>
+        <!-- X (Twitter) -->
+        <a href="https://x.com/ATA19168" target="_blank" class="social-link x" title="X (Twitter)">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>X</span>
         </a>
         
         <!-- GitHub -->
@@ -160,9 +162,6 @@
       if (type === 'wechat') {
         img.src = '/images/wechat-qr.jpg';
         title.textContent = '微信扫码添加';
-      } else if (type === 'qq') {
-        img.src = '/images/qq-qr.jpg';
-        title.textContent = 'QQ扫码添加';
       }
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
