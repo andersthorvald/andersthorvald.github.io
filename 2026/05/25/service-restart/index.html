@@ -3,139 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>服务重启 - SRE Wiki</title>
+  <title>Service Restart - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
-  <link rel="stylesheet" href="/css/about.css">
 </head>
-<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
-    }
-  </script>
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')">繁</button>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
   </div>
-
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/" data-i18n="nav_home">首页</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/database-failover/">Database Failover</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
+      <li><a href="/2026/05/25/k8s-pod-debug/">K8s Debug</a></li>
     </ul>
   </header>
   <main class="container">
-    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title" data-i18n="sr_title">服务重启手册</h1>
+        <h1 class="article-title">Service Restart Runbook</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 运维手册</span>
+          <span>📁 Runbooks</span>
           <span class="tag">restart</span>
           <span class="tag">service</span>
           <span class="tag">runbook</span>
         </div>
       </div>
       <div class="article-content">
-        <h2 data-i18n="sr_when">何时使用</h2>
-<p data-i18n="sr_when_desc">服务无响应、返回 5xx 错误、或请求挂起时使用此手册。</p>
-<h2 data-i18n="sr_step1">步骤 1：检查服务状态</h2>
+        <h2>When to Use</h2>
+<p>Service is unresponsive, returning 5xx errors, or hanging requests.</p>
+<h2>Step 1: Check Service Status</h2>
 <pre><code>systemctl status &lt;service-name&gt;
 journalctl -u &lt;service-name&gt; -n 50</code></pre>
-<h2 data-i18n="sr_step2">步骤 2：检查资源使用</h2>
+<h2>Step 2: Check Resource Usage</h2>
 <pre><code>top -p $(pgrep -d',' -f &lt;service-name&gt;)
 df -h</code></pre>
-<h2 data-i18n="sr_step3">步骤 3：重启服务</h2>
+<h2>Step 3: Restart Service</h2>
 <pre><code>systemctl restart &lt;service-name&gt;
 sleep 10
 systemctl status &lt;service-name&gt;</code></pre>
-<h2 data-i18n="sr_step4">步骤 4：验证健康状态</h2>
+<h2>Step 4: Verify Health</h2>
 <pre><code>curl -s http://localhost:&lt;port&gt;/health</code></pre>
-<h2 data-i18n="sr_step5">步骤 5：监控 5 分钟</h2>
-<p data-i18n="sr_step5_desc">在 Grafana 中观察错误率和延迟。</p>
-<h2 data-i18n="sr_escalation">升级处理</h2>
-<p data-i18n="sr_escalation_desc">如果重启失败或服务反复崩溃，请升级到 #sre-incidents 群组。</p>
+<h2>Step 5: Monitor for 5 minutes</h2>
+<p>Watch error rates and latency in Grafana.</p>
+<h2>Escalation</h2>
+<p>If restart fails or service crashes repeatedly → escalate to #sre-incidents.</p>
       </div>
     </article>
-
-    <div class="like-section">
-      <button class="like-btn" id="likeBtn" onclick="toggleLike()">
-        <span class="heart">❤️</span>
-        <span id="likeText" data-i18n="like_text">点赞</span>
-        <span id="likeCount">0</span>
-      </button>
-    </div>
-
-    <div class="comments-section">
-      <script src="https://giscus.app/client.js"
-        data-repo="andersthorvald/andersthorvald.github.io"
-        data-repo-id="R_kgDOSnU2tg"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOSnU2ts4C92t8"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-      </script>
-    </div>
+    <a href="/" class="back-btn">← Back to Home</a>
   </main>
-
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
-
-  <script src="/js/lang-data.js"></script>
-  <script>
-    function toggleDark() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
-      var btn = document.querySelector('.dark-toggle');
-      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    }
-    function updateDarkByTime() {
-      var hour = new Date().getHours();
-      var isDark = hour < 7 || hour >= 19;
-      var manualSet = localStorage.getItem('dark-mode-manual');
-      if (manualSet !== null) {
-        isDark = manualSet === 'true';
-      }
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '🌙';
-      }
-    }
-    updateDarkByTime();
-    setInterval(updateDarkByTime, 60000);
-
-    var articleId = 'service-restart';
-    var likes = parseInt(localStorage.getItem('likes-' + articleId) || '0');
-    var liked = localStorage.getItem('liked-' + articleId) === 'true';
-    document.getElementById('likeCount').textContent = likes;
-    if (liked) document.getElementById('likeBtn').classList.add('liked');
-    function toggleLike() {
-      liked = !liked;
-      likes = liked ? likes + 1 : likes - 1;
-      localStorage.setItem('likes-' + articleId, likes);
-      localStorage.setItem('liked-' + articleId, liked);
-      document.getElementById('likeCount').textContent = likes;
-      document.getElementById('likeBtn').classList.toggle('liked', liked);
-    }
-    I18N.init();
-  </script>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
 </body>
 </html>

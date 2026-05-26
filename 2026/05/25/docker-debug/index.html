@@ -3,161 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Docker 调试 - SRE Wiki</title>
+  <title>Docker Debug - SRE Wiki</title>
   <link rel="stylesheet" href="/css/article.css">
-  <link rel="stylesheet" href="/css/about.css">
 </head>
-<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
-    }
-  </script>
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')">繁</button>
+<body>
+  <div class="dot-grid"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
   </div>
-
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/" data-i18n="nav_home">首页</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/2026/05/25/k8s-pod-debug/">K8s Debug</a></li>
+      <li><a href="/2026/05/25/alert-quick-reference/">Alert Reference</a></li>
+      <li><a href="/2026/05/25/incident-response/">Incident Response</a></li>
     </ul>
   </header>
   <main class="container">
-    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title" data-i18n="dd_title">Docker 调试命令</h1>
+        <h1 class="article-title">Docker Debug Commands</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 运维手册</span>
+          <span>📁 Runbooks</span>
           <span class="tag">docker</span>
           <span class="tag">debug</span>
           <span class="tag">container</span>
         </div>
       </div>
       <div class="article-content">
-        <h2 data-i18n="dd_inspect">容器检查</h2>
-<pre><code><span data-i18n="dd_c1"># 列出运行中的容器</span>
+        <h2>Container Inspection</h2>
+<pre><code># List running containers
 docker ps
 
-<span data-i18n="dd_c2"># 容器日志</span>
+# Container logs
 docker logs -f &lt;container-name&gt; --tail 100
 
-<span data-i18n="dd_c3"># 容器进程列表</span>
+# Container process list
 docker top &lt;container-name&gt;
 
-<span data-i18n="dd_c4"># 容器资源统计</span>
+# Container resource stats
 docker stats --no-stream</code></pre>
-<h2 data-i18n="dd_inside">进入容器内部</h2>
-<pre><code><span data-i18n="dd_c5"># 进入容器 shell</span>
+<h2>Inside the Container</h2>
+<pre><code># Enter container shell
 docker exec -it &lt;container-name&gt; /bin/sh
 
-<span data-i18n="dd_c6"># 检查容器文件系统</span>
+# Check container filesystem
 docker diff &lt;container-name&gt;
 
-<span data-i18n="dd_c7"># 容器网络信息</span>
+# Container network
 docker inspect &lt;container-name&gt; | jq '.[0].NetworkSettings'</code></pre>
-<h2 data-i18n="dd_network">网络调试</h2>
-<pre><code><span data-i18n="dd_c8"># 检查 DNS 解析</span>
+<h2>Network Debugging</h2>
+<pre><code># Check DNS resolution
 docker exec &lt;container-name&gt; nslookup &lt;hostname&gt;
 
-<span data-i18n="dd_c9"># 检查端口连通性</span>
+# Check port connectivity
 docker exec &lt;container-name&gt; nc -zv &lt;host&gt; &lt;port&gt;
 
-<span data-i18n="dd_c10"># 查看容器网络</span>
+# View container network
 docker network ls
 docker network inspect &lt;network-name&gt;</code></pre>
-<h2 data-i18n="dd_perf">性能</h2>
-<pre><code><span data-i18n="dd_c11"># 容器资源使用情况</span>
+<h2>Performance</h2>
+<pre><code># Container resource usage
 docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
-<span data-i18n="dd_c12"># 检查镜像层大小</span>
+# Inspect layer sizes
 docker history &lt;image-name&gt;</code></pre>
-<h2 data-i18n="dd_cleanup">清理</h2>
-<pre><code><span data-i18n="dd_c13"># 删除未使用的容器/镜像/网络</span>
+<h2>Cleanup</h2>
+<pre><code># Remove unused containers/images/networks
 docker system prune -f</code></pre>
       </div>
     </article>
-
-    <div class="like-section">
-      <button class="like-btn" id="likeBtn" onclick="toggleLike()">
-        <span class="heart">❤️</span>
-        <span id="likeText" data-i18n="like_text">点赞</span>
-        <span id="likeCount">0</span>
-      </button>
-    </div>
-
-    <div class="comments-section">
-      <script src="https://giscus.app/client.js"
-        data-repo="andersthorvald/andersthorvald.github.io"
-        data-repo-id="R_kgDOSnU2tg"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOSnU2ts4C92t8"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-      </script>
-    </div>
+    <a href="/" class="back-btn">← Back to Home</a>
   </main>
-
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
-
-  <script src="/js/lang-data.js"></script>
-  <script>
-    function toggleDark() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
-      var btn = document.querySelector('.dark-toggle');
-      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    }
-    function updateDarkByTime() {
-      var hour = new Date().getHours();
-      var isDark = hour < 7 || hour >= 19;
-      var manualSet = localStorage.getItem('dark-mode-manual');
-      if (manualSet !== null) {
-        isDark = manualSet === 'true';
-      }
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '🌙';
-      }
-    }
-    updateDarkByTime();
-    setInterval(updateDarkByTime, 60000);
-
-    var articleId = 'docker-debug';
-    var likes = parseInt(localStorage.getItem('likes-' + articleId) || '0');
-    var liked = localStorage.getItem('liked-' + articleId) === 'true';
-    document.getElementById('likeCount').textContent = likes;
-    if (liked) document.getElementById('likeBtn').classList.add('liked');
-    function toggleLike() {
-      liked = !liked;
-      likes = liked ? likes + 1 : likes - 1;
-      localStorage.setItem('likes-' + articleId, likes);
-      localStorage.setItem('liked-' + articleId, liked);
-      document.getElementById('likeCount').textContent = likes;
-      document.getElementById('likeBtn').classList.toggle('liked', liked);
-    }
-    I18N.init();
-  </script>
+  <footer class="site-footer">
+    <p>Last updated: 2026-05-25 | <a href="https://github.com/andersthorvald">GitHub</a></p>
+  </footer>
 </body>
 </html>

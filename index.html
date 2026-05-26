@@ -1,43 +1,224 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"andersthorvald.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="SRE Wiki    * {   margin: 0;   padding: 0;   box-sizing: border-box; }  body {   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);   min-height: 100vh; }  &#x2F;* Dot g">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SRE Wiki">
+<meta property="og:url" content="https://andersthorvald.github.io/index.html">
+<meta property="og:site_name" content="SRE Wiki">
+<meta property="og:description" content="SRE Wiki    * {   margin: 0;   padding: 0;   box-sizing: border-box; }  body {   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);   min-height: 100vh; }  &#x2F;* Dot g">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-25T14:49:06.753Z">
+<meta property="article:modified_time" content="2026-05-25T14:49:06.753Z">
+<meta property="article:author" content="SRE Team">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://andersthorvald.github.io/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"https://andersthorvald.github.io/index.html","path":"index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | SRE Wiki
+</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">SRE Wiki</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Site Reliability Engineering Documentation</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">SRE Wiki</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.1.</span> <span class="nav-text">Runbook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.2.</span> <span class="nav-text">SOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.3.</span> <span class="nav-text">Reference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">Quick Navigation</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">SRE Team</p>
+  <div class="site-description" itemprop="description">Runbooks, SOPs, and Architecture Documentation for SRE Team</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <!DOCTYPE html>
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SRE Wiki - Site Reliability Engineering Documentation</title>
-  <meta name="description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
-  
-  <!-- Open Graph for WeChat/QQ sharing -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="SRE Wiki - Site Reliability Engineering Documentation">
-  <meta property="og:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
-  <meta property="og:url" content="https://andersthorvald.github.io">
-  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
-  <meta property="og:site_name" content="SRE Wiki">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SRE Wiki - Site Reliability Engineering Documentation">
-  <meta name="twitter:description" content="SRE documentation center with runbooks, SOPs, and quick reference guides.">
-  <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
-  
-  <link rel="stylesheet" href="/css/article.css">
-  <link rel="stylesheet" href="/css/about.css">
-<style>
+  <title>SRE Wiki</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);
   min-height: 100vh;
-  margin: 0;
 }
-/* Dot grid background - soft pink dots that coordinate with pink gradient */
+
+/* Dot grid background */
 .dot-grid {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
   background-image: radial-gradient(circle, rgba(255, 182, 193, 0.4) 1px, transparent 1px);
-  background-size: 30px 30px; opacity: 0.6;
+  background-size: 30px 30px;
+  opacity: 0.6;
 }
-/* Particle animation - purple particles */
-.particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-.particle { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; opacity: 0.3; animation: float 15s infinite; }
+
+/* Particle animation */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float 15s infinite;
+}
 .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
 .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
 .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
@@ -46,149 +227,276 @@ body {
 .particle:nth-child(6) { left: 60%; animation-delay: 10s; }
 .particle:nth-child(7) { left: 70%; animation-delay: 12s; }
 .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
-@keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-.hero { text-align: center; padding: 80px 20px; background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%); margin: 0; border-radius: 0 0 40px 40px; box-shadow: 0 10px 40px rgba(255, 154, 158, 0.3); animation: fadeIn 1s ease; }
-.hero h1 { font-size: 3.5em; margin-bottom: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.15); animation: slideUp 1s ease; }
-.hero p { font-size: 1.3em; opacity: 0.95; animation: slideUp 1s ease 0.2s both; }
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 50px 0; }
-.feature-card { background: white; padding: 40px 30px; border-radius: 20px; text-align: center; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: all 0.3s ease; animation: fadeInUp 0.6s ease; }
-.feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(255, 154, 158, 0.2); }
-.feature-card h3 { margin-top: 0; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5em; }
-.feature-icon { font-size: 3em; margin-bottom: 20px; }
-.quick-links { background: linear-gradient(135deg, #fff5f5 0%, #fff0f3 100%); padding: 50px; border-radius: 25px; margin: 50px 0; animation: fadeInUp 0.6s ease 0.3s both; }
-.quick-links h2 { margin-top: 0; text-align: center; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-.link-item { display: flex; align-items: center; gap: 15px; padding: 20px 25px; background: white; border-radius: 15px; text-decoration: none; color: #333; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-.link-item:hover { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; transform: scale(1.02); box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3); }
-.link-item span { font-size: 1.5em; }
-.stats { display: flex; justify-content: center; gap: 80px; margin: 60px 0; padding: 50px; background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%); border-radius: 25px; animation: fadeInUp 0.6s ease 0.4s both; }
-.stat-item { text-align: center; color: white; }
-.stat-number { font-size: 3em; font-weight: bold; display: block; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-.stat-label { font-size: 1.1em; opacity: 0.9; }
-.lang-switcher { position: fixed; top: 16px; right: 20px; z-index: 1000; display: flex; gap: 6px; }
-.lang-btn { background: rgba(255,255,255,0.9); border: 2px solid rgba(255,154,158,0.3); border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 700; cursor: pointer; color: #c44569; transition: all 0.2s; }
-.lang-btn:hover, .lang-btn.active { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border-color: transparent; }
+@keyframes float {
+  0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: transparent;
+  color: white;
+  animation: fadeIn 1s ease;
+}
+.hero h1 {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+  animation: slideUp 1s ease;
+}
+.hero p {
+  font-size: 1.3em;
+  opacity: 0.95;
+  animation: slideUp 1s ease 0.2s both;
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0 30px;
+}
+.feature-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease;
+}
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(255, 154, 158, 0.2);
+}
+.feature-card h3 {
+  margin-top: 0;
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5em;
+}
+.feature-icon {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+.quick-links {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 50px;
+  border-radius: 24px;
+  margin: 50px auto;
+  max-width: 1200px;
+  animation: fadeInUp 0.6s ease 0.3s both;
+}
+.quick-links h2 {
+  margin-top: 0;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+.link-item:hover {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color: white;
+  transform: scale(1.02);
+}
+.link-item span {
+  font-size: 1.5em;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin: 60px auto;
+  padding: 50px;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  animation: fadeInUp 0.6s ease 0.4s both;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-number {
+  font-size: 3em;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+.stat-label {
+  font-size: 1.1em;
+  color: #666;
+}
+.footer {
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  margin: 40px 0;
+  padding: 20px;
+}
+.footer a {
+  color: white;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5em; }
+  .stats { flex-direction: column; gap: 30px; }
+  .features { padding: 0 20px; }
+  .quick-links { padding: 30px 20px; }
+}
   </style>
 </head>
-<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
-    }
-  </script>
+<body>
   <div class="dot-grid"></div>
   <div class="particles">
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
-  </div>
-
-  <div class="main-content">
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')" data-i18n="lang_zh">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')" data-i18n="lang_en">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')" data-i18n="lang_ja">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')" data-i18n="lang_tw">繁</button>
-    <a href="/about/" class="profile-bar">
-      <img src="/images/avatar.jpg" alt="Avatar">
-      <div class="profile-bar-info">
-        <span class="profile-bar-name">Thorvald</span>
-        <span class="profile-bar-sub">SRE Engineer</span>
-      </div>
-      <span class="profile-bar-arrow">›</span>
-    </a>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
   </div>
 
   <div class="hero">
-    <h1 data-i18n="hero_title">SRE Wiki</h1>
-    <p data-i18n="hero_subtitle">站可靠性工程文档中心</p>
+    <h1>SRE Wiki</h1>
+    <p>Site Reliability Engineering Documentation Center</p>
   </div>
 
   <div class="features">
     <div class="feature-card">
-      <div class="feature-icon">📖</div>
-      <h3 data-i18n="feat_runbook_title">运维手册</h3>
-      <p data-i18n="feat_runbook_desc">标准化的故障排查手册，含诊断步骤</p>
+      <div class="feature-icon">&#128196;</div>
+      <h3>Runbook</h3>
+      <p>Standardized troubleshooting manuals with diagnostic steps</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📗</div>
-      <h3 data-i18n="feat_sop_title">标准操作</h3>
-      <p data-i18n="feat_sop_desc">标准操作流程，保证一致性和安全性</p>
+      <div class="feature-icon">&#128214;</div>
+      <h3>SOP</h3>
+      <p>Standard operating procedures for consistency and safety</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🔩</div>
-      <h3 data-i18n="feat_ref_title">快速参考</h3>
-      <p data-i18n="feat_ref_desc">常用命令和配置速查表</p>
+      <div class="feature-icon">&#128269;</div>
+      <h3>Reference</h3>
+      <p>Common commands and configuration quick reference</p>
     </div>
   </div>
 
   <div class="quick-links">
-    <h2 data-i18n="articles_title">快速导航</h2>
+    <h2>Quick Navigation</h2>
     <div class="link-grid">
-      <a href="/2026/05/25/database-failover/" class="link-item"><span>&#128260;</span><span data-i18n="link_database_failover">Database Failover</span></a>
-      <a href="/2026/05/25/service-restart/" class="link-item"><span>&#128260;</span><span data-i18n="link_service_restart">Service Restart</span></a>
-      <a href="/2026/05/25/incident-response/" class="link-item"><span>&#128544;</span><span data-i18n="link_incident_response">Incident Response</span></a>
-      <a href="/2026/05/25/alert-quick-reference/" class="link-item"><span>&#128202;</span><span data-i18n="link_alert_quick_reference">Alert Quick Reference</span></a>
-      <a href="/2026/05/25/docker-debug/" class="link-item"><span>&#128041;</span><span data-i18n="link_docker_debug">Docker Debug</span></a>
-      <a href="/2026/05/25/k8s-pod-debug/" class="link-item"><span>&#9917;</span><span data-i18n="link_k8s_pod_debug">K8s Pod Debug</span></a>
+      <a href="/2026/05/25/database-failover/" class="link-item"><span>&#128260;</span>Database Failover</a>
+      <a href="/2026/05/25/service-restart/" class="link-item"><span>&#128260;</span>Service Restart</a>
+      <a href="/2026/05/25/incident-response-sop/" class="link-item"><span>&#128544;</span>Incident Response</a>
+      <a href="/2026/05/25/alert-quick-reference/" class="link-item"><span>&#128202;</span>Alert Quick Reference</a>
+      <a href="/2026/05/25/docker-container-debug/" class="link-item"><span>&#128041;</span>Docker Debug</a>
+      <a href="/2026/05/25/kubernetes-pod-debug/" class="link-item"><span>&#9917;</span>K8s Pod Debug</a>
     </div>
   </div>
 
   <div class="stats">
     <div class="stat-item">
-      <span class="stat-number">4</span>
-      <span class="stat-label" data-i18n="stats_runbooks">运维手册</span>
+      <span class="stat-number">6</span>
+      <span class="stat-label">Runbooks</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">1</span>
-      <span class="stat-label" data-i18n="stats_sops">标准操作</span>
+      <span class="stat-number">2</span>
+      <span class="stat-label">SOPs</span>
     </div>
     <div class="stat-item">
-      <span class="stat-number">1</span>
-      <span class="stat-label" data-i18n="stats_refs">快速参考</span>
+      <span class="stat-number">2</span>
+      <span class="stat-label">References</span>
     </div>
   </div>
 
-  <p>
-    <span data-i18n="footer_updated">最后更新</span>: 2026-05-26 |
-    <a href="https://github.com/andersthorvald" style="color:#ff9a9e;">GitHub</a> |
-    <a href="mailto:17200473849@163.com" style="color:#ff9a9e;" data-i18n="footer_contact">联系方式</a>
-  </p>
+  <div class="footer">
+    <p>Last updated: 2026-05-25 | <a target="_blank" rel="noopener" href="https://github.com/andersthorvald">GitHub</a> | <a href="mailto:3604780868@qq.com">Contact</a></p>
+  </div>
+</body>
+</html>
+
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">SRE Team</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
 
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+    </div>
+  </footer>
 
-  <script src="/js/lang-data.js"></script>
-  <script>
-    function toggleDark() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
-      var btn = document.querySelector('.dark-toggle');
-      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    }
-    function updateDarkByTime() {
-      var hour = new Date().getHours();
-      var isDark = hour < 7 || hour >= 19;
-      var manualSet = localStorage.getItem('dark-mode-manual');
-      if (manualSet !== null) {
-        isDark = manualSet === 'true';
-      }
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '🌙';
-      }
-    }
-    updateDarkByTime();
-    setInterval(updateDarkByTime, 60000);
-    I18N.init();
-  </script>
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
 </body>
 </html>
