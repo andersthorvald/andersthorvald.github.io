@@ -44,21 +44,6 @@
   </script>
 </head>
 <body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <div class="loader-wrapper" id="loader">
-    <div class="loader-heart"></div>
-    <div class="loader-text">SRE WIKI</div>
-    <div class="loader-dots">
-      <div class="loader-dot"></div>
-      <div class="loader-dot"></div>
-      <div class="loader-dot"></div>
-    </div>
-  </div>
-  <script>
-    window.addEventListener('load', function() {
-      var loader = document.getElementById('loader');
-      if (loader) { loader.classList.add('fade-out'); setTimeout(function() { loader.style.display = 'none'; }, 500); }
-    });
-  </script>
   <script>
     var hour = new Date().getHours();
     var isDark = hour < 7 || hour >= 19;
