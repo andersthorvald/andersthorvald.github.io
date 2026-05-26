@@ -18,69 +18,63 @@
       document.body.style.background = '#1a1a2e';
     }
   </script>
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')">繁</button>
-  </div>
 
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/" data-i18n="nav_home">首页</a></li>
+      <li><a href="/">首页</a></li>
     </ul>
   </header>
   <main class="container">
-    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
+    <a href="/" class="back-link">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title" data-i18n="aqr_title">告警快速参考</h1>
+        <h1 class="article-title">告警快速参考</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 快速参考</span>
+          <span>📁 快速参考</span>
           <span class="tag">alerts</span>
           <span class="tag">reference</span>
           <span class="tag">cheatsheet</span>
         </div>
       </div>
       <div class="article-content">
-        <h2 data-i18n="aqr_p1_header">高优先级 (P1)</h2>
-<h3 data-i18n="aqr_cpu">CPU > 90% 持续 5 分钟</h3>
-<pre><code><span data-i18n="aqr_c1"># 检查占用最高的进程</span>
+        <h2>高优先级 (P1)</h2>
+<h3>CPU > 90% 持续 5 分钟</h3>
+<pre><code># 检查占用最高的进程
 top -b -n 1 | head -20
 dmesg | tail</code></pre>
-<h3 data-i18n="aqr_mem">内存 > 95% 持续 5 分钟</h3>
-<pre><code><span data-i18n="aqr_c2"># OOM killer 是否激活？</span>
+<h3>内存 > 95% 持续 5 分钟</h3>
+<pre><code># OOM killer 是否激活？
 journalctl -k | grep -i "killed process"</code></pre>
-<h3 data-i18n="aqr_disk">磁盘使用 > 90%</h3>
+<h3>磁盘使用 > 90%</h3>
 <pre><code>du -sh /* 2>/dev/null | sort -rh | head -10</code></pre>
-<h2 data-i18n="aqr_p2_header">中优先级 (P2)</h2>
-<h3 data-i18n="aqr_resp_time">响应时间 > 2 秒</h3>
+<h2>中优先级 (P2)</h2>
+<h3>响应时间 > 2 秒</h3>
 <ul>
-<li data-i18n="aqr_resp_time_1">检查应用日志中的慢查询</li>
-<li data-i18n="aqr_resp_time_2">检查上游服务健康状态</li>
-<li data-i18n="aqr_resp_time_3">必要时扩容: <code>kubectl scale deployment --replicas=+2</code></li>
+<li>检查应用日志中的慢查询</li>
+<li>检查上游服务健康状态</li>
+<li>必要时扩容: <code>kubectl scale deployment --replicas=+2</code></li>
 </ul>
-<h3 data-i18n="aqr_err_rate">错误率 > 1%</h3>
+<h3>错误率 > 1%</h3>
 <ul>
-<li data-i18n="aqr_err_rate_1">检查最近的部署</li>
-<li data-i18n="aqr_err_rate_2">必要时回滚: <code>helm rollback &lt;release&gt;</code></li>
+<li>检查最近的部署</li>
+<li>必要时回滚: <code>helm rollback &lt;release&gt;</code></li>
 </ul>
-<h3 data-i18n="aqr_io_wait">磁盘 I/O 等待 > 20%</h3>
+<h3>磁盘 I/O 等待 > 20%</h3>
 <pre><code>iostat -x 1 5</code></pre>
-<h2 data-i18n="aqr_p3_header">低优先级 (P3)</h2>
-<h3 data-i18n="aqr_cert">证书到期 < 30 天</h3>
+<h2>低优先级 (P3)</h2>
+<h3>证书到期 < 30 天</h3>
 <pre><code>echo | openssl s_client -connect hostname:443 2>/dev/null | openssl x509 -noout -dates</code></pre>
-<h3 data-i18n="aqr_conn_pool">连接池使用 > 80%</h3>
-<p data-i18n="aqr_conn_pool_desc">检查应用连接池设置，必要时扩容数据库。</p>
+<h3>连接池使用 > 80%</h3>
+<p>检查应用连接池设置，必要时扩容数据库。</p>
       </div>
     </article>
 
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText" data-i18n="like_text">点赞</span>
+        <span id="likeText">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -107,7 +101,6 @@ journalctl -k | grep -i "killed process"</code></pre>
 
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
 
-  <script src="/js/lang-data.js"></script>
   <script>
     function toggleDark() {
       document.body.classList.toggle('dark-mode');
@@ -146,7 +139,6 @@ journalctl -k | grep -i "killed process"</code></pre>
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
-    I18N.init();
   </script>
 </body>
 </html>

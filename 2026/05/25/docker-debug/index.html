@@ -18,72 +18,66 @@
       document.body.style.background = '#1a1a2e';
     }
   </script>
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')">繁</button>
-  </div>
 
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/" data-i18n="nav_home">首页</a></li>
+      <li><a href="/">首页</a></li>
     </ul>
   </header>
   <main class="container">
-    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
+    <a href="/" class="back-link">← 返回首页</a>
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title" data-i18n="dd_title">Docker 调试命令</h1>
+        <h1 class="article-title">Docker 调试命令</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 运维手册</span>
+          <span>📁 运维手册</span>
           <span class="tag">docker</span>
           <span class="tag">debug</span>
           <span class="tag">container</span>
         </div>
       </div>
       <div class="article-content">
-        <h2 data-i18n="dd_inspect">容器检查</h2>
-<pre><code><span data-i18n="dd_c1"># 列出运行中的容器</span>
+        <h2>容器检查</h2>
+<pre><code># 列出运行中的容器
 docker ps
 
-<span data-i18n="dd_c2"># 容器日志</span>
+# 容器日志
 docker logs -f &lt;container-name&gt; --tail 100
 
-<span data-i18n="dd_c3"># 容器进程列表</span>
+# 容器进程列表
 docker top &lt;container-name&gt;
 
-<span data-i18n="dd_c4"># 容器资源统计</span>
+# 容器资源统计
 docker stats --no-stream</code></pre>
-<h2 data-i18n="dd_inside">进入容器内部</h2>
-<pre><code><span data-i18n="dd_c5"># 进入容器 shell</span>
+<h2>进入容器内部</h2>
+<pre><code># 进入容器 shell
 docker exec -it &lt;container-name&gt; /bin/sh
 
-<span data-i18n="dd_c6"># 检查容器文件系统</span>
+# 检查容器文件系统
 docker diff &lt;container-name&gt;
 
-<span data-i18n="dd_c7"># 容器网络信息</span>
+# 容器网络信息
 docker inspect &lt;container-name&gt; | jq '.[0].NetworkSettings'</code></pre>
-<h2 data-i18n="dd_network">网络调试</h2>
-<pre><code><span data-i18n="dd_c8"># 检查 DNS 解析</span>
+<h2>网络调试</h2>
+<pre><code># 检查 DNS 解析
 docker exec &lt;container-name&gt; nslookup &lt;hostname&gt;
 
-<span data-i18n="dd_c9"># 检查端口连通性</span>
+# 检查端口连通性
 docker exec &lt;container-name&gt; nc -zv &lt;host&gt; &lt;port&gt;
 
-<span data-i18n="dd_c10"># 查看容器网络</span>
+# 查看容器网络
 docker network ls
 docker network inspect &lt;network-name&gt;</code></pre>
-<h2 data-i18n="dd_perf">性能</h2>
-<pre><code><span data-i18n="dd_c11"># 容器资源使用情况</span>
+<h2>性能</h2>
+<pre><code># 容器资源使用情况
 docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
-<span data-i18n="dd_c12"># 检查镜像层大小</span>
+# 检查镜像层大小
 docker history &lt;image-name&gt;</code></pre>
-<h2 data-i18n="dd_cleanup">清理</h2>
-<pre><code><span data-i18n="dd_c13"># 删除未使用的容器/镜像/网络</span>
+<h2>清理</h2>
+<pre><code># 删除未使用的容器/镜像/网络
 docker system prune -f</code></pre>
       </div>
     </article>
@@ -91,7 +85,7 @@ docker system prune -f</code></pre>
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText" data-i18n="like_text">点赞</span>
+        <span id="likeText">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -118,7 +112,6 @@ docker system prune -f</code></pre>
 
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
 
-  <script src="/js/lang-data.js"></script>
   <script>
     function toggleDark() {
       document.body.classList.toggle('dark-mode');
@@ -157,7 +150,6 @@ docker system prune -f</code></pre>
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
-    I18N.init();
   </script>
 </body>
 </html>

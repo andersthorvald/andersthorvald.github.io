@@ -18,54 +18,48 @@
       document.body.style.background = '#1a1a2e';
     }
   </script>
-  <div class="lang-switcher">
-    <button class="lang-btn" onclick="I18N.switchTo('zh')">中文</button>
-    <button class="lang-btn" onclick="I18N.switchTo('en')">EN</button>
-    <button class="lang-btn" onclick="I18N.switchTo('ja')">日</button>
-    <button class="lang-btn" onclick="I18N.switchTo('zh-TW')">繁</button>
-  </div>
 
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
-      <li><a href="/" data-i18n="nav_home">首页</a></li>
+      <li><a href="/">首页</a></li>
     </ul>
   </header>
 
   <main class="container">
-    <a href="/" class="back-link" data-i18n="article_back">← 返回首页</a>
-    
+    <a href="/" class="back-link">← 返回首页</a>
+
     <article class="article-card">
       <div class="article-header">
-        <h1 class="article-title" data-i18n="db_title">数据库故障转移手册</h1>
+        <h1 class="article-title">数据库故障转移手册</h1>
         <div class="article-meta">
           <span>📅 2026-05-25</span>
-          <span data-i18n="article_category">📁 运维手册</span>
+          <span>📁 运维手册</span>
           <span class="tag">database</span>
           <span class="tag">failover</span>
           <span class="tag">runbook</span>
         </div>
       </div>
       <div class="article-content">
-        <h2 data-i18n="db_precheck">预先检查</h2>
+        <h2>预先检查</h2>
 <ul>
-<li data-i18n="db_precheck_1">验证应用服务器无法连接主数据库</li>
-<li data-i18n="db_precheck_2">检查监控告警确认数据库健康状态</li>
+<li>验证应用服务器无法连接主数据库</li>
+<li>检查监控告警确认数据库健康状态</li>
 </ul>
-<h2 data-i18n="db_step1">步骤 1：确认主库故障</h2>
-<pre><code><span data-i18n="db_c1"># 检查当前主库状态</span>
+<h2>步骤 1：确认主库故障</h2>
+<pre><code># 检查当前主库状态
 psql -h &lt;primary-host&gt; -c "SELECT pg_is_in_recovery();"</code></pre>
-<h2 data-i18n="db_step2">步骤 2：提升从库</h2>
-<pre><code><span data-i18n="db_c2"># 在从库服务器执行</span>
+<h2>步骤 2：提升从库</h2>
+<pre><code># 在从库服务器执行
 pg_ctl promote -D /var/lib/postgresql/data</code></pre>
-<h2 data-i18n="db_step3">步骤 3：更新连接字符串</h2>
-<pre><code><span data-i18n="db_c3"># 更新应用配置</span>
+<h2>步骤 3：更新连接字符串</h2>
+<pre><code># 更新应用配置
 DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code></pre>
-<h2 data-i18n="db_verify">验证</h2>
+<h2>验证</h2>
 <ul>
-<li data-i18n="db_verify_1">从应用服务器测试连接</li>
-<li data-i18n="db_verify_2">监控剩余从库的复制延迟</li>
-<li data-i18n="db_verify_3">确认只读从库已指向新主库</li>
+<li>从应用服务器测试连接</li>
+<li>监控剩余从库的复制延迟</li>
+<li>确认只读从库已指向新主库</li>
 </ul>
       </div>
     </article>
@@ -73,7 +67,7 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
     <div class="like-section">
       <button class="like-btn" id="likeBtn" onclick="toggleLike()">
         <span class="heart">❤️</span>
-        <span id="likeText" data-i18n="like_text">点赞</span>
+        <span id="likeText">点赞</span>
         <span id="likeCount">0</span>
       </button>
     </div>
@@ -100,7 +94,6 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
 
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
 
-  <script src="/js/lang-data.js"></script>
   <script>
     function toggleDark() {
       document.body.classList.toggle('dark-mode');
@@ -139,7 +132,6 @@ DATABASE_URL=postgresql://appuser:password@&lt;new-primary&gt;:5432/mydb</code><
       document.getElementById('likeCount').textContent = likes;
       document.getElementById('likeBtn').classList.toggle('liked', liked);
     }
-    I18N.init();
   </script>
 </body>
 </html>
