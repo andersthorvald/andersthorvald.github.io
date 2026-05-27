@@ -9,8 +9,8 @@
   <meta name="author" content="Thorvald">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://andersthorvald.github.io/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-  <!-- Open Graph for WeChat/QQ sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="SRE Wiki - 站点可靠性工程文档中心">
   <meta property="og:description" content="SRE 运维文档中心：故障排查手册、标准操作流程、告警快速参考，涵盖数据库/Docker/K8s 等场景。">
@@ -19,170 +19,480 @@
   <meta property="og:site_name" content="SRE Wiki">
   <meta property="og:locale" content="zh_CN">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="SRE Wiki - 站点可靠性工程文档中心">
   <meta name="twitter:description" content="SRE 运维文档中心：故障排查手册、标准操作流程、告警快速参考。">
   <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
   <style>
-    body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);
-      min-height: 100vh;
-      margin: 0;
+    :root {
+      --pink-from: #ff9a9e;
+      --pink-to: #fad0c4;
+      --pink-accent: #fecfef;
+      --pink-deep: #c44569;
+      --pink-light: #fff5f5;
+      --text: #2d2040;
+      --text-2: #5a5470;
+      --muted: #9b96b0;
+      --card-bg: rgba(255,255,255,0.82);
+      --card-border: rgba(255,154,158,0.25);
+      --shadow: 0 8px 32px rgba(196,69,105,0.12);
+      --shadow-hover: 0 16px 48px rgba(196,69,105,0.22);
     }
+    body {
+      font-family: 'Outfit', -apple-system, 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, var(--pink-from) 0%, var(--pink-to) 55%, var(--pink-accent) 100%);
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    body.dark-mode {
+      --text: #e8e4f0;
+      --text-2: #b0aac8;
+      --muted: #7a7590;
+      --card-bg: rgba(37,37,64,0.9);
+      --card-border: rgba(255,154,158,0.15);
+      --shadow: 0 8px 32px rgba(0,0,0,0.3);
+      --shadow-hover: 0 16px 48px rgba(0,0,0,0.4);
+      background: #12122a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    a { color: var(--pink-deep); text-decoration: none; }
+    a:hover { color: #e8356d; }
+
+    /* Dot grid */
     .dot-grid {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 0;
-      background-image: radial-gradient(circle, rgba(255, 182, 193, 0.4) 1px, transparent 1px);
-      background-size: 30px 30px; opacity: 0.6;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.5) 1.2px, transparent 1.2px);
+      background-size: 28px 28px; opacity: 0.5;
     }
-    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-    .particle { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; opacity: 0.3; animation: float 15s infinite; }
-    .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-    .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
-    .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
-    .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
-    .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
-    .particle:nth-child(6) { left: 60%; animation-delay: 10s; }
-    .particle:nth-child(7) { left: 70%; animation-delay: 12s; }
-    .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
-    @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-    .hero { text-align: center; padding: 80px 20px; background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%); margin: 0; border-radius: 0 0 40px 40px; box-shadow: 0 10px 40px rgba(255, 154, 158, 0.3); animation: fadeIn 1s ease; }
-    .hero h1 { font-size: 3.5em; margin-bottom: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.15); animation: slideUp 1s ease; }
-    .hero p { font-size: 1.3em; opacity: 0.95; animation: slideUp 1s ease 0.2s both; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 50px 0; }
-    .feature-card { background: white; padding: 40px 30px; border-radius: 20px; text-align: center; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: all 0.3s ease; animation: fadeInUp 0.6s ease; }
-    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(255, 154, 158, 0.2); }
-    .feature-card h3 { margin-top: 0; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5em; }
-    .feature-icon { font-size: 3em; margin-bottom: 20px; }
-    .quick-links { background: linear-gradient(135deg, #fff5f5 0%, #fff0f3 100%); padding: 50px; border-radius: 25px; margin: 50px 0; animation: fadeInUp 0.6s ease 0.3s both; }
-    .quick-links h2 { margin-top: 0; text-align: center; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .link-item { display: flex; align-items: center; gap: 15px; padding: 20px 25px; background: white; border-radius: 15px; text-decoration: none; color: #333; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-    .link-item:hover { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white; transform: scale(1.02); box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3); }
-    .link-item span { font-size: 1.5em; }
-    .stats { display: flex; justify-content: center; gap: 80px; margin: 60px 0; padding: 50px; background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%); border-radius: 25px; animation: fadeInUp 0.6s ease 0.4s both; }
-    .stat-item { text-align: center; color: white; }
-    .stat-number { font-size: 3em; font-weight: bold; display: block; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-    .stat-label { font-size: 1.1em; opacity: 0.9; }
-  </style>
+    body.dark-mode .dot-grid { opacity: 0.04; }
 
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
+    /* Particles */
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; width: 8px; height: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%; opacity: 0.25;
+      animation: float 18s infinite linear;
     }
-  </script>
+    .particle:nth-child(1) { left: 8%;  animation-delay: 0s;    animation-duration: 20s; }
+    .particle:nth-child(2) { left: 18%; animation-delay: 3s;    animation-duration: 16s; }
+    .particle:nth-child(3) { left: 28%; animation-delay: 6s;    animation-duration: 22s; }
+    .particle:nth-child(4) { left: 38%; animation-delay: 1s;    animation-duration: 18s; }
+    .particle:nth-child(5) { left: 48%; animation-delay: 9s;    animation-duration: 24s; }
+    .particle:nth-child(6) { left: 58%; animation-delay: 4s;    animation-duration: 17s; }
+    .particle:nth-child(7) { left: 68%; animation-delay: 7s;    animation-duration: 21s; }
+    .particle:nth-child(8) { left: 78%; animation-delay: 2s;    animation-duration: 19s; }
+    .particle:nth-child(9) { left: 88%; animation-delay: 11s;   animation-duration: 23s; }
+    body.dark-mode .particle { opacity: 0.08; }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      5%  { opacity: 0.25; }
+      95% { opacity: 0.25; }
+      100%{ transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Warm glow blobs */
+    .blob {
+      position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+      filter: blur(80px);
+    }
+    .blob-1 { width: 600px; height: 600px; top: -200px; right: -100px; background: rgba(254,207,239,0.4); }
+    .blob-2 { width: 400px; height: 400px; bottom: -100px; left: -80px; background: rgba(255,154,158,0.3); }
+    body.dark-mode .blob-1 { background: rgba(102,126,234,0.1); }
+    body.dark-mode .blob-2 { background: rgba(118,75,162,0.1); }
+
+    /* Wrapper */
+    .wrapper { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* Profile bar */
+    .profile-bar {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 20px 12px 12px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 50px; backdrop-filter: blur(12px);
+      box-shadow: var(--shadow); max-width: fit-content;
+      margin: 0 auto 28px; cursor: pointer;
+      transition: all 0.25s ease; text-decoration: none; color: var(--text);
+    }
+    .profile-bar:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .profile-bar img { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,154,158,0.4); object-fit: cover; }
+    .profile-bar-info { display: flex; flex-direction: column; }
+    .profile-bar-name { font-size: 0.88em; font-weight: 700; line-height: 1.2; }
+    .profile-bar-sub { font-size: 0.72em; color: var(--muted); }
+    .profile-bar-arrow { font-size: 1.2em; color: var(--muted); margin-left: 4px; }
+
+    /* Hero */
+    .hero {
+      text-align: center; padding: 56px 24px 60px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 50px;
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(255,154,158,0.35);
+      font-size: 0.78em; font-weight: 600; color: var(--pink-deep);
+      backdrop-filter: blur(8px); margin-bottom: 24px;
+      animation: fadeDown 0.6s ease both;
+    }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+    .hero h1 {
+      font-size: clamp(2.4em, 6vw, 3.8em); font-weight: 800; letter-spacing: -0.03em;
+      color: white; text-shadow: 0 2px 20px rgba(196,69,105,0.3);
+      margin-bottom: 14px; animation: fadeUp 0.7s ease 0.1s both;
+    }
+    .hero p {
+      font-size: 1.15em; color: rgba(255,255,255,0.92);
+      max-width: 520px; margin: 0 auto 32px; animation: fadeUp 0.7s ease 0.2s both;
+    }
+    .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.7s ease 0.3s both; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px;
+      background: white; color: var(--pink-deep); font-weight: 700; font-size: 0.95em;
+      box-shadow: 0 6px 24px rgba(196,69,105,0.2);
+      transition: all 0.25s ease; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 36px rgba(196,69,105,0.3); color: var(--pink-deep); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px;
+      background: rgba(255,255,255,0.25); color: white; font-weight: 600; font-size: 0.95em;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      backdrop-filter: blur(8px); cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.4); transform: translateY(-2px); color: white; }
+
+    /* Stats row */
+    .stats-row {
+      display: flex; justify-content: center; gap: 48px;
+      margin: 48px 0; animation: scaleIn 0.7s ease 0.4s both;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      display: block; font-size: 2.2em; font-weight: 800; color: white;
+      text-shadow: 0 2px 12px rgba(196,69,105,0.25); line-height: 1;
+    }
+    .stat-label { font-size: 0.82em; color: rgba(255,255,255,0.8); margin-top: 4px; display: block; }
+
+    /* Section title */
+    .section-header { text-align: center; margin: 64px 0 36px; }
+    .section-header h2 {
+      font-size: 1.6em; font-weight: 700; color: var(--text); margin-bottom: 8px;
+    }
+    .section-header p { color: var(--text-2); font-size: 0.95em; }
+
+    /* Category cards */
+    .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 48px; }
+    .cat-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 28px 22px; text-align: center;
+      backdrop-filter: blur(12px); box-shadow: var(--shadow);
+      transition: all 0.25s ease; cursor: default;
+      animation: fadeUp 0.6s ease both;
+    }
+    .cat-card:nth-child(1) { animation-delay: 0.1s; }
+    .cat-card:nth-child(2) { animation-delay: 0.2s; }
+    .cat-card:nth-child(3) { animation-delay: 0.3s; }
+    .cat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: rgba(255,154,158,0.5); }
+    .cat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 1.6em; }
+    .cat-card:nth-child(1) .cat-icon { background: rgba(255,154,158,0.15); }
+    .cat-card:nth-child(2) .cat-icon { background: rgba(102,126,234,0.12); }
+    .cat-card:nth-child(3) .cat-icon { background: rgba(16,185,129,0.12); }
+    .cat-card h3 { font-size: 1em; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .cat-card p { font-size: 0.82em; color: var(--text-2); line-height: 1.5; }
+
+    /* Article cards */
+    .article-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .article-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 26px; backdrop-filter: blur(12px);
+      box-shadow: var(--shadow); text-decoration: none; color: var(--text);
+      transition: all 0.25s ease; display: flex; flex-direction: column; gap: 12px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .article-card:nth-child(1) { animation-delay: 0.1s; }
+    .article-card:nth-child(2) { animation-delay: 0.2s; }
+    .article-card:nth-child(3) { animation-delay: 0.3s; }
+    .article-card:nth-child(4) { animation-delay: 0.4s; }
+    .article-card:nth-child(5) { animation-delay: 0.5s; }
+    .article-card:nth-child(6) { animation-delay: 0.6s; }
+    .article-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: rgba(255,154,158,0.5); color: var(--text); }
+    .article-card-header { display: flex; align-items: center; gap: 10px; }
+    .article-card-icon { width: 40px; height: 40px; border-radius: 10px; font-size: 1.2em; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .article-card:nth-child(1) .article-card-icon { background: rgba(255,154,158,0.15); }
+    .article-card:nth-child(2) .article-card-icon { background: rgba(102,126,234,0.12); }
+    .article-card:nth-child(3) .article-card-icon { background: rgba(239,68,68,0.1); }
+    .article-card:nth-child(4) .article-card-icon { background: rgba(245,158,11,0.1); }
+    .article-card:nth-child(5) .article-card-icon { background: rgba(59,130,246,0.1); }
+    .article-card:nth-child(6) .article-card-icon { background: rgba(16,185,129,0.1); }
+    .article-card-title { font-size: 0.98em; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .article-card-desc { font-size: 0.82em; color: var(--text-2); line-height: 1.55; flex: 1; }
+    .article-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+    .article-card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag-mini {
+      padding: 2px 9px; border-radius: 50px; font-size: 0.7em; font-weight: 600;
+      background: rgba(255,154,158,0.12); color: var(--pink-deep);
+    }
+    .article-card-arrow { color: var(--pink-deep); font-size: 1.1em; opacity: 0.6; transition: all 0.2s; }
+    .article-card:hover .article-card-arrow { opacity: 1; transform: translateX(3px); }
+
+    /* Footer */
+    .footer {
+      margin-top: 72px; padding: 28px 0; border-top: 1px solid rgba(255,154,158,0.2);
+      text-align: center; color: var(--muted); font-size: 0.82em;
+    }
+    .footer a { color: var(--pink-deep); }
+    .footer a:hover { color: #e8356d; }
+
+    /* Scroll to top */
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,154,158,0.35);
+      color: var(--pink-deep); font-size: 1.2em; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); transform: scale(1.1); color: white; }
+
+    /* Dark toggle */
+    .dark-toggle {
+      position: fixed; bottom: 24px; left: 24px; z-index: 999;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,154,158,0.35);
+      cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); transition: all 0.3s ease;
+    }
+    .dark-toggle:hover { background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); transform: scale(1.1); color: white; }
+    body.dark-mode .dark-toggle { background: rgba(37,37,64,0.9); border-color: rgba(255,154,158,0.2); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .cat-grid { grid-template-columns: 1fr; gap: 14px; }
+      .article-grid { grid-template-columns: 1fr; }
+      .stats-row { gap: 28px; }
+      .stat-num { font-size: 1.8em; }
+      .hero { padding: 40px 16px 48px; }
+      .hero h1 { font-size: 2.2em; }
+      .section-header { margin: 48px 0 24px; }
+      .dark-toggle, .scroll-top { width: 38px; height: 38px; font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
   <div class="dot-grid"></div>
   <div class="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
   </div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-  <div class="main-content">
-  <a href="/about/" class="profile-bar">
-      <img src="/images/avatar.jpg" alt="Thorvald - SRE Engineer">
+  <div class="wrapper">
+    <!-- Profile bar -->
+    <a href="/about/" class="profile-bar">
+      <img src="/images/avatar.jpg" alt="Thorvald" width="36" height="36">
       <div class="profile-bar-info">
         <span class="profile-bar-name">Thorvald</span>
         <span class="profile-bar-sub">SRE Engineer</span>
       </div>
       <span class="profile-bar-arrow">›</span>
     </a>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        站点可靠性工程文档中心
+      </div>
+      <h1>SRE Wiki</h1>
+      <p>故障排查手册 · 标准操作流程 · 命令速查表 · 开箱即用的运维指南</p>
+      <div class="hero-actions">
+        <a href="#articles" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          浏览文档
+        </a>
+        <a href="/about/" class="btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+          关于作者
+        </a>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">运维手册</span></div>
+      <div class="stat-item"><span class="stat-num">1</span><span class="stat-label">标准操作</span></div>
+      <div class="stat-item"><span class="stat-num">1</span><span class="stat-label">快速参考</span></div>
+    </div>
+
+    <!-- Category cards -->
+    <div class="section-header">
+      <h2>文档分类</h2>
+      <p>按场景查找你需要的内容</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">📖</div>
+        <h3>运维手册</h3>
+        <p>标准化的故障排查手册，含诊断步骤与验证要点</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">📗</div>
+        <h3>标准操作</h3>
+        <p>标准操作流程，保证操作一致性与安全性</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🔩</div>
+        <h3>快速参考</h3>
+        <p>常用命令和配置速查表，随用随查</p>
+      </div>
+    </div>
+
+    <!-- Article list -->
+    <div class="section-header" id="articles">
+      <h2>全部文档</h2>
+      <p>按时间顺序排列的最新内容</p>
+    </div>
+    <div class="article-grid">
+      <a href="/2026/05/25/database-failover/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">📊</div>
+          <div class="article-card-title">数据库故障转移手册</div>
+        </div>
+        <p class="article-card-desc">PostgreSQL 主从故障转移标准流程，含故障确认、从库提升、连接字符串更新及验证测试步骤。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">database</span><span class="tag-mini">failover</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="/2026/05/25/service-restart/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">🔄</div>
+          <div class="article-card-title">服务重启标准操作</div>
+        </div>
+        <p class="article-card-desc">标准化服务重启流程，覆盖健康检查、回滚策略与重启后验证步骤。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">service</span><span class="tag-mini">restart</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="/2026/05/25/incident-response/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">🚨</div>
+          <div class="article-card-title">事件响应流程</div>
+        </div>
+        <p class="article-card-desc">从告警触发到故障恢复的完整事件响应 SOP，含沟通模板与复盘要求。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">incident</span><span class="tag-mini">sop</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="/2026/05/25/alert-quick-reference/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">📈</div>
+          <div class="article-card-title">告警快速参考</div>
+        </div>
+        <p class="article-card-desc">常见告警阈值与处理建议速查表，覆盖 CPU、内存、磁盘、网络等关键指标。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">alert</span><span class="tag-mini">cheatsheet</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="/2026/05/25/docker-debug/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">🐳</div>
+          <div class="article-card-title">Docker 调试手册</div>
+        </div>
+        <p class="article-card-desc">容器日志检查、资源监控、镜像清理与网络诊断的常用命令与实操技巧。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">docker</span><span class="tag-mini">debug</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="/2026/05/25/k8s-pod-debug/" class="article-card">
+        <div class="article-card-header">
+          <div class="article-card-icon">⚽</div>
+          <div class="article-card-title">K8s Pod 调试手册</div>
+        </div>
+        <p class="article-card-desc">Kubernetes Pod 状态诊断、重启策略、日志采集与调度问题排查指南。</p>
+        <div class="article-card-footer">
+          <div class="article-card-tags"><span class="tag-mini">kubernetes</span><span class="tag-mini">pod</span></div>
+          <span class="article-card-arrow">→</span>
+        </div>
+      </a>
+    </div>
+
+    <footer class="footer">
+      最后更新：2026-05-26 &nbsp;·&nbsp;
+      <a href="https://github.com/andersthorvald">GitHub</a> &nbsp;·&nbsp;
+      <a href="mailto:17200473849@163.com">联系方式</a>
+    </footer>
   </div>
 
-  <div class="hero">
-    <h1>SRE Wiki</h1>
-    <p>站点可靠性工程文档中心</p>
-  </div>
-
-  <div class="features">
-    <div class="feature-card">
-      <div class="feature-icon">📖</div>
-      <h3>运维手册</h3>
-      <p>标准化的故障排查手册，含诊断步骤</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📗</div>
-      <h3>标准操作</h3>
-      <p>标准操作流程，保证一致性和安全性</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔩</div>
-      <h3>快速参考</h3>
-      <p>常用命令和配置速查表</p>
-    </div>
-  </div>
-
-  <div class="quick-links">
-    <h2>快速导航</h2>
-    <div class="link-grid">
-      <a href="/2026/05/25/database-failover/" class="link-item"><span>&#128260;</span><span>数据库故障转移</span></a>
-      <a href="/2026/05/25/service-restart/" class="link-item"><span>&#128260;</span><span>服务重启</span></a>
-      <a href="/2026/05/25/incident-response/" class="link-item"><span>&#128544;</span><span>事件响应</span></a>
-      <a href="/2026/05/25/alert-quick-reference/" class="link-item"><span>&#128202;</span><span>告警快速参考</span></a>
-      <a href="/2026/05/25/docker-debug/" class="link-item"><span>&#128041;</span><span>Docker 调试</span></a>
-      <a href="/2026/05/25/k8s-pod-debug/" class="link-item"><span>&#9917;</span><span>K8s Pod 调试</span></a>
-    </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat-item">
-      <span class="stat-number">4</span>
-      <span class="stat-label">运维手册</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number">1</span>
-      <span class="stat-label">标准操作</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-number">1</span>
-      <span class="stat-label">快速参考</span>
-    </div>
-  </div>
-
-  <p>
-    <span>最后更新</span>: 2026-05-26 |
-    <a href="https://github.com/andersthorvald" style="color:#ff9a9e;">GitHub</a> |
-    <a href="mailto:17200473849@163.com" style="color:#ff9a9e;">联系方式</a>
-  </p>
-  </div>
-
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式" aria-label="切换深色模式">🌙</button>
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
 
   <script>
-    body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);
-    function toggleDark() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
-      var btn = document.querySelector('.dark-toggle');
-      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-    }
-    function updateDarkByTime() {
-      var hour = new Date().getHours();
-      var isDark = hour < 7 || hour >= 19;
-      var manualSet = localStorage.getItem('dark-mode-manual');
-      if (manualSet !== null) {
-        isDark = manualSet === 'true';
-      }
+    /* Dark mode */
+    function applyDarkMode(isDark) {
       if (isDark) {
         document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️';
       } else {
         document.body.classList.remove('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '🌙';
       }
+      var btn = document.querySelector('.dark-toggle');
+      if (btn) btn.textContent = isDark ? '☀️' : '🌙';
     }
-    updateDarkByTime();
-    setInterval(updateDarkByTime, 60000);
+    function toggleDark() {
+      var isDark = !document.body.classList.contains('dark-mode');
+      applyDarkMode(isDark);
+      localStorage.setItem('dark-mode-manual', isDark);
+    }
+    (function initDark() {
+      var hour = new Date().getHours();
+      var isDark = hour < 7 || hour >= 19;
+      var manual = localStorage.getItem('dark-mode-manual');
+      if (manual !== null) isDark = manual === 'true';
+      applyDarkMode(isDark);
+    })();
+    setInterval(function() {
+      var hour = new Date().getHours();
+      var manual = localStorage.getItem('dark-mode-manual');
+      if (manual === null) {
+        var autoDark = hour < 7 || hour >= 19;
+        var currentlyDark = document.body.classList.contains('dark-mode');
+        if (autoDark !== currentlyDark) applyDarkMode(autoDark);
+      }
+    }, 60000);
+
+    /* Scroll to top */
+    var stBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 400) stBtn.classList.add('visible');
+      else stBtn.classList.remove('visible');
+    });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
   </script>
 </body>
 </html>

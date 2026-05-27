@@ -41,19 +41,18 @@
     "proficiencyLevel": "Intermediate"
   }
   </script>
+<style>
+pre code .kw { color: #ff79c6; font-weight: bold; }
+pre code .fl { color: #bd93f9; }
+pre code .nb { color: #bd93f9; }
+pre code .s1 { color: #50fa7b; }
+pre code .s2 { color: #f1fa8c; }
+pre code .c0 { color: #6272a4; font-style: italic; }
+pre code .op { color: #ff79c6; }
+</style>
 </head>
-<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
-    }
-  </script>
-
+<div class="reading-progress" id="rdProg"></div>
+<body>
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
     <ul class="nav-links">
@@ -76,43 +75,43 @@
       </div>
       <div class="article-content">
         <h2>快速检查</h2>
-<pre><code># Pod 状态
-kubectl get pods -n &lt;namespace&gt;
+<pre><code><span class="c0"># Pod 状态</span>
+kubectl get pods <span class="fl">-n</span> &amp;lt;namespace&amp;gt;
 
-# Pod 事件
-kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
+<span class="c0"># Pod 事件</span>
+kubectl describe pod &amp;lt;pod-name&amp;gt; <span class="fl">-n</span> &amp;lt;namespace&amp;gt;
 
-# Pod 日志
-kubectl logs -f &lt;pod-name&gt; -n &lt;namespace&gt; --tail=100</code></pre>
+<span class="c0"># Pod 日志</span>
+kubectl logs <span class="fl">-f</span> &amp;lt;pod-name&amp;gt; <span class="fl">-n</span> &amp;lt;namespace&amp;gt; <span class="fl">--tail</span>=100</code></pre>
 <h2>重启问题</h2>
-<pre><code># 检查重启次数
-kubectl get pods | grep -v Running
+<pre><code><span class="c0"># 检查重启次数</span>
+kubectl get pods <span class="op">|</span> grep <span class="fl">-v</span> Running
 
-# 检查存活探针/就绪探针
-kubectl describe pod &lt;pod-name&gt; | grep -A5 "Liveness\|Readiness"</code></pre>
+<span class="c0"># 检查存活探针/就绪探针</span>
+kubectl describe pod &amp;lt;pod-name&amp;gt; <span class="op">|</span> grep <span class="fl">-A5</span> "Liveness\<span class="op">|</span>Readiness"</code></pre>
 <h2>资源问题</h2>
-<pre><code># Pod 资源使用情况
-kubectl top pod -n &lt;namespace&gt;
+<pre><code><span class="c0"># Pod 资源使用情况</span>
+kubectl top pod <span class="fl">-n</span> &amp;lt;namespace&amp;gt;
 
-# 节点容量
-kubectl describe nodes | grep -A5 "Allocated resources"</code></pre>
+<span class="c0"># 节点容量</span>
+kubectl describe nodes <span class="op">|</span> grep <span class="fl">-A5</span> "Allocated resources"</code></pre>
 <h2>网络调试</h2>
-<pre><code># Pod IP
-kubectl get pod -o wide
+<pre><code><span class="c0"># Pod IP</span>
+kubectl get pod <span class="fl">-o</span> wide
 
-# Service 端点
-kubectl get endpoints &lt;svc-name&gt; -n &lt;namespace&gt;
+<span class="c0"># Service 端点</span>
+kubectl get endpoints &amp;lt;svc-name&amp;gt; <span class="fl">-n</span> &amp;lt;namespace&amp;gt;
 
-# DNS 解析测试
-kubectl run dnsutils --rm -it --image=tutum/dnsutils --restart=Never -- nslookup &lt;service-name&gt;</code></pre>
+<span class="c0"># DNS 解析测试</span>
+kubectl run dnsutils <span class="fl">--rm</span> <span class="fl">-it</span> <span class="fl">--image</span>=tutum/dnsutils <span class="fl">--restart</span>=Never -- nslookup &amp;lt;service-name&amp;gt;</code></pre>
 <h2>进入 Pod Shell</h2>
-<pre><code>kubectl exec -it &lt;pod-name&gt; -n &lt;namespace&gt; -- /bin/sh</code></pre>
+<pre><code>kubectl exec <span class="fl">-it</span> &amp;lt;pod-name&amp;gt; <span class="fl">-n</span> &amp;lt;namespace&amp;gt; -- /bin/sh</code></pre>
 <h2>常见修复</h2>
-<pre><code># 强制重启 Pod
-kubectl delete pod &lt;pod-name&gt; -n &lt;namespace&gt;
+<pre><code><span class="c0"># 强制重启 Pod</span>
+kubectl delete pod &amp;lt;pod-name&amp;gt; <span class="fl">-n</span> &amp;lt;namespace&amp;gt;
 
-# 扩容
-kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</code></pre>
+<span class="c0"># 扩容</span>
+kubectl scale deployment &amp;lt;deploy-name&amp;gt; <span class="fl">--replicas</span>=3 <span class="fl">-n</span> &amp;lt;namespace&amp;gt;</code></pre>
       </div>
     </article>
 
@@ -144,9 +143,8 @@ kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</
     </div>
   </main>
 
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
-
-  <script src="https://cdn.jsdelivr.net/npm/live2d@0.8.13/autoload.min.js"></script>
 
   <script>
     function toggleDark() {
@@ -173,31 +171,40 @@ kubectl scale deployment &lt;deploy-name&gt; --replicas=3 -n &lt;namespace&gt;</
     updateDarkByTime();
     setInterval(updateDarkByTime, 60000);
 
-    var kanbanMessages = ["点我就说话~","SRE 加油!","有问题记得看手册哦","运维无难事~","晚安 SRE!","今天也要好好值班~","数据库别崩!","Pod 跑起来!"];
-    var msgIdx = 0;
-    function cycleKanban() {
-      var b = document.getElementById('kanbanBubble');
-      if (b) { msgIdx = (msgIdx + 1) % kanbanMessages.length; b.textContent = kanbanMessages[msgIdx]; }
-    }
-    setInterval(cycleKanban, 4000);
-    function kanbanTalk() {
-      var b = document.getElementById('kanbanBubble');
-      if (b) { msgIdx = Math.floor(Math.random() * kanbanMessages.length); b.textContent = kanbanMessages[msgIdx]; }
-    }
-
-    var articleId = 'k8s-pod-debug';
-    var likes = parseInt(localStorage.getItem('likes-' + articleId) || '0');
-    var liked = localStorage.getItem('liked-' + articleId) === 'true';
-    document.getElementById('likeCount').textContent = likes;
-    if (liked) document.getElementById('likeBtn').classList.add('liked');
-    function toggleLike() {
-      liked = !liked;
-      likes = liked ? likes + 1 : likes - 1;
-      localStorage.setItem('likes-' + articleId, likes);
-      localStorage.setItem('liked-' + articleId, liked);
-      document.getElementById('likeCount').textContent = likes;
-      document.getElementById('likeBtn').classList.toggle('liked', liked);
-    }
-  </script>
+    
+<script>
+(function initArticle() {
+  var rdProg = document.getElementById('rdProg');
+  function updateProgress() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (rdProg) rdProg.style.width = (docH > 0 ? (window.scrollY / docH * 100).toFixed(1) + '%' : '0%');
+    var st = document.getElementById('scrollTop');
+    if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+  }
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+})();
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function applyDark(isDark) {
+  if (isDark) document.body.classList.add('dark-mode'); else document.body.classList.remove('dark-mode');
+  var btn = document.querySelector('.dark-toggle');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+}
+function toggleDark() {
+  var isDark = !document.body.classList.contains('dark-mode');
+  applyDark(isDark); localStorage.setItem('dark-mode-manual', isDark);
+}
+(function initDark() {
+  var h = new Date().getHours();
+  var d = h < 7 || h >= 19;
+  var m = localStorage.getItem('dark-mode-manual');
+  if (m !== null) d = m === 'true';
+  applyDark(d);
+})();
+setInterval(function() {
+  var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
+  if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
+}, 60000);
+</script>
 </body>
 </html>

@@ -8,6 +8,7 @@
   <meta name="author" content="Thorvald">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://andersthorvald.github.io/about/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
   <meta property="og:type" content="profile">
   <meta property="og:title" content="关于 Thorvald - SRE Engineer">
@@ -18,93 +19,247 @@
   <meta property="og:locale" content="zh_CN">
   <meta property="profile:first_name" content="Thorvald">
   <meta property="profile:last_name" content="Anders">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/article.css">
-  <link rel="stylesheet" href="/css/about.css">
   <style>
+    :root {
+      --pink-from: #ff9a9e; --pink-to: #fad0c4; --pink-accent: #fecfef;
+      --pink-deep: #c44569; --text: #2d2040; --text-2: #5a5470; --muted: #9b96b0;
+      --card-bg: rgba(255,255,255,0.85); --card-border: rgba(255,154,158,0.25);
+      --shadow: 0 8px 32px rgba(196,69,105,0.1); --shadow-hover: 0 16px 48px rgba(196,69,105,0.2);
+    }
+    body {
+      font-family: 'Outfit', -apple-system, 'PingFang SC', sans-serif;
+      background: linear-gradient(135deg, var(--pink-from) 0%, var(--pink-to) 55%, var(--pink-accent) 100%);
+      min-height: 100vh; color: var(--text); -webkit-font-smoothing: antialiased;
+    }
+    body.dark-mode {
+      --text: #e8e4f0; --text-2: #b0aac8; --muted: #7a7590;
+      --card-bg: rgba(37,37,64,0.9); --card-border: rgba(255,154,158,0.15);
+      background: #12122a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    a { color: var(--pink-deep); text-decoration: none; }
+    a:hover { color: #e8356d; }
+
     .dot-grid {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: -1;
-      background-image: radial-gradient(circle, rgba(255, 182, 193, 0.4) 1px, transparent 1px);
-      background-size: 30px 30px; opacity: 0.6;
+      pointer-events: none; z-index: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.5) 1.2px, transparent 1.2px);
+      background-size: 28px 28px; opacity: 0.45;
     }
-    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
-    .particle { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; opacity: 0.3; animation: float 15s infinite; }
-    .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-    .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
-    .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
-    .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
-    .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
-    .particle:nth-child(6) { left: 60%; animation-delay: 10s; }
-    .particle:nth-child(7) { left: 70%; animation-delay: 12s; }
-    .particle:nth-child(8) { left: 80%; animation-delay: 14s; }
-    @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-    .page-content { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    body.dark-mode .dot-grid { opacity: 0.04; }
+
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; width: 8px; height: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%; opacity: 0.22; animation: float 18s infinite linear;
+    }
+    .particle:nth-child(1) { left: 8%;  animation-delay: 0s; }
+    .particle:nth-child(2) { left: 18%; animation-delay: 3s; }
+    .particle:nth-child(3) { left: 28%; animation-delay: 6s; }
+    .particle:nth-child(4) { left: 38%; animation-delay: 1s; }
+    .particle:nth-child(5) { left: 48%; animation-delay: 9s; }
+    .particle:nth-child(6) { left: 58%; animation-delay: 4s; }
+    .particle:nth-child(7) { left: 68%; animation-delay: 7s; }
+    .particle:nth-child(8) { left: 78%; animation-delay: 2s; }
+    body.dark-mode .particle { opacity: 0.08; }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      5% { opacity: 0.22; } 95% { opacity: 0.22; }
+      100%{ transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    .blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); }
+    .blob-1 { width: 500px; height: 500px; top: -150px; right: -80px; background: rgba(254,207,239,0.35); }
+    .blob-2 { width: 300px; height: 300px; bottom: -80px; left: -60px; background: rgba(255,154,158,0.25); }
+    body.dark-mode .blob-1 { background: rgba(102,126,234,0.08); }
+    body.dark-mode .blob-2 { background: rgba(118,75,162,0.08); }
+
+    .page-wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 60px 24px 80px; }
+
     .back-link {
       display: inline-flex; align-items: center; gap: 8px;
-      color: #ff9a9e; text-decoration: none; font-weight: 600;
-      margin-bottom: 30px; padding: 10px 20px;
-      background: white; border-radius: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
+      color: var(--pink-deep); text-decoration: none; font-weight: 600;
+      margin-bottom: 32px; padding: 10px 20px; border-radius: 50px;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow); transition: all 0.25s ease;
     }
-    .back-link:hover { transform: translateX(-5px); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.2); }
-    .about-header { text-align: center; margin-bottom: 40px; animation: fadeInUp 0.6s ease; }
-    .about-header h1 { font-size: 2.5em; background: linear-gradient(135deg, #ff9a9e, #fecfef); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
-    .about-header p { color: #888; font-size: 1.1em; }
-    .interests { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 30px 0; }
-    .interest-tag { padding: 8px 20px; background: linear-gradient(135deg, #fff5f5, #fff0f3); border: 2px solid rgba(255,154,158,0.2); border-radius: 25px; color: #c44569; font-size: 0.9em; font-weight: 600; transition: all 0.3s ease; }
-    .interest-tag:hover { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; transform: scale(1.05); }
-    .qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+    .back-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); color: var(--pink-deep); }
+
+    /* Hero header */
+    .about-hero { text-align: center; margin-bottom: 48px; }
+    .about-hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 50px;
+      background: rgba(255,255,255,0.85); border: 1px solid rgba(255,154,158,0.35);
+      font-size: 0.78em; font-weight: 600; color: var(--pink-deep);
+      backdrop-filter: blur(8px); margin-bottom: 20px;
+    }
+    .about-hero h1 {
+      font-size: clamp(2em, 5vw, 3em); font-weight: 800; letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--pink-from), var(--pink-deep));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 10px; animation: fadeUp 0.6s ease both;
+    }
+    .about-hero p { color: var(--text-2); font-size: 1em; animation: fadeUp 0.6s ease 0.1s both; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    /* Profile card */
+    .profile-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 24px; padding: 48px 40px; text-align: center;
+      backdrop-filter: blur(15px); box-shadow: var(--shadow);
+      animation: scaleIn 0.6s ease 0.2s both;
+    }
+    .profile-avatar-wrap { margin-bottom: 20px; }
+    .profile-avatar {
+      width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+      border: 4px solid rgba(255,154,158,0.35); padding: 3px;
+      background: linear-gradient(135deg, var(--pink-from), var(--pink-accent));
+    }
+    .profile-name { font-size: 1.8em; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em; }
+    .profile-role { font-size: 0.9em; color: var(--muted); margin-bottom: 24px; font-weight: 500; }
+
+    .interests { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 28px; }
+    .interest-tag {
+      padding: 7px 18px; border-radius: 50px; font-size: 0.85em; font-weight: 600;
+      background: rgba(255,154,158,0.12); color: var(--pink-deep);
+      border: 1px solid rgba(255,154,158,0.2);
+      transition: all 0.2s ease;
+    }
+    .interest-tag:hover { background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); color: white; transform: scale(1.05); }
+
+    .profile-bio { color: var(--text-2); font-size: 0.95em; line-height: 1.8; max-width: 500px; margin: 0 auto 24px; }
+
+    .profile-motto {
+      font-style: italic; color: var(--muted); font-size: 0.9em;
+      padding-top: 20px; margin-top: 20px; border-top: 1px solid rgba(255,154,158,0.15);
+    }
+
+    /* Social links */
+    .social-links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 32px; }
+    .social-link {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 16px 18px; border-radius: 16px;
+      background: var(--card-bg); backdrop-filter: blur(10px);
+      text-decoration: none; color: var(--text); font-size: 0.78em; font-weight: 600;
+      transition: all 0.25s ease; min-width: 78px;
+      border: 1px solid var(--card-border);
+    }
+    .social-link:hover { transform: translateY(-5px); }
+    .social-link svg { transition: transform 0.2s; }
+    .social-link:hover svg { transform: scale(1.1); }
+    .social-link.wechat:hover { background: #07c160; color: white; border-color: #07c160; }
+    .social-link.bilibili:hover { background: #00a1d6; color: white; border-color: #00a1d6; }
+    .social-link.youtube:hover { background: #ff0000; color: white; border-color: #ff0000; }
+    .social-link.github:hover { background: #24292e; color: white; border-color: #24292e; }
+    .social-link.x:hover { background: #000; color: white; border-color: #000; }
+    .social-link.email:hover { background: var(--pink-deep); color: white; border-color: var(--pink-deep); }
+
+    /* QR modal */
+    .qr-modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); align-items: center; justify-content: center; z-index: 2000;
+      backdrop-filter: blur(4px);
+    }
     .qr-modal.active { display: flex; }
-    .qr-modal-content { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 350px; animation: scaleIn 0.3s ease; }
-    .qr-modal h3 { margin: 0 0 20px; color: #333; font-size: 1.3em; }
-    .qr-modal img { width: 250px; height: 250px; border-radius: 12px; border: 3px solid rgba(255,154,158,0.3); }
-    .qr-modal p { color: #888; margin: 15px 0 0; font-size: 0.9em; }
-    .qr-modal-close { margin-top: 20px; padding: 10px 30px; background: linear-gradient(135deg, #ff9a9e, #fecfef); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
-    .qr-modal-close:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.3); }
-    @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 768px) { .about-header h1 { font-size: 2em; } .qr-modal-content { margin: 20px; padding: 20px; } .qr-modal img { width: 200px; height: 200px; } }
+    .qr-modal-content {
+      background: white; border-radius: 20px; padding: 32px; text-align: center;
+      max-width: 90%; animation: scaleIn 0.25s ease;
+    }
+    body.dark-mode .qr-modal-content { background: #252540; }
+    .qr-modal h3 { margin: 0 0 16px; color: var(--text); font-size: 1.2em; }
+    .qr-modal img { max-width: 220px; border-radius: 12px; border: 3px solid rgba(255,154,158,0.3); }
+    .qr-modal p { color: var(--muted); margin: 12px 0 0; font-size: 0.85em; }
+    .qr-modal-close {
+      margin-top: 16px; padding: 10px 28px;
+      background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); color: white;
+      border: none; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 0.9em;
+      transition: all 0.25s ease;
+    }
+    .qr-modal-close:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255,154,158,0.3); }
+
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+
+    /* Dark toggle + scroll top */
+    .dark-toggle {
+      position: fixed; bottom: 24px; left: 24px; z-index: 999;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,154,158,0.35);
+      cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); transition: all 0.3s ease;
+    }
+    .dark-toggle:hover { background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); transform: scale(1.1); color: white; }
+    body.dark-mode .dark-toggle { background: rgba(37,37,64,0.9); border-color: rgba(255,154,158,0.2); }
+
+    .scroll-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,154,158,0.35);
+      color: var(--pink-deep); font-size: 1.2em; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: all 0.3s ease;
+    }
+    .scroll-top.visible { opacity: 1; pointer-events: auto; }
+    .scroll-top:hover { background: linear-gradient(135deg, var(--pink-from), var(--pink-accent)); transform: scale(1.1); color: white; }
+    body.dark-mode .scroll-top { background: rgba(37,37,64,0.9); border-color: rgba(255,154,158,0.2); color: var(--pink-from); }
+
+    @media (max-width: 768px) {
+      .page-wrap { padding: 40px 16px 60px; }
+      .about-hero h1 { font-size: 2em; }
+      .profile-card { padding: 32px 20px; border-radius: 18px; }
+      .profile-avatar { width: 80px; height: 80px; }
+      .social-links { gap: 8px; }
+      .social-link { padding: 12px 14px; min-width: 66px; font-size: 0.72em; }
+      .dark-toggle, .scroll-top { width: 38px; height: 38px; font-size: 1em; bottom: 16px; }
+      .dark-toggle { left: 16px; }
+      .scroll-top { right: 16px; }
+    }
   </style>
 </head>
-<body style="background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%);">
-  <script>
-    var hour = new Date().getHours();
-    var isDark = hour < 7 || hour >= 19;
-    var manualSet = localStorage.getItem('dark-mode-manual');
-    if (manualSet !== null) isDark = manualSet === 'true';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.style.background = '#1a1a2e';
-    }
-  </script>
+<body>
   <div class="dot-grid"></div>
   <div class="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
   </div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
-  <div class="page-content">
+  <div class="page-wrap">
     <a href="/" class="back-link">← 返回首页</a>
 
-    <div class="about-header">
+    <div class="about-hero">
+      <div class="about-hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+        站点可靠性工程师
+      </div>
       <h1>关于我</h1>
       <p>了解我更多</p>
     </div>
 
     <div class="profile-card">
       <div class="profile-avatar-wrap">
-        <img src="/images/avatar.jpg" alt="Thorvald" class="profile-avatar">
+        <img src="/images/avatar.jpg" alt="Thorvald" class="profile-avatar" width="110" height="110">
       </div>
       <h2 class="profile-name">Thorvald</h2>
+      <p class="profile-role">SRE Engineer · 站点可靠性工程师</p>
 
       <div class="interests">
-        <span class="interest-tag">🎮 二次元</span>
-        <span class="interest-tag">🎨 手办收藏</span>
-        <span class="interest-tag">💻 SRE</span>
-        <span class="interest-tag">🔓 黑客技术</span>
+        <span class="interest-tag">二次元</span>
+        <span class="interest-tag">手办收藏</span>
+        <span class="interest-tag">SRE</span>
+        <span class="interest-tag">黑客技术</span>
       </div>
 
       <p class="profile-bio">
@@ -112,55 +267,47 @@
         业余时间喜欢研究新技术、收集手办、刷 B 站。
       </p>
 
-      <div class="profile-motto">
-        "只要不影响到他人，自己爱做什么都好"
-      </div>
+      <p class="profile-motto">"只要不影响到他人，自己爱做什么都好"</p>
 
       <div class="social-links">
-        <!-- B站 -->
         <a href="https://space.bilibili.com/3546572096800793" target="_blank" class="social-link bilibili" title="B站主页">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM12 8.5v6.5h1.5v-6.5zm3.5 0v6.5h1.5v-6.5z"/>
           </svg>
           <span>B站</span>
         </a>
 
-        <!-- YouTube -->
         <a href="https://www.youtube.com/@ThorvaldAnders" target="_blank" class="social-link youtube" title="YouTube频道">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
           </svg>
           <span>YouTube</span>
         </a>
 
-        <!-- 邮箱 -->
         <a href="mailto:17200473849@163.com" class="social-link email" title="发送邮件">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
           <span>邮箱</span>
         </a>
 
-        <!-- 微信 -->
         <a href="#" onclick="showQR('wechat'); return false;" class="social-link wechat" title="微信">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.022 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.87c-.135-.004-.272-.012-.407-.012zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
           </svg>
           <span>微信</span>
         </a>
 
-        <!-- X (Twitter) -->
         <a href="https://x.com/ATA19168" target="_blank" class="social-link x" title="X (Twitter)">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
           </svg>
           <span>X</span>
         </a>
 
-        <!-- GitHub -->
         <a href="https://github.com/andersthorvald" target="_blank" class="social-link github" title="GitHub">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
           </svg>
           <span>GitHub</span>
@@ -169,7 +316,8 @@
     </div>
   </div>
 
-    <div id="qrModal" class="qr-modal" onclick="closeQR(event)">
+  <!-- QR modal -->
+  <div id="qrModal" class="qr-modal" onclick="closeQR(event)">
     <div class="qr-modal-content">
       <h3 id="qrTitle">扫码添加</h3>
       <img id="qrImage" src="" alt="QR Code">
@@ -178,66 +326,52 @@
     </div>
   </div>
 
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式" aria-label="切换深色模式">🌙</button>
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+
   <script>
     function showQR(type) {
-      const modal = document.getElementById('qrModal');
-      const img = document.getElementById('qrImage');
-      const title = document.getElementById('qrTitle');
-      if (type === 'wechat') {
-        img.src = '/images/wechat-qr.jpg';
-        title.textContent = '微信扫码添加';
-      }
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+      var modal = document.getElementById('qrModal');
+      var img = document.getElementById('qrImage');
+      var title = document.getElementById('qrTitle');
+      if (type === 'wechat') { img.src = '/images/wechat-qr.jpg'; title.textContent = '微信扫码添加'; }
+      modal.classList.add('active'); document.body.style.overflow = 'hidden';
     }
     function closeQR(e) {
       if (!e || e.target === document.getElementById('qrModal') || e.target.classList.contains('qr-modal-close')) {
-        document.getElementById('qrModal').classList.remove('active');
-        document.body.style.overflow = '';
+        document.getElementById('qrModal').classList.remove('active'); document.body.style.overflow = '';
       }
     }
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeQR(); });
-  </script>
 
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
-  <script src="https://cdn.jsdelivr.net/npm/live2d@0.8.13/autoload.min.js"></script>
+    /* Scroll */
+    window.addEventListener('scroll', function() {
+      var st = document.getElementById('scrollTop');
+      if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+    });
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-  <script>
-    function toggleDark() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
+    /* Dark mode */
+    function applyDark(isDark) {
+      if (isDark) document.body.classList.add('dark-mode'); else document.body.classList.remove('dark-mode');
       var btn = document.querySelector('.dark-toggle');
-      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      if (btn) btn.textContent = isDark ? '☀️' : '🌙';
     }
-    function updateDarkByTime() {
-      var hour = new Date().getHours();
-      var isDark = hour < 7 || hour >= 19;
-      var manualSet = localStorage.getItem('dark-mode-manual');
-      if (manualSet !== null) {
-        isDark = manualSet === 'true';
-      }
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark-mode');
-        document.querySelector('.dark-toggle').textContent = '🌙';
-      }
+    function toggleDark() {
+      var isDark = !document.body.classList.contains('dark-mode');
+      applyDark(isDark); localStorage.setItem('dark-mode-manual', isDark);
     }
-    updateDarkByTime();
-    setInterval(updateDarkByTime, 60000);
-
-    var kanbanMessages = ["点我就说话~","SRE 加油!","有问题记得看手册哦","运维无难事~","晚安 SRE!","今天也要好好值班~","数据库别崩!","Pod 跑起来!"];
-    var msgIdx = 0;
-    function cycleKanban() {
-      var b = document.getElementById('kanbanBubble');
-      if (b) { msgIdx = (msgIdx + 1) % kanbanMessages.length; b.textContent = kanbanMessages[msgIdx]; }
-    }
-    setInterval(cycleKanban, 4000);
-    function kanbanTalk() {
-      var b = document.getElementById('kanbanBubble');
-      if (b) { msgIdx = Math.floor(Math.random() * kanbanMessages.length); b.textContent = kanbanMessages[msgIdx]; }
-    }
+    (function initDark() {
+      var h = new Date().getHours();
+      var d = h < 7 || h >= 19;
+      var m = localStorage.getItem('dark-mode-manual');
+      if (m !== null) d = m === 'true';
+      applyDark(d);
+    })();
+    setInterval(function() {
+      var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
+      if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
+    }, 60000);
   </script>
 </body>
 </html>
