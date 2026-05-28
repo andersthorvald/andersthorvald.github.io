@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -28,6 +28,7 @@
 
   <link rel="stylesheet" href="/css/article.css">
   <link rel="stylesheet" href="/css/about.css">
+  
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -106,7 +107,7 @@ journalctl <span class="fl">-k</span> <span class="op">|</span> grep <span class
     </article>
 
     <div class="like-section">
-      <button class="like-btn" id="likeBtn" onclick="toggleLike()">
+      <button class="like-btn" id="likeBtn" >
         <span class="heart">❤️</span>
         <span id="likeText">点赞</span>
         <span id="likeCount">0</span>
@@ -196,5 +197,53 @@ setInterval(function() {
   if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
 }, 60000);
 </script>
+    <script>
+    (function initLike() {
+      var SB_URL = 'https://qhabcxcrychskugegflo.supabase.co';
+      var SB_KEY = 'sb_publishable_lIJ2AGqBO4A7fApaalyCOw_Xv4fveV6';
+      var slugVar = 'alert-quick-reference';
+      var btn = document.getElementById('likeBtn');
+      var heart = document.getElementById('likeHeart');
+      var countEl = document.getElementById('likeCount');
+      var localKey = 'liked_' + slugVar;
+      var liked = localStorage.getItem(localKey) === '1';
+
+      function render(l, c) {
+        countEl.textContent = c;
+        heart.textContent = l ? '\u2764\uFE0F' : '\uD83E\uDDD1';
+        if (l) btn.classList.add('liked');
+      }
+
+      function apiFetch(path, method, body) {
+        return fetch(SB_URL + '/rest/v1/' + path, {
+          method: method,
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: body ? JSON.stringify(body) : undefined
+        }).then(function(r) { return r.json(); });
+      }
+
+          apiFetch('article_likes?slug=eq.' + slugVar, 'GET').then(function(rows) {
+        if (rows && rows.length > 0) render(liked, rows[0].count);
+        else countEl.textContent = '0';
+      });
+
+      btn.addEventListener('click', function() {
+        if (liked) return;
+        liked = true;
+        localStorage.setItem(localKey, '1');
+      apiFetch('article_likes?slug=eq.' + slugVar, 'GET').then(function(rows) {
+          var c = (rows && rows.length > 0 && rows[0].count) || 0;
+          var newCount = c + 1;
+          render(true, newCount);
+          apiFetch('article_likes?slug=eq.' + slugVar, 'PATCH', { count: newCount });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
