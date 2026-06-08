@@ -1,0 +1,603 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shell 编程基础 + 进程管理 - SRE Wiki | 运维手册</title>
+  <meta name="description" content="Shell 编程基础：表达式、流程控制、循环；进程管理：进程状态、ps/top/kill、任务控制。SRE 日常运维 80% 用法一篇讲清楚。">
+  <meta name="keywords" content="Shell, Bash, 进程管理, ps, kill, jobs, 任务控制, 进程状态, SRE, 运维, 表达式, 流程控制">
+  <meta name="author" content="Thorvald">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://andersthorvald.github.io/2026/06/08/shell-basics-and-process/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Shell 编程基础 + 进程管理 - SRE Wiki">
+  <meta property="og:description" content="Shell 表达式、流程控制、进程状态与命令一篇搞定。SRE 日常 80% 用法速成。">
+  <meta property="og:url" content="https://andersthorvald.github.io/2026/06/08/shell-basics-and-process/">
+  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-06-08T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="运维手册">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shell 编程基础 + 进程管理 - SRE Wiki">
+  <meta name="twitter:description" content="Shell 表达式、流程控制、进程状态与命令一篇搞定。">
+  <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
+
+  <link rel="stylesheet" href="/css/article.css">
+  <link rel="stylesheet" href="/css/about.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Shell 编程基础 + 进程管理",
+    "description": "Shell 表达式、流程控制、进程状态与命令一篇搞定。SRE 日常 80% 用法速成。",
+    "datePublished": "2026-06-08",
+    "author": { "@type": "Person", "name": "Thorvald", "url": "https://andersthorvald.github.io/about/" },
+    "publisher": { "@type": "Person", "name": "Thorvald" },
+    "url": "https://andersthorvald.github.io/2026/06/08/shell-basics-and-process/",
+    "proficiencyLevel": "Beginner"
+  }
+  </script>
+<style>
+pre code .kw { color: #ff79c6; font-weight: bold; }
+pre code .fl { color: #bd93f9; }
+pre code .nb { color: #bd93f9; }
+pre code .s1 { color: #50fa7b; }
+pre code .s2 { color: #f1fa8c; }
+pre code .c0 { color: #6272a4; font-style: italic; }
+pre code .op { color: #ff79c6; }
+</style>
+</head>
+<div class="reading-progress" id="rdProg"></div>
+<body>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">首页</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <a href="/" class="back-link">← 返回首页</a>
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">Shell 编程基础 + 进程管理</h1>
+        <div class="article-meta">
+          <span>📅 2026-06-08</span>
+          <span>📁 运维手册</span>
+          <span class="tag">shell</span>
+          <span class="tag">bash</span>
+          <span class="tag">进程管理</span>
+          <span class="tag">ps</span>
+          <span class="tag">kill</span>
+        </div>
+      </div>
+      <div class="article-content">
+        <h2>目标</h2>
+<ul><li>用最少的术语，把 Shell 编程和进程管理讲清楚</li><li>每个概念都先说"是什么 / 用来干嘛"，再给命令</li><li>覆盖 SRE 日常 80% 用法</li></ul>
+<h2>知识地图</h2>
+<pre><code>shell 编程 + 进程管理
+│
+├── 1. 表达式（"判断题"）
+│   ├── 文件测试：这个东西存不存在？是不是文件？
+│   ├── 字符串测试：这个变量是不是空？两个字符串等不等？
+│   ├── 数字测试：10 大于 5 吗？
+│   └── 逻辑组合：两个条件同时满足 / 满足一个就行
+│
+├── 2. 流程控制（"把判断连起来"）
+│   ├── if：如果...就...
+│   └── case：这个值是 A 还是 B 还是 C...
+│
+└── 3. 进程管理（"看运行中的程序"）
+    ├── 进程是什么：跑起来的程序
+    ├── 进程状态：等 CPU / 跑着 / 睡着了 / 死了
+    └── 进程命令：怎么看、怎么杀、怎么丢后台</code></pre>
+<p>学习顺序建议：先吃透文件测试 + if + ps/kill/jobs，这三块占日常 80% 用法。其他的有印象就行。</p>
+<h2>Shell 表达式</h2>
+<h3>一句话理解</h3>
+<blockquote>表达式 = 一个会返回"是 / 不是"的句子。在 <code>[ ]</code> 或 <code>[[ ]]</code> 里写。</blockquote>
+<p>比如 <code>[ -f /etc/hosts ]</code> 的意思就是："请问 <code>/etc/hosts</code> 是不是一个普通文件？"</p>
+<h3>文件测试（最常用，先学这个）</h3>
+<table>
+<thead><tr><th>表达式</th><th>翻译成人话</th></tr></thead>
+<tbody>
+<tr><td><code>[ -e 路径 ]</code></td><td>存在吗（不管是文件还是目录）</td></tr>
+<tr><td><code>[ -f 路径 ]</code></td><td>是普通文件吗</td></tr>
+<tr><td><code>[ -d 路径 ]</code></td><td>是目录吗</td></tr>
+<tr><td><code>[ -r 路径 ]</code></td><td>我能读吗</td></tr>
+<tr><td><code>[ -w 路径 ]</code></td><td>我能写吗</td></tr>
+<tr><td><code>[ -x 路径 ]</code></td><td>我能执行吗</td></tr>
+<tr><td><code>[ -L 路径 ]</code></td><td>是软链接吗</td></tr>
+<tr><td><code>[ -s 路径 ]</code></td><td>存在且不为空（size &gt; 0）</td></tr>
+</tbody>
+</table>
+<h3>步骤 1：演示文件测试</h3>
+<pre><code><span class="c0"># 准备测试文件</span>
+mkdir -p /tmp/shell_test
+touch /tmp/shell_test/a.txt
+echo "hello" &gt; /tmp/shell_test/b.txt
+ln -s /tmp/shell_test/a.txt /tmp/shell_test/link.txt
+
+<span class="c0"># 逐个测试</span>
+[ -e /tmp/shell_test/a.txt ] &amp;&amp; echo "a 存在"        <span class="c0"># 输出: a 存在</span>
+[ -f /tmp/shell_test/a.txt ] &amp;&amp; echo "a 是文件"      <span class="c0"># 输出: a 是文件</span>
+[ -d /tmp/shell_test ] &amp;&amp; echo "是目录"             <span class="c0"># 输出: 是目录</span>
+[ -s /tmp/shell_test/b.txt ] &amp;&amp; echo "b 不为空"     <span class="c0"># 输出: b 不为空</span>
+[ -L /tmp/shell_test/link.txt ] &amp;&amp; echo "是软链"    <span class="c0"># 输出: 是软链</span></code></pre>
+<blockquote><code>&amp;&amp;</code> 的意思：左边成立（真），就执行右边。</blockquote>
+<h3>步骤 2：字符串测试</h3>
+<p>先搞清一件事：<strong>shell 里变量要用双引号包起来</strong>，不然空变量会报错。</p>
+<pre><code><span class="nb">name</span>=""
+
+<span class="c0"># 没加双引号：会报语法错误</span>
+[ -n <span class="nv">$name</span> ] &amp;&amp; echo "非空"    <span class="c0"># 报错</span>
+
+<span class="c0"># 加双引号：正常</span>
+[ -n "<span class="nv">$name</span>" ] &amp;&amp; echo "非空"  <span class="c0"># 安静地不执行（因为 name 是空）</span></code></pre>
+<table>
+<thead><tr><th>表达式</th><th>翻译</th></tr></thead>
+<tbody>
+<tr><td><code>[ -z "$str" ]</code></td><td>str 是空字符串吗（zero length）</td></tr>
+<tr><td><code>[ -n "$str" ]</code></td><td>str 不是空的吗（nonzero length）</td></tr>
+<tr><td><code>[ "$a" = "$b" ]</code></td><td>a 和 b 相等吗（注意是单个等号）</td></tr>
+<tr><td><code>[ "$a" != "$b" ]</code></td><td>a 和 b 不相等吗</td></tr>
+</tbody>
+</table>
+<pre><code>[ -z "<span class="nv">$USER</span>" ] &amp;&amp; echo "未登录" || echo "当前用户: <span class="nv">$USER</span>"
+<span class="c0"># 输出: 当前用户: &lt;你的用户名&gt;</span></code></pre>
+<h3>步骤 3：数字测试（关键区别）</h3>
+<pre><code><span class="nb">a</span>=10
+<span class="nb">b</span>=5
+
+[ "<span class="nv">$a</span>" = "<span class="nv">$b</span>" ]   &amp;&amp; echo "等"      <span class="c0"># = 是字符串相等，10 和 5 不等，没输出</span>
+[ "<span class="nv">$a</span>" -eq "<span class="nv">$b</span>" ] &amp;&amp; echo "等"      <span class="c0"># -eq 是数字相等，也没输出</span>
+
+[ "<span class="nv">$a</span>" -gt "<span class="nv">$b</span>" ] &amp;&amp; echo "a 大"    <span class="c0"># -gt = greater than，输出: a 大</span>
+[ "<span class="nv">$a</span>" -lt "<span class="nv">$b</span>" ] &amp;&amp; echo "a 小"    <span class="c0"># -lt = less than，没输出</span></code></pre>
+<table>
+<thead><tr><th>表达式</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td><code>-eq</code></td><td>等于（equal）</td></tr>
+<tr><td><code>-ne</code></td><td>不等于（not equal）</td></tr>
+<tr><td><code>-gt</code></td><td>大于（greater than）</td></tr>
+<tr><td><code>-lt</code></td><td>小于（less than）</td></tr>
+<tr><td><code>-ge</code></td><td>大于等于</td></tr>
+<tr><td><code>-le</code></td><td>小于等于</td></tr>
+</tbody>
+</table>
+<blockquote>常见坑：用 <code>=</code> 比数字，结果不可靠。<code>"10" = "9"</code> 字符串意义上也不等，但用 <code>-eq</code> 才是真的在比数字。</blockquote>
+<h3>步骤 4：逻辑组合</h3>
+<p>两种写法都能用，新手记住 <code>[[ ]]</code> 用 <code>&amp;&amp;</code> <code>||</code>，<code>[ ]</code> 用 <code>-a</code> <code>-o</code>：</p>
+<table>
+<thead><tr><th>场景</th><th>写法 1（<code>[ ]</code>）</th><th>写法 2（<code>[[ ]]</code>，推荐）</th></tr></thead>
+<tbody>
+<tr><td>两个都要成立</td><td><code>[ $a -gt 0 -a $b -gt 0 ]</code></td><td><code>[[ $a -gt 0 &amp;&amp; $b -gt 0 ]]</code></td></tr>
+<tr><td>满足一个就行</td><td><code>[ $a -gt 0 -o $b -gt 0 ]</code></td><td><code>[[ $a -gt 0 || $b -gt 0 ]]</code></td></tr>
+<tr><td>取反</td><td><code>[ ! -f file ]</code></td><td><code>[[ ! -f file ]]</code></td></tr>
+</tbody>
+</table>
+<pre><code><span class="c0"># 示例：CPU 和内存都高才报警</span>
+<span class="nb">cpu</span>=85
+<span class="nb">mem</span>=90
+
+if [[ <span class="nv">$cpu</span> -gt 80 &amp;&amp; <span class="nv">$mem</span> -gt 80 ]]; then
+    echo "资源紧张"
+else
+    echo "正常"
+fi
+<span class="c0"># 输出: 资源紧张</span></code></pre>
+<h3>步骤 5：模式匹配和正则</h3>
+<pre><code><span class="nb">file</span>="app.log.20240101"
+
+<span class="c0"># 模式匹配（glob）：文件名以 .log 结尾吗？</span>
+[[ <span class="nv">$file</span> == *.log* ]] &amp;&amp; echo "是日志"   <span class="c0"># 输出: 是日志</span>
+
+<span class="c0"># 正则匹配</span>
+[[ <span class="nv">$file</span> =~ \.log\.[0-9]+$ ]] &amp;&amp; echo "匹配"  <span class="c0"># 输出: 匹配</span></code></pre>
+<blockquote><code>[ ]</code> 没有这两个能力，涉及模式匹配就用 <code>[[ ]]</code>。</blockquote>
+<h3>步骤 6：算术运算</h3>
+<pre><code><span class="c0"># 最常用：$(( ))</span>
+echo <span class="nv">$((</span> <span class="fl">1</span> + <span class="fl">2</span> <span class="nv">))</span>          <span class="c0"># 3</span>
+echo <span class="nv">$((</span> <span class="fl">10</span> % <span class="fl">3</span> <span class="nv">))</span>         <span class="c0"># 1（取余）</span>
+((<span class="nb">count</span>++))                <span class="c0"># 自增（不用写 $，这是赋值）</span>
+((<span class="nb">count</span> += <span class="fl">5</span>))             <span class="c0"># 自增 5</span>
+
+<span class="c0"># 浮点运算：用 bc</span>
+echo "scale=2; 10/3" | bc  <span class="c0"># 3.33</span></code></pre>
+<h2>流程控制</h2>
+<h3>if：最基础的判断</h3>
+<p>骨架（背下来）：</p>
+<pre><code>if [ 条件 ]; then
+    命令
+elif [ 条件2 ]; then
+    命令
+else
+    命令
+fi</code></pre>
+<h3>步骤 7：单 if</h3>
+<pre><code><span class="nb">score</span>=85
+
+if [ <span class="nv">$score</span> -ge <span class="fl">60</span> ]; then
+    echo "及格"
+fi
+<span class="c0"># 输出: 及格</span></code></pre>
+<h3>步骤 8：if-else</h3>
+<pre><code>if [ <span class="nv">$score</span> -ge <span class="fl">60</span> ]; then
+    echo "及格"
+else
+    echo "不及格"
+fi</code></pre>
+<h3>步骤 9：if-elif-else（多分支）</h3>
+<pre><code>if [ <span class="nv">$score</span> -ge <span class="fl">90</span> ]; then
+    echo "优秀"
+elif [ <span class="nv">$score</span> -ge <span class="fl">80</span> ]; then
+    echo "良好"
+elif [ <span class="nv">$score</span> -ge <span class="fl">60</span> ]; then
+    echo "及格"
+else
+    echo "不及格"
+fi
+<span class="c0"># 输出: 良好</span></code></pre>
+<p>条件后面加 <code>;</code>，命令后面加 <code>;</code>，可以压成一行（用在 crontab 或一行命令里）：</p>
+<pre><code>if [ -f /tmp/lock ]; then echo "locked"; exit 1; fi</code></pre>
+<h3>case：值匹配</h3>
+<p>典型场景：写服务启停脚本。</p>
+<pre><code><span class="c0"># 写一个迷你 nginx 控制脚本</span>
+<span class="nb">action</span>=<span class="nv">$1</span>   <span class="c0"># 第一个参数</span>
+
+case "<span class="nv">$action</span>" in
+    start)
+        echo "启动 nginx"
+        ;;
+    stop)
+        echo "停止 nginx"
+        ;;
+    restart)
+        echo "重启 nginx"
+        ;;
+    status|state)        <span class="c0"># 两个值匹配同一段</span>
+        echo "查看状态"
+        ;;
+    *)
+        echo "用法: <span class="nv">$0</span> {start|stop|restart|status}"
+        exit <span class="fl">1</span>
+        ;;
+esac</code></pre>
+<pre><code>bash myscript.sh start
+<span class="c0"># 输出: 启动 nginx</span>
+
+bash myscript.sh hello
+<span class="c0"># 输出: 用法: myscript.sh {start|stop|restart|status}</span></code></pre>
+<blockquote><code>*)</code> 是兜底分支（类似 if 的 else），任何没匹配上的都走这里。</blockquote>
+<h3>循环（先有个印象）</h3>
+<pre><code><span class="c0"># for 遍历列表</span>
+for host in web1 web2 web3; do
+    echo "检查 <span class="nv">$host</span>"
+done
+
+<span class="c0"># for 计数</span>
+for i in 1 2 3 4 5; do
+    echo "第 <span class="nv">$i</span> 次"
+done
+
+<span class="c0"># while 条件循环</span>
+<span class="nb">count</span>=3
+while [ <span class="nv">$count</span> -gt <span class="fl">0</span> ]; do
+    echo "倒计时: <span class="nv">$count</span>"
+    ((<span class="nb">count</span>--))
+done
+<span class="c0"># 输出: 3 / 2 / 1</span></code></pre>
+<h2>进程管理</h2>
+<h3>什么是进程</h3>
+<blockquote>程序 = 硬盘上的一个文件（比如 <code>/usr/bin/ls</code>）<br>进程 = 程序被加载到内存里、正在跑（或者等跑）的状态</blockquote>
+<p>打比方：菜谱 vs 做饭。一份菜谱可以同时做好几桌饭，每一桌都是一个"进程"。</p>
+<p>每个进程都有一个唯一编号：<strong>PID</strong>（Process ID）。比如 PID 1234。</p>
+<h3>进程的三个组成部分</h3>
+<table>
+<thead><tr><th>部分</th><th>是什么</th><th>类比</th></tr></thead>
+<tbody>
+<tr><td>程序代码</td><td>那个可执行文件的内容</td><td>菜谱步骤</td></tr>
+<tr><td>运行数据</td><td>变量、堆、栈、打开的文件</td><td>当前做到第几步、用了哪些食材</td></tr>
+<tr><td>PCB</td><td>内核为进程建的"档案"</td><td>餐桌订单（记着谁点的、PID、状态）</td></tr>
+</tbody>
+</table>
+<h3>进程状态（最核心的 4 个）</h3>
+<pre><code>        ┌────── 创建（new）
+        │
+        ▼
+   ┌─── 就绪（R）──┐    ← 在排队等 CPU
+   │       │       │
+调度▼       │       │
+   │   ┌── 运行（R）─┐  ← 正在 CPU 上跑
+   │   │       │       │
+   │   │       ▼       │
+   └───┤   阻塞（S/D）  ← 睡着了（在等 IO 完成）
+       │       │
+       │       ▼
+       └─── 终止（结束）</code></pre>
+<table>
+<thead><tr><th>状态</th><th>英文</th><th>你看到的现象</th></tr></thead>
+<tbody>
+<tr><td>就绪 / 运行</td><td>R（Runnable/Running）</td><td>正在跑，或者马上要被 CPU 调度</td></tr>
+<tr><td>阻塞（可中断）</td><td>S（Sleeping）</td><td>在等 IO（网络、键盘、磁盘）</td></tr>
+<tr><td>阻塞（不可中断）</td><td>D（Disk sleep）</td><td>也在等 IO，但杀不掉（一般磁盘 IO 紧张）</td></tr>
+<tr><td>僵尸</td><td>Z（Zombie）</td><td>已经死了但没人收尸（父进程没回收）</td></tr>
+</tbody>
+</table>
+<p>举例：</p>
+<ul><li>你打开一个文件，编辑器在等你按键 → S 状态</li><li>你下载一个大文件，浏览器在等网络数据 → S 状态</li><li>服务器磁盘 IO 打满，NFS 卡住 → 可能出现一堆 D</li><li>一个进程死掉了但父进程没 wait → 出现一个 Z</li></ul>
+<h3>进程命令</h3>
+<h4>ps：看一眼有哪些进程（静态）</h4>
+<pre><code>ps aux</code></pre>
+<p>输出长这样（看列名）：</p>
+<pre><code>USER  PID   %CPU %MEM  VSZ    RSS   TTY  STAT  START  TIME  COMMAND
+root  1     0.0  0.1   12345  6789  ?    Ss    Jan01  0:01  /sbin/init
+root  1234  0.5  1.2   45678  12345 ?    Sl    Jan01  1:23  nginx: master
+nginx 1235  0.0  0.3   45678  3456  ?    S     Jan01  0:05  nginx: worker</code></pre>
+<table>
+<thead><tr><th>列</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>USER</td><td>谁起的</td></tr>
+<tr><td>PID</td><td>进程号</td></tr>
+<tr><td>%CPU / %MEM</td><td>占 CPU / 内存百分比</td></tr>
+<tr><td>STAT</td><td>状态（R / S / D / Z 等）</td></tr>
+<tr><td>COMMAND</td><td>启动命令</td></tr>
+</tbody>
+</table>
+<p>常用过滤：</p>
+<pre><code><span class="c0"># 找 nginx 的进程</span>
+ps aux | grep nginx
+
+<span class="c0"># 找特定用户的进程</span>
+ps -u root
+
+<span class="c0"># 自定义显示哪些列</span>
+ps -eo pid,ppid,stat,cmd</code></pre>
+<h4>top：动态版 ps（实时刷新）</h4>
+<pre><code>top</code></pre>
+<p>常用快捷键（在 top 运行中按）：</p>
+<ul><li><code>P</code>：按 CPU 排序</li><li><code>M</code>：按内存排序</li><li><code>1</code>：展开每个 CPU 核心</li><li><code>q</code>：退出</li></ul>
+<h4>kill：给进程发信号</h4>
+<blockquote>关键认知：kill 不是只能杀进程，它是给进程发"信号"（信号 = 一个整数代号，代表某种事件）。</blockquote>
+<table>
+<thead><tr><th>信号</th><th>编号</th><th>含义</th><th>什么时候用</th></tr></thead>
+<tbody>
+<tr><td><code>SIGTERM</code></td><td>15</td><td>礼貌地说"请退出"</td><td>默认信号，给进程清理机会</td></tr>
+<tr><td><code>SIGKILL</code></td><td>9</td><td>强杀，不给面子</td><td>进程卡死了才用</td></tr>
+<tr><td><code>SIGHUP</code></td><td>1</td><td>挂起</td><td>很多 daemon 收到这个会重读配置</td></tr>
+</tbody>
+</table>
+<pre><code><span class="c0"># 1. 礼貌终止（默认发 SIGTERM）</span>
+kill 1234
+
+<span class="c0"># 2. 明确指定信号</span>
+kill -15 1234    <span class="c0"># 礼貌</span>
+kill -9 1234     <span class="c0"># 强杀（杀不掉再考虑 D 状态或内核态死锁）</span>
+
+<span class="c0"># 3. 按名字杀</span>
+killall nginx
+
+<span class="c0"># 4. 按模式杀</span>
+pkill -f "python.*app.py"</code></pre>
+<p>杀进程的标准动作：</p>
+<pre><code>kill &lt;pid&gt;           <span class="c0"># 先礼貌</span>
+sleep <span class="fl">5</span>              <span class="c0"># 等 5 秒</span>
+kill -0 &lt;pid&gt; 2&gt;/dev/null &amp;&amp; kill -9 &lt;pid&gt;   <span class="c0"># 还活着就强杀</span></code></pre>
+<h4>任务控制：后台 / 前台 / 暂停</h4>
+<p>这是初学者最容易混的，分三步学。</p>
+<p>第一步：用 <code>&amp;</code> 启动后台任务</p>
+<pre><code>sleep 30 &amp;
+<span class="c0"># 输出: [1] 12345</span>
+<span class="c0">#      [job号] PID</span></code></pre>
+<p>方括号里的 <code>1</code> 是这个 shell 里的"任务编号"（job 号），跟 PID 不是一回事。</p>
+<p>第二步：用 <code>jobs</code> 看当前 shell 的后台任务</p>
+<pre><code>sleep 30 &amp;
+sleep 60 &amp;
+
+jobs -l
+<span class="c0"># 输出:</span>
+<span class="c0"># [1]+ 12345 Running   sleep 30 &amp;</span>
+<span class="c0"># [2]- 12346 Running   sleep 60 &amp;</span></code></pre>
+<p>第三步：<code>Ctrl+Z</code> 暂停，<code>fg</code> 拉到前台，<code>bg</code> 丢回后台</p>
+<pre><code><span class="c0"># 假设前台有个命令在跑</span>
+<span class="c0"># 按 Ctrl+Z   →  暂停，显示 [1]+  Stopped</span>
+<span class="c0"># 输入 bg      →  继续在后台跑</span>
+<span class="c0"># 输入 fg %1   →  拉到前台</span>
+<span class="c0"># 输入 kill %1 →  杀掉这个任务（按 job 号）</span></code></pre>
+<p>完整演示：</p>
+<pre><code>$ sleep 100          <span class="c0"># 前台跑，会卡住终端</span>
+^Z                   <span class="c0"># 按 Ctrl+Z</span>
+[1]+  Stopped        sleep 100
+
+$ jobs               <span class="c0"># 看任务</span>
+[1]+  Stopped        sleep 100
+
+$ bg %1              <span class="c0"># 放后台继续跑</span>
+[1]+ sleep 100 &amp;
+
+$ jobs               <span class="c0"># 状态变了</span>
+[1]+  Running        sleep 100 &amp;
+
+$ kill %1            <span class="c0"># 按 job 号杀掉</span>
+[1]+  Terminated     sleep 100</code></pre>
+<h4>其他命令（知道干嘛用就行）</h4>
+<table>
+<thead><tr><th>命令</th><th>一句话用途</th></tr></thead>
+<tbody>
+<tr><td><code>pstree</code></td><td>进程树，看父子关系</td></tr>
+<tr><td><code>free -h</code></td><td>看内存还剩多少</td></tr>
+<tr><td><code>nice -n 10 ./task</code></td><td>启动时设优先级（值越大越不"急"）</td></tr>
+<tr><td><code>renice -n 5 -p &lt;pid&gt;</code></td><td>调整运行中进程的优先级</td></tr>
+<tr><td><code>lsof -i :80</code></td><td>谁在用 80 端口</td></tr>
+<tr><td><code>vmstat 1</code></td><td>CPU/内存/IO 综合情况，每秒刷一次</td></tr>
+</tbody>
+</table>
+<h2>实战脚本</h2>
+<h3>检查 nginx 进程在不在，不在就启动</h3>
+<pre><code>#!/bin/bash
+if pgrep nginx &gt; /dev/null; then
+    echo "nginx 正在运行"
+else
+    echo "nginx 挂了，正在启动..."
+    systemctl start nginx
+fi</code></pre>
+<h3>批量杀掉所有 python 脚本（开发环境慎用）</h3>
+<pre><code>pkill -f "python.*my_script"
+<span class="c0"># 跑完后 ps aux | grep python 确认一下</span></code></pre>
+<h3>CPU 占用前 5 的进程</h3>
+<pre><code>ps aux --sort=-%cpu | head -6</code></pre>
+<h2>验证</h2>
+<ul><li>在 WSL 里把上面每段代码都敲一遍</li><li>故意改错（比如把 <code>-eq</code> 写成 <code>=</code>）看报什么错，加深印象</li><li>起一个 <code>sleep 1000</code> 当靶子，练 <code>kill</code> 和 <code>jobs</code> 的全套操作</li></ul>
+<h2>本节知识回顾表</h2>
+<table>
+<thead><tr><th>你应该掌握</th><th>关键命令 / 语法</th><th>熟练度目标</th></tr></thead>
+<tbody>
+<tr><td>文件测试</td><td><code>[ -f ]</code> <code>[ -d ]</code> <code>[ -e ]</code></td><td>能直接写</td></tr>
+<tr><td>字符串测试</td><td><code>[ -z ]</code> <code>[ -n ]</code> <code>"$var"</code></td><td>能直接写</td></tr>
+<tr><td>数字测试</td><td><code>-eq -gt -lt</code></td><td>知道 ≠ <code>=</code></td></tr>
+<tr><td>逻辑组合</td><td><code>[[ A &amp;&amp; B ]]</code></td><td>默认就用这个</td></tr>
+<tr><td>if 多分支</td><td><code>if / elif / else / fi</code></td><td>背熟骨架</td></tr>
+<tr><td>case</td><td><code>case $x in ... esac</code></td><td>写服务脚本用</td></tr>
+<tr><td>进程状态</td><td>R / S / D / Z</td><td>能看懂 <code>ps</code> 输出</td></tr>
+<tr><td>ps</td><td><code>ps aux</code> <code>ps -eo</code></td><td>必会</td></tr>
+<tr><td>kill</td><td><code>kill -15</code> <code>kill -9</code> <code>killall</code></td><td>必会</td></tr>
+<tr><td>任务控制</td><td><code>&amp;</code> <code>Ctrl+Z</code> <code>bg</code> <code>fg</code> <code>jobs</code> <code>kill %n</code></td><td>必会</td></tr>
+</tbody>
+</table>
+      </div>
+    </article>
+
+    <div class="like-section">
+      <button class="like-btn" id="likeBtn" >
+        <span class="heart">❤️</span>
+        <span id="likeText">点赞</span>
+        <span id="likeCount">0</span>
+      </button>
+    </div>
+
+    <div class="comments-section">
+      <script src="https://giscus.app/client.js"
+        data-repo="andersthorvald/andersthorvald.github.io"
+        data-repo-id="R_kgDOSnU2tg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSnU2ts4C92t8"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </main>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+
+  <script>
+    function toggleDark() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('dark-mode-manual', document.body.classList.contains('dark-mode'));
+      var btn = document.querySelector('.dark-toggle');
+      btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    }
+    function updateDarkByTime() {
+      var hour = new Date().getHours();
+      var isDark = hour < 7 || hour >= 19;
+      var manualSet = localStorage.getItem('dark-mode-manual');
+      if (manualSet !== null) {
+        isDark = manualSet === 'true';
+      }
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark-mode');
+        document.querySelector('.dark-toggle').textContent = '🌙';
+      }
+    }
+    updateDarkByTime();
+    setInterval(updateDarkByTime, 60000);
+
+    <script>
+(function initArticle() {
+  var rdProg = document.getElementById('rdProg');
+  function updateProgress() {
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (rdProg) rdProg.style.width = (docH > 0 ? (window.scrollY / docH * 100).toFixed(1) + '%' : '0%');
+    var st = document.getElementById('scrollTop');
+    if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+  }
+  window.addEventListener('scroll', updateProgress);
+  updateProgress();
+})();
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function applyDark(isDark) {
+  if (isDark) document.body.classList.add('dark-mode'); else document.body.classList.remove('dark-mode');
+  var btn = document.querySelector('.dark-toggle');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+}
+function toggleDark() {
+  var isDark = !document.body.classList.contains('dark-mode');
+  applyDark(isDark); localStorage.setItem('dark-mode-manual', isDark);
+}
+(function initDark() {
+  var h = new Date().getHours();
+  var d = h < 7 || h >= 19;
+  var m = localStorage.getItem('dark-mode-manual');
+  if (m !== null) d = m === 'true';
+  applyDark(d);
+})();
+setInterval(function() {
+  var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
+  if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
+}, 60000);
+</script>
+    <script>
+    (function initLike() {
+      var SB_URL = 'https://qhabcxcrychskugegflo.supabase.co';
+      var SB_KEY = 'sb_publishable_lIJ2AGqBO4A7fApaalyCOw_Xv4fveV6';
+      var slugVar = 'shell-basics-and-process';
+      var btn = document.getElementById('likeBtn');
+      var heart = document.getElementById('likeHeart');
+      var countEl = document.getElementById('likeCount');
+      var localKey = 'liked_' + slugVar;
+      var liked = localStorage.getItem(localKey) === '1';
+
+      function render(l, c) {
+        countEl.textContent = c;
+        heart.textContent = l ? '\u2764\uFE0F' : '\uD83E\uDDD1';
+        if (l) btn.classList.add('liked');
+      }
+
+      function apiFetch(path, method, body) {
+        return fetch(SB_URL + '/rest/v1/' + path, {
+          method: method,
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: body ? JSON.stringify(body) : undefined
+        }).then(function(r) { return r.json(); });
+      }
+
+        apiFetch('article_likes?slug=eq.' + slugVar, 'GET').then(function(rows) {
+          var c = (rows && rows.length > 0 && rows[0].count) || 0;
+          var newCount = c + 1;
+          render(true, newCount);
+          apiFetch('article_likes?slug=eq.' + slugVar, 'PATCH', { count: newCount });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
