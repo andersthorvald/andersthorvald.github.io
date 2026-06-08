@@ -274,6 +274,89 @@ python init.py --config site.yaml</code></pre>
           <li>如果只想用 project pages，仓库名随便填，访问地址会变成 <code>&lt;username&gt;.github.io/&lt;repo&gt;</code></li>
         </ul>
 
+        <h2>开发者：自动化发布</h2>
+        <p>项目自带两个 GitHub Actions 工作流，在 <code>.github/workflows/</code> 目录：</p>
+        <ul>
+          <li><code>docker-publish.yml</code> — 推 tag 自动构建 Docker 镜像并发布到 ghcr.io</li>
+          <li><code>release.yml</code> — 推 tag 自动打包 zip + 创建 GitHub Release</li>
+        </ul>
+        <p>整个流程要做的就是三步：</p>
+
+        <h3>前置：把项目推到 GitHub</h3>
+        <pre><code>cd sre-wiki-kit
+git init
+git add -A
+git commit -m "init: bootstrap sre-wiki-kit"
+git branch -M main
+git remote add origin https://github.com/&lt;你的用户名&gt;/sre-wiki-kit.git
+git push -u origin main</code></pre>
+
+        <h3>步骤 1：开 Actions 写权限</h3>
+        <p>让 Actions 能推 Docker 镜像到 GHCR：</p>
+        <ol>
+          <li>打开仓库 → 顶部 <strong>Settings</strong></li>
+          <li>左边栏找到 <strong>Actions</strong> → <strong>General</strong></li>
+          <li>滚到最下面 <strong>Workflow permissions</strong></li>
+          <li>选 <strong>Read and write permissions</strong></li>
+          <li>点 <strong>Save</strong></li>
+        </ol>
+        <blockquote>如果只选默认的 "Read repository contents and packages permissions"，Actions 推 GHCR 时会报 403 权限不足。</blockquote>
+
+        <h3>步骤 2：把 Package 公开</h3>
+        <p>默认 Package 是 Private，同学拉不到镜像。改成 Public：</p>
+        <ol>
+          <li>仓库主页右边栏 <strong>Packages</strong>（或在 https://github.com/&lt;用户名&gt;?tab=packages）</li>
+          <li>点 <code>sre-wiki-kit</code> 这个 package</li>
+          <li>右边 <strong>Package settings</strong></li>
+          <li>最下面 <strong>Danger Zone</strong> → <strong>Change package visibility</strong></li>
+          <li>选 <strong>Public</strong>，输入确认，保存</li>
+        </ol>
+        <blockquote>公开后镜像地址：<code>ghcr.io/&lt;你的用户名&gt;/sre-wiki-kit</code></blockquote>
+
+        <h3>步骤 3：推个 tag 触发自动发布</h3>
+        <pre><code><span class="c0"># 1. 打 tag（推荐语义化版本）</span>
+git tag v0.1.0
+
+<span class="c0"># 2. 推 tag 到 GitHub</span>
+git push origin v0.1.0</code></pre>
+        <p>推送后两件事会自动发生：</p>
+        <ol>
+          <li>GitHub Actions 开始构建 Docker 镜像 → 几分钟后发布到 GHCR</li>
+          <li>自动创建 GitHub Release，附带 <code>sre-wiki-kit.zip</code> 下载</li>
+        </ol>
+
+        <h3>查看结果</h3>
+        <ul>
+          <li>Actions 日志：仓库 → 顶栏 <strong>Actions</strong> → 选对应 run</li>
+          <li>Release：仓库右边栏 <strong>Releases</strong></li>
+          <li>镜像：<a href="https://github.com/&lt;用户名&gt;?tab=packages" target="_blank">https://github.com/&lt;用户名&gt;?tab=packages</a></li>
+        </ul>
+
+        <h3>同学怎么用你的镜像</h3>
+        <pre><code><span class="c0"># 拉你的镜像</span>
+docker pull ghcr.io/&lt;你的用户名&gt;/sre-wiki-kit:latest
+
+<span class="c0"># 跑起来（不用 build、Python、git，全都不用）</span>
+docker run -it --rm -v <span class="s2">${PWD}</span>:/wiki ghcr.io/&lt;你的用户名&gt;/sre-wiki-kit:latest</code></pre>
+
+        <h3>支持的镜像 tag</h3>
+        <ul>
+          <li><code>latest</code> — main 分支最新</li>
+          <li><code>v0.1.0</code> — 精确版本</li>
+          <li><code>v0.1</code> — minor 版本</li>
+          <li><code>v0</code> — major 版本</li>
+          <li><code>main-abc1234</code> — 特定 commit</li>
+        </ul>
+        <p>多架构支持：<code>linux/amd64</code>（Intel/AMD）+ <code>linux/arm64</code>（Apple Silicon）。</p>
+
+        <h3>常见问题</h3>
+        <h4>Actions 跑失败，提示 "403 Forbidden"</h4>
+        <p>检查步骤 1（Workflow permissions）有没有设成 Read and write。</p>
+        <h4>同学 pull 镜像提示 "denied: requested access to the resource is denied"</h4>
+        <p>检查步骤 2（Package visibility）是不是 Public。</p>
+        <h4>Actions 跑失败，提示 "no space left on device"</h4>
+        <p>GitHub 缓存满了，去 Actions → 任意 workflow → 右上角 <strong>Clear caches</strong>。</p>
+
       </div>
     </article>
 
