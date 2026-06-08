@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRE Wiki Kit - 一键搭建个人博客 | SRE Wiki</title>
+  <meta name="description" content="SRE Wiki Kit 是基于本博客封装的 Python 工具，让同班同学 5 分钟拥有自己的 GitHub Pages 个人博客。">
+  <meta name="keywords" content="SRE Wiki Kit, 个人博客, GitHub Pages, Python, 一键搭建, 开源工具">
+  <meta name="author" content="Thorvald">
+  <link rel="canonical" href="https://andersthorvald.github.io/projects/sre-wiki-kit/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SRE Wiki Kit - 一键搭建个人博客">
+  <meta property="og:description" content="基于本博客封装的 Python 工具，让同学 5 分钟拥有自己的 GitHub Pages 博客。">
+  <meta property="og:url" content="https://andersthorvald.github.io/projects/sre-wiki-kit/">
+  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-06-08T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="开源项目">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SRE Wiki Kit - 一键搭建个人博客">
+  <meta name="twitter:description" content="基于本博客封装的 Python 工具，5 分钟搭建 GitHub Pages 博客。">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=PingFang+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/article.css">
+<style>
+pre code .kw { color: #ff79c6; font-weight: bold; }
+pre code .fl { color: #bd93f9; }
+pre code .nb { color: #bd93f9; }
+pre code .s1 { color: #50fa7b; }
+pre code .s2 { color: #f1fa8c; }
+pre code .c0 { color: #6272a4; font-style: italic; }
+pre code .op { color: #ff79c6; }
+.download-card {
+  background: linear-gradient(135deg, rgba(255,154,158,0.15) 0%, rgba(250,208,196,0.15) 55%, rgba(254,207,239,0.15) 100%);
+  border: 2px solid rgba(255,154,158,0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+.download-card .version { color: #5a5470; font-size: 0.9rem; margin-bottom: 0.5rem; }
+.download-card .size { color: #5a5470; font-size: 0.9rem; margin-bottom: 1.5rem; }
+.download-card .btn-download {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 24px rgba(255,154,158,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.download-card .btn-download:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(255,154,158,0.4);
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.feature-item {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,154,158,0.25);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(196,69,105,0.08);
+}
+.feature-item .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.feature-item h3 { margin: 0 0 0.5rem; color: #2d2040; font-size: 1.1rem; }
+.feature-item p { margin: 0; color: #5a5470; font-size: 0.9rem; line-height: 1.5; }
+</style>
+</head>
+<div class="reading-progress" id="rdProg"></div>
+<body>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">首页</a></li>
+      <li><a href="/about/">关于</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <a href="/" class="back-link">← 返回首页</a>
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">SRE Wiki Kit</h1>
+        <p style="font-size: 1.1rem; color: #5a5470; margin: 0.5rem 0 1rem;">一键搭建你的 GitHub Pages 个人博客</p>
+        <div class="article-meta">
+          <span>📅 2026-06-08</span>
+          <span>📁 开源项目</span>
+          <span class="tag">Python</span>
+          <span class="tag">GitHub Pages</span>
+          <span class="tag">博客</span>
+          <span class="tag">开源</span>
+        </div>
+      </div>
+      <div class="article-content">
+
+        <h2>这是什么</h2>
+        <p>这是基于本博客封装的 <strong>Python 一键工具</strong>，把同班同学"想搭个博客但又不会前端/部署"的痛点直接砍掉。</p>
+        <p>它把整个 SRE Wiki 拆成可配置的模板，配上两个 Python 脚本（<code>init.py</code> + <code>new_post.py</code>），让你 5 分钟跑出属于自己的博客。</p>
+
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="icon">🚀</div>
+            <h3>一键生成</h3>
+            <p>一条命令生成完整静态博客：HTML/CSS/SEO/404/Giscus 评论全齐。</p>
+          </div>
+          <div class="feature-item">
+            <div class="icon">🎨</div>
+            <h3>玻璃质感</h3>
+            <p>粉紫渐变 + 浮动粒子 + 暖色光晕，深色模式自动切换 19:00-07:00。</p>
+          </div>
+          <div class="feature-item">
+            <div class="icon">📝</div>
+            <h3>两种配置</h3>
+            <p>支持交互式问答（小白友好）和 YAML 配置文件（想精调的）。</p>
+          </div>
+          <div class="feature-item">
+            <div class="icon">🤖</div>
+            <h3>自动推送</h3>
+            <p>自动 git init + commit + push 到 gh-pages，GitHub Pages 1 分钟上线。</p>
+          </div>
+        </div>
+
+        <h2>下载</h2>
+        <div class="download-card">
+          <div class="version">版本 v1.0 · 2026-06-08</div>
+          <div class="size">30 KB · 包含源码 + 模板 + 完整教程</div>
+          <a href="/downloads/sre-wiki-kit.zip" class="btn-download" download>📦 下载 sre-wiki-kit.zip</a>
+        </div>
+
+        <h2>5 分钟快速开始</h2>
+        <h3>步骤 1：准备 GitHub 仓库</h3>
+        <ul>
+          <li>登录 GitHub → 右上角 <code>+</code> → <strong>New repository</strong></li>
+          <li>仓库名填 <code>&lt;你的用户名&gt;.github.io</code>（必须这样填）</li>
+          <li>选 <strong>Public</strong>，点 <strong>Create</strong></li>
+        </ul>
+
+        <h3>步骤 2：解压 + 装依赖</h3>
+        <pre><code><span class="c0"># 解压压缩包</span>
+unzip sre-wiki-kit.zip
+cd sre-wiki-kit
+
+<span class="c0"># 装一个依赖（YAML 解析）</span>
+pip install pyyaml</code></pre>
+
+        <h3>步骤 3：跑脚本</h3>
+        <p><strong>方式 A：交互式（推荐新手）</strong></p>
+        <pre><code>python init.py</code></pre>
+        <p>脚本会一题一题问你，照着填就行。</p>
+
+        <p><strong>方式 B：改配置文件</strong></p>
+        <pre><code><span class="c0"># 1. 复制示例配置</span>
+cp examples/site.yaml site.yaml
+
+<span class="c0"># 2. 用记事本/VSCode 改 site.yaml</span>
+<span class="c0"># 3. 跑脚本</span>
+python init.py --config site.yaml</code></pre>
+
+        <h3>步骤 4：去 GitHub 开 Pages</h3>
+        <ul>
+          <li>仓库 → <strong>Settings</strong> → <strong>Pages</strong></li>
+          <li>Source 选 <strong>Deploy from a branch</strong></li>
+          <li>Branch 选 <code>gh-pages</code>，目录 <code>/ (root)</code></li>
+          <li>点 <strong>Save</strong>，等 1-2 分钟</li>
+        </ul>
+
+        <p>访问 <code>https://&lt;你的用户名&gt;.github.io</code> 就能看到博客了 🎉</p>
+
+        <h2>项目结构</h2>
+        <pre><code>sre-wiki-kit/
+├── init.py                  <span class="c0"># 一键脚本（核心）</span>
+├── new_post.py              <span class="c0"># 新增文章脚本</span>
+├── README.md                <span class="c0"># 完整教程</span>
+├── LICENSE                  <span class="c0"># MIT 协议</span>
+├── requirements.txt
+├── examples/
+│   ├── site.yaml            <span class="c0"># 配置示例</span>
+│   └── test-config.yaml
+└── templates/
+    ├── favicon.svg
+    ├── pages/               <span class="c0"># HTML 模板</span>
+    │   ├── index.html
+    │   ├── article.html
+    │   ├── about.html
+    │   └── 404.html
+    └── css/                 <span class="c0"># 样式</span>
+        ├── article.css
+        └── about.css</code></pre>
+
+        <h2>脚本到底干了啥</h2>
+        <ol>
+          <li>加载配置（YAML 或交互问答）</li>
+          <li>渲染 HTML 模板（替换 <code>{{SITE_TITLE}}</code> 之类的占位符）</li>
+          <li>生成 SEO 文件（sitemap.xml / robots.txt / .nojekyll）</li>
+          <li>Git 操作（init → add → commit → push）</li>
+        </ol>
+
+        <h2>常见问题</h2>
+
+        <h3>推送失败，提示 "Permission denied"</h3>
+        <p>GitHub 早就不能用密码推送了，需要 Personal Access Token：</p>
+        <ol>
+          <li>打开 https://github.com/settings/tokens</li>
+          <li>点 <strong>Generate new token (classic)</strong></li>
+          <li>勾 <code>repo</code> 权限，生成后<strong>复制</strong> token</li>
+          <li>推送时密码栏粘贴这个 token</li>
+        </ol>
+
+        <h3>网站打开是 404</h3>
+        <p>检查仓库 Settings → Pages，Branch 必须选 <code>gh-pages</code>。</p>
+
+        <h3>中文乱码</h3>
+        <p>用 VSCode / Notepad++ 重新保存为 UTF-8 编码。</p>
+
+        <h2>验证</h2>
+        <ul>
+          <li>压缩包 30KB 左右，下载快</li>
+          <li>解压后目录结构如上</li>
+          <li>跑 <code>python init.py --dry-run</code> 不推送只生成，看效果</li>
+          <li>修改 <code>site.yaml</code> 重新跑，会自动覆盖旧文件</li>
+        </ul>
+
+        <h2>注意事项</h2>
+        <ul>
+          <li>Python 3.7+ 必装（推荐 3.9+）</li>
+          <li>Git 必装，第一次推送会问 GitHub 账号密码（用 token）</li>
+          <li>仓库名必须是 <code>&lt;username&gt;.github.io</code> 才能用个人主页域名</li>
+          <li>如果只想用 project pages，仓库名随便填，访问地址会变成 <code>&lt;username&gt;.github.io/&lt;repo&gt;</code></li>
+        </ul>
+
+      </div>
+    </article>
+
+    <div class="like-section">
+      <button class="like-btn" id="likeBtn">
+        <span class="heart">❤️</span>
+        <span id="likeText">点赞</span>
+        <span id="likeCount">0</span>
+      </button>
+    </div>
+
+    <div class="comments-section">
+      <script src="https://giscus.app/client.js"
+        data-repo="andersthorvald/andersthorvald.github.io"
+        data-repo-id="R_kgDOSnU2tg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSnU2ts4C92t8"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </main>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+
+  <script>
+    function applyDark(d) {
+      document.body.classList[d ? 'add' : 'remove']('dark-mode');
+      var b = document.querySelector('.dark-toggle');
+      if(b) b.textContent = d ? '☀️' : '🌙';
+    }
+    function toggleDark() {
+      var d = !document.body.classList.contains('dark-mode');
+      applyDark(d); localStorage.setItem('dark-mode-manual', d);
+    }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    (function initArticle() {
+      var rdProg = document.getElementById('rdProg');
+      function updateProgress() {
+        var docH = document.documentElement.scrollHeight - window.innerHeight;
+        if (rdProg) rdProg.style.width = (docH > 0 ? (window.scrollY / docH * 100).toFixed(1) + '%' : '0%');
+        var st = document.getElementById('scrollTop');
+        if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+      }
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    })();
+    (function initDark() {
+      var h = new Date().getHours();
+      var d = h < 7 || h >= 19;
+      var m = localStorage.getItem('dark-mode-manual');
+      if (m !== null) d = m === 'true';
+      applyDark(d);
+    })();
+  </script>
+</body>
+</html>
