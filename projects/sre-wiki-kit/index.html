@@ -141,9 +141,17 @@ pre code .op { color: #ff79c6; }
         <h2>下载</h2>
         <div class="download-card">
           <div class="version">版本 v1.0 · 2026-06-08</div>
-          <div class="size">30 KB · 包含源码 + 模板 + 完整教程</div>
+          <div class="size">32 KB · 包含源码 + 模板 + Docker + Actions + 完整教程</div>
           <a href="/downloads/sre-wiki-kit.zip" class="btn-download" download>📦 下载 sre-wiki-kit.zip</a>
         </div>
+
+        <h3>不想下载？直接拉 Docker 镜像</h3>
+        <p>项目自带 GitHub Actions，每次推送 tag 自动构建并发布到 <strong>ghcr.io</strong>，多架构支持（x86_64 + ARM64）：</p>
+        <pre><code><span class="c0"># 1. 拉最新镜像（替换 &lt;username&gt; 为你的 GitHub 用户名）</span>
+docker pull ghcr.io/&lt;username&gt;/sre-wiki-kit:latest
+
+<span class="c0"># 2. 跑起来</span>
+docker run -it --rm -v <span class="s2">${PWD}</span>:/wiki ghcr.io/&lt;username&gt;/sre-wiki-kit:latest</code></pre>
 
         <h2>5 分钟快速开始</h2>
         <h3>步骤 1：准备 GitHub 仓库</h3>
@@ -205,6 +213,9 @@ python init.py --config site.yaml</code></pre>
 ├── new_post.py              <span class="c0"># 新增文章脚本</span>
 ├── Dockerfile               <span class="c0"># Docker 镜像构建</span>
 ├── docker-compose.yml       <span class="c0"># Compose 配置</span>
+├── .github/workflows/       <span class="c0"># GitHub Actions</span>
+│   ├── docker-publish.yml   <span class="c0"># 自动构建+发布 Docker 镜像</span>
+│   └── release.yml          <span class="c0"># 推 tag 自动打包 Release</span>
 ├── README.md                <span class="c0"># 完整教程</span>
 ├── LICENSE                  <span class="c0"># MIT 协议</span>
 ├── requirements.txt
