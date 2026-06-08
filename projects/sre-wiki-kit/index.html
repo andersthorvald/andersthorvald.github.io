@@ -154,12 +154,27 @@ pre code .op { color: #ff79c6; }
         </ul>
 
         <h3>步骤 2：解压 + 装依赖</h3>
+        <p><strong>方式 A：直接装 Python（推荐）</strong></p>
         <pre><code><span class="c0"># 解压压缩包</span>
 unzip sre-wiki-kit.zip
 cd sre-wiki-kit
 
 <span class="c0"># 装一个依赖（YAML 解析）</span>
 pip install pyyaml</code></pre>
+
+        <p><strong>方式 B：不想装 Python？用 Docker</strong></p>
+        <pre><code><span class="c0"># 1. 安装 Docker Desktop（一次性，30MB）</span>
+<span class="c0">#    https://www.docker.com/products/docker-desktop/</span>
+
+<span class="c0"># 2. 构建镜像（首次 1-2 分钟）</span>
+docker build -t sre-wiki-kit .
+
+<span class="c0"># 3. 跑起来（交互式问答）</span>
+docker run -it --rm -v <span class="s2">${PWD}</span>:/wiki sre-wiki-kit
+
+<span class="c0"># 或者用 docker-compose（更简单）</span>
+docker compose run --rm sre-wiki-kit</code></pre>
+        <p>PowerShell 用户把 <code>${PWD}</code> 换成绝对路径，比如 <code>C:\Users\xxx\Desktop\sre-wiki-kit</code>。</p>
 
         <h3>步骤 3：跑脚本</h3>
         <p><strong>方式 A：交互式（推荐新手）</strong></p>
@@ -188,6 +203,8 @@ python init.py --config site.yaml</code></pre>
         <pre><code>sre-wiki-kit/
 ├── init.py                  <span class="c0"># 一键脚本（核心）</span>
 ├── new_post.py              <span class="c0"># 新增文章脚本</span>
+├── Dockerfile               <span class="c0"># Docker 镜像构建</span>
+├── docker-compose.yml       <span class="c0"># Compose 配置</span>
 ├── README.md                <span class="c0"># 完整教程</span>
 ├── LICENSE                  <span class="c0"># MIT 协议</span>
 ├── requirements.txt
