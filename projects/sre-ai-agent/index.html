@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRE AI Agent 系列 - 从 0 搭一个实验排障 AI Agent | SRE Wiki</title>
+  <meta name="description" content="SRE AI Agent 系列博客：基于开源 AIOps 项目做一个实验排障 AI Agent，从架构到部署、从 prompt 调优到 lesson learned，全程记录。">
+  <meta name="keywords" content="SRE, AIOps, AI Agent, LLM, 排障, 自动化, 开源">
+  <meta name="author" content="Thorvald">
+  <link rel="canonical" href="https://andersthorvald.github.io/projects/sre-ai-agent/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SRE AI Agent 系列 - 从 0 搭一个实验排障 AI Agent">
+  <meta property="og:description" content="基于开源 AIOps 项目做一个实验排障 AI Agent，从架构到部署全程记录。">
+  <meta property="og:url" content="https://andersthorvald.github.io/projects/sre-ai-agent/">
+  <meta property="og:image" content="https://andersthorvald.github.io/images/og-image.png">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-07-02T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="AI / AIOps">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SRE AI Agent 系列 - 从 0 搭一个实验排障 AI Agent">
+  <meta name="twitter:description" content="基于开源 AIOps 项目做一个实验排障 AI Agent，从架构到部署全程记录。">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=PingFang+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/article.css">
+<style>
+  .series-intro {
+    background: linear-gradient(135deg, rgba(255,154,158,0.18) 0%, rgba(250,208,196,0.18) 55%, rgba(254,207,239,0.18) 100%);
+    border: 1px solid rgba(255,154,158,0.35);
+    border-radius: 20px;
+    padding: 1.8rem 2rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  .series-intro .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    background: linear-gradient(135deg, #ff9a9e, #c44569);
+    color: white;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.8rem;
+  }
+  .series-intro p { margin: 0.5rem 0; color: #2d2040; line-height: 1.7; }
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    counter-reset: toc;
+  }
+  .toc-list li {
+    counter-increment: toc;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-list a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,154,158,0.25);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    margin-bottom: 0.8rem;
+  }
+  .toc-list a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(196,69,105,0.4);
+    box-shadow: 0 8px 24px rgba(196,69,105,0.12);
+  }
+  .toc-list .num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff9a9e, #c44569);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .toc-list a.todo .num {
+    background: rgba(255,255,255,0.6);
+    color: #9b96b0;
+    border: 1px dashed rgba(255,154,158,0.45);
+  }
+  .toc-list .meta { flex: 1; min-width: 0; }
+  .toc-list .meta .title { font-weight: 600; color: #2d2040; font-size: 1rem; line-height: 1.3; }
+  .toc-list .meta .sub { color: #5a5470; font-size: 0.85rem; margin-top: 3px; }
+  .toc-list .status {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .toc-list .status.done {
+    background: rgba(76,175,80,0.18);
+    color: #2e7d32;
+  }
+  .toc-list .status.wip {
+    background: rgba(255,154,158,0.22);
+    color: #c44569;
+  }
+  .toc-list .status.todo {
+    background: rgba(155,150,176,0.18);
+    color: #6f6a85;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.5rem 0;
+  }
+  .meta-row a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,154,158,0.3);
+    border-radius: 999px;
+    color: #c44569;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: transform 0.2s;
+  }
+  .meta-row a:hover { transform: translateY(-2px); }
+</style>
+</head>
+<div class="reading-progress" id="rdProg"></div>
+<body>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">首页</a></li>
+      <li><a href="/about/">关于</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <a href="/" class="back-link">← 返回首页</a>
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">SRE AI Agent 系列</h1>
+        <p style="font-size: 1.1rem; color: #5a5470; margin: 0.5rem 0 1rem;">从 0 搭一个实验排障 AI Agent · 全程记录</p>
+        <div class="article-meta">
+          <span>📅 2026-07-02 开更</span>
+          <span>📁 系列博客</span>
+          <span class="tag">AI Agent</span>
+          <span class="tag">AIOps</span>
+          <span class="tag">LLM</span>
+          <span class="tag">SRE</span>
+        </div>
+      </div>
+      <div class="article-content">
+
+        <div class="series-intro">
+          <span class="badge">SERIES · 进行中</span>
+          <p>这个系列记录我基于一个开源 AIOps 项目，搭一个<strong>SRE 实验排障 AI Agent</strong>的全过程。</p>
+          <p>从架构选型、prompt 设计、工具调用、到 lesson learned——不会写成"完美教程"，会更偏"一个 SRE 小白第一次玩 AI Agent 时踩的坑"。</p>
+        </div>
+
+        <h2>这个系列会写什么</h2>
+        <ul>
+          <li>为什么想做这个、解决了 SRE 日常哪个痛点</li>
+          <li>选型对比：开源 AIOps 项目有哪些、各自适合什么场景</li>
+          <li>架构设计：Agent + Tool + Memory 怎么组合</li>
+          <li>Prompt 工程：从"会回答"到"会排障"的迭代</li>
+          <li>接入真实告警数据：从 demo 到生产化</li>
+          <li>踩坑集：幻觉、上下文超限、敏感操作安全</li>
+        </ul>
+
+        <h2>系列目录</h2>
+        <ol class="toc-list">
+          <li>
+            <a href="/projects/sre-ai-agent/build-from-open-source-aiops/">
+              <span class="num">1</span>
+              <span class="meta">
+                <div class="title">我基于开源 AIOps 项目做了一个 SRE 实验排障 AI Agent</div>
+                <div class="sub">序章 · 为什么做、选了什么、整体架构长什么样</div>
+              </span>
+              <span class="status wip">撰写中</span>
+            </a>
+          </li>
+          <li>
+            <a class="todo" href="#">
+              <span class="num">2</span>
+              <span class="meta">
+                <div class="title">选型对比：4 个候选 AIOps 开源项目</div>
+                <div class="sub">横向对比，开搞前做的功课</div>
+              </span>
+              <span class="status todo">待写</span>
+            </a>
+          </li>
+          <li>
+            <a class="todo" href="#">
+              <span class="num">3</span>
+              <span class="meta">
+                <div class="title">架构设计：Agent + MCP + 工具调用</div>
+                <div class="sub">怎么把 LLM 和 SRE 工具链粘起来</div>
+              </span>
+              <span class="status todo">待写</span>
+            </a>
+          </li>
+          <li>
+            <a class="todo" href="#">
+              <span class="num">4</span>
+              <span class="meta">
+                <div class="title">Prompt 调优实录</div>
+                <div class="sub">从"会回答"到"会排障"的 5 个版本</div>
+              </span>
+              <span class="status todo">待写</span>
+            </a>
+          </li>
+          <li>
+            <a class="todo" href="#">
+              <span class="num">5</span>
+              <span class="meta">
+                <div class="title">接入告警与日志：从 demo 到准生产</div>
+                <div class="sub">Prometheus / Loki / 真实故障演练</div>
+              </span>
+              <span class="status todo">待写</span>
+            </a>
+          </li>
+          <li>
+            <a class="todo" href="#">
+              <span class="num">6</span>
+              <span class="meta">
+                <div class="title">踩坑集 + lesson learned</div>
+                <div class="sub">幻觉、超长上下文、敏感操作权限</div>
+              </span>
+              <span class="status todo">待写</span>
+            </a>
+          </li>
+        </ol>
+
+        <h2>关联链接</h2>
+        <div class="meta-row">
+          <a href="https://github.com/andersthorvald" target="_blank" rel="noopener">⭐ GitHub @andersthorvald</a>
+          <a href="/about/">👤 关于我</a>
+          <a href="/">📚 全部文档</a>
+        </div>
+
+        <h2>更新节奏</h2>
+        <p>每周 1–2 篇，跟实验进展同步。最终目标：能让我自己（一个真 SRE）下班时间少被叫醒。</p>
+        <blockquote>系列完结后会把所有代码 + 配置 + prompt 模板打包开源，单独的仓库。</blockquote>
+
+      </div>
+    </article>
+
+    <div class="like-section">
+      <button class="like-btn" id="likeBtn">
+        <span class="heart">❤️</span>
+        <span id="likeText">点赞</span>
+        <span id="likeCount">0</span>
+      </button>
+    </div>
+
+    <div class="comments-section">
+      <script src="https://giscus.app/client.js"
+        data-repo="andersthorvald/andersthorvald.github.io"
+        data-repo-id="R_kgDOSnU2tg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSnU2ts4C92t8"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </main>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+
+  <script>
+    function applyDark(d) {
+      document.body.classList[d ? 'add' : 'remove']('dark-mode');
+      var b = document.querySelector('.dark-toggle');
+      if(b) b.textContent = d ? '☀️' : '🌙';
+    }
+    function toggleDark() {
+      var d = !document.body.classList.contains('dark-mode');
+      applyDark(d); localStorage.setItem('dark-mode-manual', d);
+    }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    (function initArticle() {
+      var rdProg = document.getElementById('rdProg');
+      function updateProgress() {
+        var docH = document.documentElement.scrollHeight - window.innerHeight;
+        if (rdProg) rdProg.style.width = (docH > 0 ? (window.scrollY / docH * 100).toFixed(1) + '%' : '0%');
+        var st = document.getElementById('scrollTop');
+        if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+      }
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    })();
+    (function initDark() {
+      var h = new Date().getHours();
+      var d = h < 7 || h >= 19;
+      var m = localStorage.getItem('dark-mode-manual');
+      if (m !== null) d = m === 'true';
+      applyDark(d);
+    })();
+  </script>
+</body>
+</html>

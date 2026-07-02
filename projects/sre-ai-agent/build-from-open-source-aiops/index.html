@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我基于开源 AIOps 项目做了一个 SRE 实验排障 AI Agent | SRE Wiki</title>
+  <meta name="description" content="序章：从一个真实的 SRE 痛点出发，选型一个开源 AIOps 项目，搭一个实验排障 AI Agent 的整体架构与动机。">
+  <meta name="author" content="Thorvald">
+  <link rel="canonical" href="https://andersthorvald.github.io/projects/sre-ai-agent/build-from-open-source-aiops/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="我基于开源 AIOps 项目做了一个 SRE 实验排障 AI Agent">
+  <meta property="og:description" content="序章：从一个真实痛点出发，基于开源 AIOps 项目搭一个实验排障 AI Agent。">
+  <meta property="og:url" content="https://andersthorvald.github.io/projects/sre-ai-agent/build-from-open-source-aiops/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="SRE Wiki">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-07-02T00:00:00+08:00">
+  <meta property="article:author" content="Thorvald">
+  <meta property="article:section" content="AI / AIOps">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=PingFang+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/article.css">
+  <link rel="stylesheet" href="/css/article.css">
+
+  <style>
+    .series-banner {
+      background: linear-gradient(135deg, rgba(255,154,158,0.18) 0%, rgba(250,208,196,0.18) 55%, rgba(254,207,239,0.18) 100%);
+      border: 1px solid rgba(255,154,158,0.35);
+      border-radius: 16px;
+      padding: 1rem 1.4rem;
+      margin: 0 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem 1.2rem;
+      font-size: 0.95rem;
+      color: #2d2040;
+    }
+    .series-banner .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      background: linear-gradient(135deg, #ff9a9e, #c44569);
+      color: white;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .series-banner a { color: #c44569; font-weight: 600; text-decoration: none; }
+    .series-banner a:hover { text-decoration: underline; }
+    .series-banner .ep { color: #5a5470; }
+  </style>
+</head>
+<div class="reading-progress" id="rdProg"></div>
+<body>
+  <header class="site-header">
+    <div class="site-title"><a href="/">SRE Wiki</a></div>
+    <ul class="nav-links">
+      <li><a href="/">首页</a></li>
+      <li><a href="/about/">关于</a></li>
+    </ul>
+  </header>
+  <main class="container">
+    <a href="/" class="back-link">← 返回首页</a>
+    <article class="article-card">
+      <div class="article-header">
+        <h1 class="article-title">我基于开源 AIOps 项目做了一个 SRE 实验排障 AI Agent</h1>
+        <p style="font-size: 1.05rem; color: #5a5470; margin: 0.5rem 0 1rem;">SRE AI Agent 系列 · 第 1 篇 / 共 6 篇</p>
+        <div class="article-meta">
+          <span>📅 2026-07-02</span>
+          <span>📁 AI / AIOps</span>
+          <span class="tag">序章</span>
+          <span class="tag">架构</span>
+          <span class="tag">选型</span>
+        </div>
+      </div>
+      <div class="article-content">
+
+        <div class="series-banner">
+          <span class="badge">SERIES</span>
+          <span class="ep">这是 <a href="/projects/sre-ai-agent/">SRE AI Agent 系列</a> 的第 1 篇</span>
+          <span class="ep">下一篇：选型对比 — 4 个候选开源项目</span>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ======   写到这里：你在下面填正文  ====== -->
+        <!-- ============================================ -->
+
+        <h2>为什么做这个</h2>
+        <p>（占位）讲讲痛点：oncall 半夜被叫醒、告警风暴、第一次排查往往靠直觉……</p>
+
+        <h2>选了什么开源 AIOps 项目</h2>
+        <p>（占位）候选的几个，简单对比，最终选了哪个，为什么。</p>
+
+        <h2>整体架构长什么样</h2>
+        <p>（占位）一张架构图 + 每层负责什么。</p>
+
+        <h2>这一篇不解决的</h2>
+        <p>（占位）让读者对系列后续篇有预期。</p>
+
+        <!-- 正文结束 -->
+
+        <hr style="margin: 2.5rem 0; border: none; border-top: 1px dashed rgba(255,154,158,0.35);">
+
+        <h2>系列导航</h2>
+        <ul>
+          <li>当前：第 1 篇 — 我基于开源 AIOps 项目做了一个 SRE 实验排障 AI Agent</li>
+          <li>下一篇：第 2 篇 — 选型对比：4 个候选 AIOps 开源项目</li>
+          <li><a href="/projects/sre-ai-agent/">← 回到系列主页</a></li>
+        </ul>
+
+      </div>
+    </article>
+
+    <div class="like-section">
+      <button class="like-btn" id="likeBtn">
+        <span class="heart">❤️</span>
+        <span id="likeText">点赞</span>
+        <span id="likeCount">0</span>
+      </button>
+    </div>
+
+    <div class="comments-section">
+      <script src="https://giscus.app/client.js"
+        data-repo="andersthorvald/andersthorvald.github.io"
+        data-repo-id="R_kgDOSnU2tg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOSnU2ts4C92t8"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </main>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+
+  <script>
+    function applyDark(d) {
+      document.body.classList[d ? 'add' : 'remove']('dark-mode');
+      var b = document.querySelector('.dark-toggle');
+      if(b) b.textContent = d ? '☀️' : '🌙';
+    }
+    function toggleDark() {
+      var d = !document.body.classList.contains('dark-mode');
+      applyDark(d); localStorage.setItem('dark-mode-manual', d);
+    }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    (function initArticle() {
+      var rdProg = document.getElementById('rdProg');
+      function updateProgress() {
+        var docH = document.documentElement.scrollHeight - window.innerHeight;
+        if (rdProg) rdProg.style.width = (docH > 0 ? (window.scrollY / docH * 100).toFixed(1) + '%' : '0%');
+        var st = document.getElementById('scrollTop');
+        if (st) { if (window.scrollY > 400) st.classList.add('visible'); else st.classList.remove('visible'); }
+      }
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    })();
+    (function initDark() {
+      var h = new Date().getHours();
+      var d = h < 7 || h >= 19;
+      var m = localStorage.getItem('dark-mode-manual');
+      if (m !== null) d = m === 'true';
+      applyDark(d);
+    })();
+  </script>
+</body>
+</html>
