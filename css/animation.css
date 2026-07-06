@@ -1,0 +1,148 @@
+/* =================================================================
+ * SRE Wiki — 全站动效公共样式
+ * v0.1.0
+ *
+ * 包含：
+ *   - bg-mesh：5 色径向光斑 + 缓慢漂移（32s）
+ *   - bg-blob：两个柔光圆斑 + 漂移（22-28s）
+ *   - .reveal：滚动渐显（IntersectionObserver 触发）
+ *   - hero 内元素错开 delay
+ *   - hover 接管 transform
+ *   - prefers-reduced-motion 全局跳过
+ *
+ * 依赖：js/animation.js（用 IntersectionObserver 触发 reveal）
+ * ================================================================= */
+
+/* ===== Mesh gradient 背景层 ===== */
+.bg-mesh {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(at 18% 28%, rgba(254,207,239,0.7) 0px, transparent 48%),
+    radial-gradient(at 82% 12%, rgba(255,154,158,0.55) 0px, transparent 50%),
+    radial-gradient(at 60% 78%, rgba(250,208,196,0.5) 0px, transparent 52%),
+    radial-gradient(at 8% 88%, rgba(189,153,244,0.32) 0px, transparent 50%),
+    radial-gradient(at 92% 82%, rgba(255,197,224,0.45) 0px, transparent 50%);
+  filter: blur(60px) saturate(125%);
+  animation: anim-mesh-drift 32s ease-in-out infinite alternate;
+  will-change: transform;
+}
+body.dark-mode .bg-mesh {
+  opacity: 0.55;
+  background:
+    radial-gradient(at 18% 28%, rgba(102,126,234,0.4) 0px, transparent 50%),
+    radial-gradient(at 82% 12%, rgba(118,75,162,0.4) 0px, transparent 50%),
+    radial-gradient(at 60% 78%, rgba(255,154,158,0.25) 0px, transparent 50%),
+    radial-gradient(at 8% 88%, rgba(67,56,202,0.3) 0px, transparent 50%),
+    radial-gradient(at 92% 82%, rgba(196,69,105,0.25) 0px, transparent 50%);
+}
+@keyframes anim-mesh-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-3%, 2.5%, 0) scale(1.07); }
+  100% { transform: translate3d(3.5%, -2.5%, 0) scale(1.04); }
+}
+
+/* ===== Blob 柔光圆斑 ===== */
+.bg-blob {
+  position: fixed; border-radius: 50%; filter: blur(100px);
+  pointer-events: none; z-index: 0;
+  will-change: transform;
+}
+.blob-1 { animation: anim-blob-drift-1 22s ease-in-out infinite alternate; }
+.blob-2 { animation: anim-blob-drift-2 28s ease-in-out infinite alternate; animation-delay: -10s; }
+body.dark-mode .blob-1 { background: rgba(102,126,234,0.12) !important; }
+body.dark-mode .blob-2 { background: rgba(118,75,162,0.12) !important; }
+@keyframes anim-blob-drift-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(60px, -50px, 0) scale(1.18); }
+}
+@keyframes anim-blob-drift-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-50px, 40px, 0) scale(1.12); }
+}
+
+/* ===== Reveal on scroll ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* 容器级微调起始偏移 */
+.section-header.reveal    { transform: translateY(28px); }
+.section-title.reveal      { transform: translateY(20px); }
+.stat-item.reveal          { transform: translateY(24px); }
+.article-header.reveal     { transform: translateY(24px); }
+.back-link.reveal          { transform: translateY(20px); }
+.profile-card.reveal       { transform: translateY(40px) scale(0.97); }
+.profile-card.reveal.is-visible { transform: translateY(0) scale(1); }
+.feature-item.reveal       { transform: translateY(36px) scale(0.97); }
+.feature-item.reveal.is-visible { transform: translateY(0) scale(1); }
+.download-card.reveal      { transform: translateY(36px) scale(0.97); }
+.download-card.reveal.is-visible { transform: translateY(0) scale(1); }
+.social-link.reveal        { transform: translateY(20px) scale(0.92); }
+.social-link.reveal.is-visible { transform: translateY(0) scale(1); }
+.interest-tag.reveal       { transform: translateY(14px) scale(0.9); }
+.interest-tag.reveal.is-visible { transform: translateY(0) scale(1); }
+.series-banner.reveal      { transform: translateY(20px); }
+.toc-list a.reveal         { transform: translateX(-20px); }
+.toc-list a.reveal.is-visible { transform: translateX(0); }
+.article-content > p.reveal,
+.article-content > ul.reveal,
+.article-content > ol.reveal,
+.article-content > table.reveal,
+.article-content > blockquote.reveal,
+.article-content > pre.reveal { transform: translateY(28px); }
+.article-content > h2.reveal { transform: translateY(36px); }
+.article-content > h3.reveal { transform: translateY(28px); }
+.article-content > .danger-callout.reveal { transform: translateY(28px) scale(0.98); }
+.article-content > .danger-callout.reveal.is-visible { transform: translateY(0) scale(1); }
+
+/* hero 内元素的小幅 stagger */
+.hero-eyebrow.reveal   { transform: translateY(-10px); transition-delay: 0s; }
+.hero-title.reveal     { transform: translateY(20px);  transition-delay: 0.08s; }
+.hero-desc.reveal      { transform: translateY(20px);  transition-delay: 0.16s; }
+.hero-actions.reveal   { transform: translateY(20px);  transition-delay: 0.24s; }
+.about-hero-badge.reveal { transform: translateY(-10px); transition-delay: 0s; }
+.about-hero h1.reveal  { transform: translateY(20px);  transition-delay: 0.08s; }
+.about-hero p.reveal   { transform: translateY(20px);  transition-delay: 0.16s; }
+
+/* reveal 状态下，hover 仍要接管 transform */
+.article-card.reveal.is-visible:hover   { transform: translateY(-6px); }
+.cat-card.reveal.is-visible:hover       { transform: translateY(-6px); }
+.feature-item.reveal.is-visible:hover   { transform: translateY(-4px); }
+.stat-item.reveal.is-visible:hover      { transform: translateY(-2px); }
+.back-link.reveal.is-visible:hover      { transform: translateY(-2px); }
+.social-link.reveal.is-visible:hover    { transform: translateY(-5px); }
+.interest-tag.reveal.is-visible:hover   { transform: scale(1.05); }
+.download-card.reveal.is-visible:hover  { transform: translateY(-3px); }
+.toc-list a.reveal.is-visible:hover     { transform: translateY(-3px); }
+.series-banner.reveal.is-visible:hover  { transform: translateY(-2px); }
+
+/* ===== Reduced motion：尊重系统偏好 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .bg-mesh, .blob-1, .blob-2 { animation: none !important; }
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .article-card.reveal.is-visible:hover,
+  .cat-card.reveal.is-visible:hover,
+  .feature-item.reveal.is-visible:hover,
+  .stat-item.reveal.is-visible:hover,
+  .back-link.reveal.is-visible:hover,
+  .social-link.reveal.is-visible:hover,
+  .interest-tag.reveal.is-visible:hover,
+  .download-card.reveal.is-visible:hover,
+  .toc-list a.reveal.is-visible:hover,
+  .series-banner.reveal.is-visible:hover { transform: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
