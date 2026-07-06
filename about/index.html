@@ -76,10 +76,46 @@
     }
 
     .blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); }
-    .blob-1 { width: 500px; height: 500px; top: -150px; right: -80px; background: rgba(254,207,239,0.35); }
-    .blob-2 { width: 300px; height: 300px; bottom: -80px; left: -60px; background: rgba(255,154,158,0.25); }
+    .blob-1 { width: 500px; height: 500px; top: -150px; right: -80px; background: rgba(254,207,239,0.35); animation: blobDrift1 22s ease-in-out infinite alternate; }
+    .blob-2 { width: 300px; height: 300px; bottom: -80px; left: -60px; background: rgba(255,154,158,0.25); animation: blobDrift2 28s ease-in-out infinite alternate; animation-delay: -10s; }
     body.dark-mode .blob-1 { background: rgba(102,126,234,0.08); }
     body.dark-mode .blob-2 { background: rgba(118,75,162,0.08); }
+    @keyframes blobDrift1 {
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      100% { transform: translate3d(50px,-40px,0) scale(1.18); }
+    }
+    @keyframes blobDrift2 {
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      100% { transform: translate3d(-40px,30px,0) scale(1.12); }
+    }
+
+    /* ===== Mesh gradient 背景层（彩色光斑） ===== */
+    .bg-mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(at 22% 32%, rgba(254,207,239,0.65) 0px, transparent 50%),
+        radial-gradient(at 78% 18%, rgba(255,154,158,0.55) 0px, transparent 52%),
+        radial-gradient(at 50% 82%, rgba(250,208,196,0.45) 0px, transparent 52%),
+        radial-gradient(at 12% 86%, rgba(189,153,244,0.30) 0px, transparent 50%),
+        radial-gradient(at 88% 76%, rgba(255,197,224,0.40) 0px, transparent 50%);
+      filter: blur(60px) saturate(125%);
+      animation: meshDrift 32s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    body.dark-mode .bg-mesh {
+      opacity: 0.55;
+      background:
+        radial-gradient(at 22% 32%, rgba(102,126,234,0.4) 0px, transparent 50%),
+        radial-gradient(at 78% 18%, rgba(118,75,162,0.4) 0px, transparent 50%),
+        radial-gradient(at 50% 82%, rgba(255,154,158,0.25) 0px, transparent 50%),
+        radial-gradient(at 12% 86%, rgba(67,56,202,0.3) 0px, transparent 50%),
+        radial-gradient(at 88% 76%, rgba(196,69,105,0.25) 0px, transparent 50%);
+    }
+    @keyframes meshDrift {
+      0%   { transform: translate3d(0,0,0) scale(1); }
+      50%  { transform: translate3d(-3%,2.5%,0) scale(1.07); }
+      100% { transform: translate3d(3.5%,-2.5%,0) scale(1.04); }
+    }
 
     .page-wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 60px 24px 80px; }
 
@@ -106,19 +142,62 @@
       font-size: clamp(2em, 5vw, 3em); font-weight: 800; letter-spacing: -0.03em;
       background: linear-gradient(135deg, var(--pink-from), var(--pink-deep));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 10px; animation: fadeUp 0.6s ease both;
+      margin-bottom: 10px;
     }
-    .about-hero p { color: var(--text-2); font-size: 1em; animation: fadeUp 0.6s ease 0.1s both; }
+    .about-hero p { color: var(--text-2); font-size: 1em; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    /* scaleIn 在更下方给 .qr-modal 用 */
+
+    /* ===== Reveal on scroll（与首页同套） ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .profile-card.reveal { transform: translateY(40px) scale(0.97); }
+    .profile-card.reveal.is-visible { transform: translateY(0) scale(1); }
+    .social-link.reveal { transform: translateY(20px) scale(0.92); }
+    .social-link.reveal.is-visible { transform: translateY(0) scale(1); }
+    .interest-tag.reveal { transform: translateY(14px) scale(0.9); }
+    .interest-tag.reveal.is-visible { transform: translateY(0) scale(1); }
+
+    /* hero 内元素的小幅 stagger */
+    .about-hero-badge.reveal { transform: translateY(-10px); transition-delay: 0s; }
+    .about-hero h1.reveal   { transform: translateY(20px);  transition-delay: 0.08s; }
+    .about-hero p.reveal    { transform: translateY(20px);  transition-delay: 0.16s; }
+
+    /* reveal 状态下，hover 仍要接管 transform */
+    .back-link.reveal.is-visible:hover { transform: translateY(-2px); }
+    .social-link.reveal.is-visible:hover { transform: translateY(-5px); }
+    .interest-tag.reveal.is-visible:hover { transform: scale(1.05); }
+
+    /* ===== Reduced motion：尊重系统偏好 ===== */
+    @media (prefers-reduced-motion: reduce) {
+      .bg-mesh, .blob-1, .blob-2 { animation: none !important; }
+      .reveal, .reveal.is-visible {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .back-link.reveal.is-visible:hover,
+      .social-link.reveal.is-visible:hover,
+      .interest-tag.reveal.is-visible:hover { transform: none !important; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
 
     /* Profile card */
     .profile-card {
       background: var(--card-bg); border: 1px solid var(--card-border);
       border-radius: 24px; padding: 48px 40px; text-align: center;
       backdrop-filter: blur(15px); box-shadow: var(--shadow);
-      animation: scaleIn 0.6s ease 0.2s both;
     }
     .profile-avatar-wrap { margin-bottom: 20px; }
     .profile-avatar {
@@ -227,6 +306,7 @@
   </style>
 </head>
 <body>
+  <div class="bg-mesh"></div>
   <div class="dot-grid"></div>
   <div class="particles">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
@@ -372,6 +452,76 @@
       var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
       if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
     }, 60000);
+
+    // ===== Scroll-reveal: 进入视口时渐显，组内错开 80ms =====
+    (function initReveal() {
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var sel = [
+        '.back-link',
+        '.about-hero-badge', '.about-hero h1', '.about-hero p',
+        '.profile-card',
+        '.interest-tag', '.social-link'
+      ];
+      var nodes = document.querySelectorAll(sel.join(','));
+      nodes.forEach(function(el) { el.classList.add('reveal'); });
+
+      if (reduce) {
+        nodes.forEach(function(el) { el.classList.add('is-visible'); });
+        return;
+      }
+      if (!('IntersectionObserver' in window)) {
+        nodes.forEach(function(el) { el.classList.add('is-visible'); });
+        return;
+      }
+
+      // 同父容器内编号 → 错开 delay
+      var seenParent = {};
+      nodes.forEach(function(el) {
+        var p = el.parentElement;
+        var key = p ? (p.className || p.tagName) : '_';
+        seenParent[key] = (seenParent[key] || 0) + 1;
+        el.dataset.revealIdx = (seenParent[key] - 1);
+      });
+
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            var idx = parseInt(el.dataset.revealIdx || '0', 10);
+            setTimeout(function() { el.classList.add('is-visible'); }, idx * 80);
+            io.unobserve(el);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+      nodes.forEach(function(el) { io.observe(el); });
+    })();
+
+    // ===== Scroll-tied parallax：mesh 反向、blob 正向 =====
+    (function initParallax() {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var mesh = document.querySelector('.bg-mesh');
+      var blobs = document.querySelectorAll('.blob');
+      if (!mesh && blobs.length === 0) return;
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function() {
+          var y = window.scrollY;
+          if (mesh) {
+            mesh.style.setProperty('transform',
+              'translate3d(0,' + (y * -0.06).toFixed(2) + 'px,0) scale(1.04)');
+          }
+          blobs.forEach(function(b, i) {
+            var speed = 0.04 + i * 0.02;
+            b.style.setProperty('transform',
+              'translate3d(0,' + (y * speed).toFixed(2) + 'px,0)');
+          });
+          ticking = false;
+        });
+      }, { passive: true });
+    })();
   </script>
 </body>
 </html>
