@@ -140,6 +140,151 @@
     transition: transform 0.2s;
   }
   .meta-row a:hover { transform: translateY(-2px); }
+
+  /* =================================================================
+   * SRE AI Agent 系列页专属动效
+   * ================================================================= */
+
+  /* --- 系列进度条（位于 series-intro 底部） --- */
+  .series-progress {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(196,69,105,0.2);
+  }
+  .series-progress .label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #5a5470;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .series-progress .label .pct { color: #c44569; }
+  .series-progress .bar {
+    height: 6px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(196,69,105,0.12);
+  }
+  .series-progress .fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #ff9a9e 0%, #c44569 100%);
+    border-radius: 999px;
+    animation: series-fill 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+    box-shadow: 0 0 12px rgba(255,154,158,0.5);
+  }
+  @keyframes series-fill { from { width: 0; } to { width: 16.67%; } }
+
+  /* --- SERIES 徽章 shimmer 流动 --- */
+  .series-intro .badge {
+    position: relative;
+    overflow: hidden;
+    background-size: 200% 200%;
+    animation: badge-gradient 6s ease-in-out infinite;
+  }
+  .series-intro .badge::after {
+    content: "";
+    position: absolute; top: 0; left: -120%;
+    width: 80%; height: 100%;
+    background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+    animation: badge-shimmer 3.2s ease-in-out infinite;
+  }
+  @keyframes badge-gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  @keyframes badge-shimmer {
+    0%   { left: -120%; }
+    60%  { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  /* --- TOC 卡片 hover 强化 --- */
+  .toc-list a {
+    position: relative;
+    overflow: hidden;
+  }
+  /* 底部粉线：默认隐藏，hover 时从左到右展开 */
+  .toc-list a::before {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, #ff9a9e 0%, #c44569 100%);
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .toc-list a:hover::before { width: 100%; }
+
+  /* 序号圆点 hover 时放大 + 浮动 + 阴影 */
+  .toc-list a .num {
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  .toc-list a:hover .num {
+    transform: scale(1.18) rotate(-6deg);
+    box-shadow: 0 6px 18px rgba(196,69,105,0.35);
+    animation: num-bob 0.9s ease-in-out infinite;
+  }
+  @keyframes num-bob {
+    0%, 100% { transform: scale(1.18) rotate(-6deg) translateY(0); }
+    50%      { transform: scale(1.18) rotate(-6deg) translateY(-3px); }
+  }
+  .toc-list a.todo:hover .num {
+    transform: scale(1.12) rotate(-6deg);
+    background: rgba(255,154,158,0.4);
+    color: #c44569;
+    animation: none;
+  }
+
+  /* 标题 hover 时颜色变深 + 滑动 */
+  .toc-list a .meta .title {
+    transition: color 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .toc-list a:hover .meta .title {
+    color: #c44569;
+    transform: translateX(4px);
+  }
+
+  /* 已发布状态 hover 时加绿光 */
+  .toc-list .status.done {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .toc-list a:hover .status.done {
+    box-shadow: 0 0 14px rgba(76,175,80,0.4);
+    transform: scale(1.05);
+  }
+
+  /* 待写状态 hover 时显示"催更"提示 */
+  .toc-list a.todo:hover .status.todo {
+    background: rgba(196,69,105,0.18);
+    color: #c44569;
+  }
+
+  /* --- meta-row 链接 ripple --- */
+  .meta-row a { position: relative; overflow: hidden; }
+  .meta-row a::after {
+    content: "";
+    position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(255,154,158,0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease, opacity 0.6s ease;
+    opacity: 0;
+  }
+  .meta-row a:hover::after { width: 200px; height: 200px; opacity: 1; transition: width 0s, height 0s; }
+
+  /* --- reduced motion --- */
+  @media (prefers-reduced-motion: reduce) {
+    .series-progress .fill { animation: none; width: 16.67%; }
+    .series-intro .badge, .series-intro .badge::after { animation: none; }
+    .toc-list a::before, .toc-list a:hover::before { width: 0; }
+    .toc-list a:hover .num, .toc-list a.todo:hover .num,
+    .toc-list a:hover .meta .title, .toc-list a:hover .status.done,
+    .toc-list a.todo:hover .status.todo { transform: none; box-shadow: none; animation: none; }
+    .meta-row a::after { display: none; }
+  }
 </style>
   <link rel="stylesheet" href="/css/animation.css">
 </head>
@@ -173,6 +318,13 @@
           <span class="badge">SERIES · 进行中</span>
           <p>这个系列记录我基于一个开源 AIOps 项目，搭一个<strong>SRE 实验排障 AI Agent</strong>的全过程。</p>
           <p>从架构选型、prompt 设计、工具调用、到 lesson learned——不会写成"完美教程"，会更偏"一个 SRE 小白第一次玩 AI Agent 时踩的坑"。</p>
+          <div class="series-progress">
+            <div class="label">
+              <span>系列进度</span>
+              <span class="pct">1 / 6 已发布</span>
+            </div>
+            <div class="bar"><div class="fill"></div></div>
+          </div>
         </div>
 
         <h2>这个系列会写什么</h2>
