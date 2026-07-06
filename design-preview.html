@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRE Wiki — 设计稿 v2.0 预览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================================
+     * SRE Wiki v2.0 — Design System
+     * 风格：克制优雅 (Vercel/Linear 风) · 粉紫保留为强调色
+     * ======================================================== */
+    :root {
+      /* ── 颜色 ── */
+      --bg: #fafaf9;
+      --bg-elevated: #ffffff;
+      --bg-glass: rgba(255, 255, 255, 0.72);
+      --bg-soft: rgba(255, 255, 255, 0.5);
+
+      --text-primary: #18181b;
+      --text-secondary: #52525b;
+      --text-muted: #a1a1aa;
+      --text-faint: #d4d4d8;
+
+      --border: rgba(0, 0, 0, 0.06);
+      --border-strong: rgba(0, 0, 0, 0.12);
+      --border-accent: rgba(196, 69, 105, 0.25);
+
+      /* 强调色 — 粉紫渐变（保留识别度） */
+      --accent-from: #ff6b9d;
+      --accent-to: #c44569;
+      --accent-solid: #c44569;
+      --accent-soft: rgba(196, 69, 105, 0.08);
+
+      /* 状态色 */
+      --ok-bg: rgba(22, 163, 74, 0.08);
+      --ok-fg: #15803d;
+      --warn-bg: rgba(234, 88, 12, 0.08);
+      --warn-fg: #c2410c;
+      --neutral-bg: rgba(0, 0, 0, 0.04);
+      --neutral-fg: #52525b;
+
+      /* ── 间距（8 级）── */
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 24px;
+      --sp-6: 32px;
+      --sp-7: 48px;
+      --sp-8: 64px;
+      --sp-9: 96px;
+
+      /* ── 圆角 ── */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-xl: 20px;
+      --r-full: 999px;
+
+      /* ── 阴影（克制）── */
+      --sh-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --sh-md: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+      --sh-lg: 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.06);
+      --sh-accent: 0 8px 24px rgba(196, 69, 105, 0.18);
+
+      /* ── 字体 ── */
+      --f-display: 'Outfit', system-ui, -apple-system, 'PingFang SC', sans-serif;
+      --f-body: 'Outfit', system-ui, -apple-system, 'PingFang SC', sans-serif;
+      --f-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+
+      /* ── 动效曲线 ── */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      font-family: var(--f-body);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-primary);
+      background: var(--bg);
+      font-feature-settings: 'cv11', 'ss01';
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* 背景：极轻的渐变球，仅在 hero 区域 */
+    .bg-aurora {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 154, 158, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 30%, rgba(254, 207, 239, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 20% 20%, rgba(189, 153, 244, 0.08) 0%, transparent 60%);
+    }
+    .bg-grid {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+    /* ── Top Nav ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      background: rgba(250, 250, 249, 0.72);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 700; font-size: 15px; letter-spacing: -0.01em;
+    }
+    .nav-logo .mark {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+    }
+    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links a {
+      padding: 6px 12px; font-size: 14px; color: var(--text-secondary);
+      border-radius: var(--r-md); transition: all 0.2s var(--ease-out);
+    }
+    .nav-links a:hover { color: var(--text-primary); background: var(--neutral-bg); }
+    .nav-links a.active { color: var(--text-primary); font-weight: 600; }
+    .nav-cta {
+      padding: 7px 14px; font-size: 13px; font-weight: 500;
+      background: var(--text-primary); color: white; border-radius: var(--r-md);
+      transition: all 0.2s var(--ease-out);
+    }
+    .nav-cta:hover { background: #000; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--r-full);
+      font-size: 13px; font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6);
+      animation: live-pulse 2s ease-in-out infinite;
+    }
+    @keyframes live-pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+    }
+
+    .hero-title {
+      font-family: var(--f-display);
+      font-size: clamp(40px, 6.5vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      max-width: 800px;
+      margin: 0 auto 24px;
+    }
+    .hero-title .grad {
+      background: linear-gradient(120deg, #c44569 0%, #ff6b9d 50%, #ff9a9e 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: grad-shift 8s ease-in-out infinite;
+    }
+    @keyframes grad-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-cta { display: inline-flex; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px;
+      border-radius: var(--r-md);
+      font-size: 14px; font-weight: 500;
+      transition: all 0.2s var(--ease-out);
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--text-primary);
+      color: white;
+      box-shadow: var(--sh-md);
+    }
+    .btn-primary:hover { background: #000; transform: translateY(-1px); box-shadow: var(--sh-lg); }
+    .btn-ghost {
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { background: var(--bg-elevated); border-color: var(--text-primary); }
+
+    .scroll-hint {
+      position: absolute; bottom: -32px; left: 50%; transform: translateX(-50%);
+      color: var(--text-muted); font-size: 12px; letter-spacing: 0.04em;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      animation: scroll-bob 2.4s ease-in-out infinite;
+    }
+    .scroll-hint .arrow { width: 16px; height: 16px; opacity: 0.6; }
+    @keyframes scroll-bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex; justify-content: center; gap: 0;
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    .stat {
+      flex: 1; max-width: 200px; text-align: center;
+      padding: 0 24px;
+      position: relative;
+    }
+    .stat + .stat::before {
+      content: ""; position: absolute; left: 0; top: 20%; height: 60%;
+      width: 1px; background: var(--border);
+    }
+    .stat-num {
+      font-family: var(--f-display);
+      font-size: 48px; font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .stat-num .suffix {
+      font-size: 0.4em; color: var(--text-muted); font-weight: 500;
+      letter-spacing: 0; margin-left: 2px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* ── Section header ── */
+    .section { padding: 96px 0; }
+    .section + .section { padding-top: 0; }
+    .section-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .section-title {
+      font-family: var(--f-display);
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .section-title .sub {
+      display: block;
+      font-size: 14px; font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 0;
+    }
+    .section-meta {
+      font-size: 13px; color: var(--text-muted);
+      font-family: var(--f-mono);
+    }
+
+    /* ── Category grid (3 列) ── */
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .cat-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      transition: all 0.25s var(--ease-out);
+      cursor: pointer;
+    }
+    .cat-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md);
+    }
+    .cat-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent-solid);
+      margin-bottom: 16px;
+    }
+    .cat-icon svg { width: 20px; height: 20px; }
+    .cat-name {
+      font-weight: 600; font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .cat-count {
+      font-size: 13px; color: var(--text-muted);
+      font-family: var(--f-mono);
+    }
+
+    /* ── Article grid (2 列) ── */
+    .article-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .article-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: all 0.25s var(--ease-out);
+      cursor: pointer;
+      position: relative;
+    }
+    .article-card::before {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent-from), var(--accent-to));
+      transition: width 0.4s var(--ease-out);
+    }
+    .article-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md);
+    }
+    .article-card:hover::before { width: 100%; }
+    .article-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 12px;
+    }
+    .article-title {
+      font-weight: 600; font-size: 15px;
+      line-height: 1.4;
+      color: var(--text-primary);
+    }
+    .article-tag {
+      flex-shrink: 0;
+      padding: 2px 8px;
+      background: var(--neutral-bg);
+      color: var(--text-secondary);
+      border-radius: var(--r-sm);
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--f-mono);
+      letter-spacing: 0.02em;
+    }
+    .article-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .article-foot {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: auto;
+      padding-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .article-foot .arrow {
+      margin-left: auto; opacity: 0.5;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .article-card:hover .article-foot .arrow { transform: translateX(3px); opacity: 1; }
+
+    /* ── Project card (状态卡) ── */
+    .project-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .project-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-solid);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      transition: all 0.25s var(--ease-out);
+      cursor: pointer;
+      position: relative;
+    }
+    .project-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--sh-md);
+      border-color: var(--border-strong);
+    }
+    .project-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .project-name {
+      font-weight: 600; font-size: 15px;
+      color: var(--text-primary);
+    }
+    .project-pill {
+      padding: 3px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-solid);
+      border-radius: var(--r-full);
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--f-mono);
+    }
+    .project-pill.ok { background: var(--ok-bg); color: var(--ok-fg); }
+    .project-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .project-meta {
+      display: flex; gap: 8px; margin-top: 16px;
+      font-size: 12px; color: var(--text-muted);
+      font-family: var(--f-mono);
+    }
+    .project-meta span::before { content: "·"; margin-right: 8px; }
+    .project-meta span:first-child::before { content: ""; margin: 0; }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 48px 0 64px;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-links { display: flex; gap: 16px; list-style: none; }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    /* ── Design system swatches (这一段只在 preview 出现) ── */
+    .swatches {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 32px;
+      margin-top: 32px;
+    }
+    .swatches h3 {
+      font-size: 16px; font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .swatch-row {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .swatch {
+      width: 80px; height: 80px;
+      border-radius: var(--r-md);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: 6px;
+      font-size: 10px;
+      font-family: var(--f-mono);
+    }
+    .swatch.light { color: white; }
+    .swatch.dark { color: var(--text-primary); }
+    .swatch-line {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .swatch-line:last-child { border-bottom: none; }
+    .swatch-line .label { width: 100px; color: var(--text-muted); font-family: var(--f-mono); }
+    .swatch-line .sample { color: var(--text-primary); }
+
+    .preview-banner {
+      background: var(--accent-soft);
+      border: 1px dashed var(--border-accent);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--accent-solid);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .nav-inner { padding: 12px 20px; }
+      .hero { padding: 64px 0 48px; }
+      .stats { flex-direction: column; gap: 32px; padding: 48px 0; }
+      .stat + .stat::before { left: 30%; top: -16px; width: 40%; height: 1px; }
+      .cat-grid, .article-grid, .project-grid { grid-template-columns: 1fr; }
+      .section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-aurora"></div>
+  <div class="bg-grid"></div>
+
+  <div class="preview-banner">
+    ⚠️ 这是 v2.0 设计预览页 · 不是正式首页 · 用于评审设计语言 · 部署在 <code>/design-preview.html</code>
+  </div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="mark"></span>
+        SRE Wiki
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" class="active">首页</a></li>
+        <li><a href="#">文档</a></li>
+        <li><a href="#">系列</a></li>
+        <li><a href="#">关于</a></li>
+      </ul>
+      <a href="#" class="nav-cta">GitHub →</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="eyebrow">
+          <span class="live-dot"></span>
+          站点可靠性工程文档中心 · 持续更新
+        </div>
+        <h1 class="hero-title">
+          故障排查的<br>
+          <span class="grad">标准化范本。</span>
+        </h1>
+        <p class="hero-desc">
+          标准化的故障排查手册、SOP、命令速查表，7 个分类 14 篇文档，开箱即用的运维指南。
+        </p>
+        <div class="hero-cta">
+          <a href="#" class="btn btn-primary">浏览全部文档 →</a>
+          <a href="#" class="btn btn-ghost">关于作者</a>
+        </div>
+        <div class="scroll-hint">
+          <span>向下滚动</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num">4<span class="suffix">篇</span></div>
+          <div class="stat-label">故障排查手册</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">6<span class="suffix">篇</span></div>
+          <div class="stat-label">标准操作</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1<span class="suffix">篇</span></div>
+          <div class="stat-label">快速参考</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2026<span class="suffix"></span></div>
+          <div class="stat-label">开更</div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">
+            文档分类
+            <span class="sub">按用途分类，方便快速定位</span>
+          </h2>
+          <span class="section-meta">3 categories</span>
+        </div>
+        <div class="cat-grid">
+          <div class="cat-card">
+            <div class="cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h6v6"/><path d="M3 17h6V7"/><path d="M3 7l8 8 8-8"/></svg>
+            </div>
+            <div class="cat-name">故障排查</div>
+            <div class="cat-count">4 篇 · 4 待写</div>
+          </div>
+          <div class="cat-card">
+            <div class="cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            </div>
+            <div class="cat-name">SOP 标准操作</div>
+            <div class="cat-count">1 篇</div>
+          </div>
+          <div class="cat-card">
+            <div class="cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div class="cat-name">快速参考</div>
+            <div class="cat-count">1 篇 · 告警阈值速查</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Articles -->
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">
+            最新文档
+            <span class="sub">按时间倒序，最近 30 天更新</span>
+          </h2>
+          <span class="section-meta">14 / total</span>
+        </div>
+        <div class="article-grid">
+          <a class="article-card" href="#">
+            <div class="article-head">
+              <div class="article-title">数据库故障转移手册</div>
+              <span class="article-tag">failover</span>
+            </div>
+            <p class="article-desc">PostgreSQL 主从故障转移标准流程，含故障确认、从库提升、连接字符串更新及验证测试步骤。</p>
+            <div class="article-foot">
+              <span>2026-05-25</span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a class="article-card" href="#">
+            <div class="article-head">
+              <div class="article-title">服务重启标准操作</div>
+              <span class="article-tag">restart</span>
+            </div>
+            <p class="article-desc">标准化服务重启流程，覆盖健康检查、回滚策略与重启后验证步骤。</p>
+            <div class="article-foot">
+              <span>2026-05-25</span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a class="article-card" href="#">
+            <div class="article-head">
+              <div class="article-title">事件响应流程</div>
+              <span class="article-tag">incident</span>
+            </div>
+            <p class="article-desc">从告警触发到事故复盘的全流程标准化，覆盖角色分工、升级路径与事后复盘模板。</p>
+            <div class="article-foot">
+              <span>2026-05-25</span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+          <a class="article-card" href="#">
+            <div class="article-head">
+              <div class="article-title">K8s Pod 调试速查</div>
+              <span class="article-tag">k8s</span>
+            </div>
+            <p class="article-desc">常见 Pod 异常状态、诊断命令与排查路径，配合实际生产案例分析。</p>
+            <div class="article-foot">
+              <span>2026-05-25</span>
+              <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">
+            开源项目
+            <span class="sub">本人在维护的工具和文档</span>
+          </h2>
+          <span class="section-meta">2 repos</span>
+        </div>
+        <div class="project-grid">
+          <a class="project-card" href="#">
+            <div class="project-head">
+              <div class="project-name">SRE AI Agent 系列</div>
+              <span class="project-pill">撰写中 · 1/6</span>
+            </div>
+            <p class="project-desc">基于开源 AIOps 项目搭一个 SRE 实验排障 AI Agent，从架构选型到 Prompt 调优的全程记录。第 1 篇已发布。</p>
+            <div class="project-meta">
+              <span>AI Agent</span>
+              <span>AIOps</span>
+              <span>LLM</span>
+            </div>
+          </a>
+          <a class="project-card" href="#">
+            <div class="project-head">
+              <div class="project-name">SRE Wiki Kit</div>
+              <span class="project-pill ok">v1.0</span>
+            </div>
+            <p class="project-desc">基于本博客封装的 Python 一键工具，5 分钟拥有自己的 GitHub Pages 博客。支持 Python + Docker 两种方式。</p>
+            <div class="project-meta">
+              <span>Python</span>
+              <span>Docker</span>
+              <span>开源</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Design system showcase -->
+      <section class="section">
+        <div class="section-head">
+          <h2 class="section-title">
+            设计 Token 速览
+            <span class="sub">v2.0 颜色 / 阴影 / 字体</span>
+          </h2>
+        </div>
+        <div class="swatches">
+          <h3>主色</h3>
+          <div class="swatch-row">
+            <div class="swatch light" style="background:#18181b;">--text #18181b</div>
+            <div class="swatch light" style="background:#c44569;">--accent #c44569</div>
+            <div class="swatch light" style="background:#ff6b9d;">--accent-from #ff6b9d</div>
+            <div class="swatch dark" style="background:#fafaf9;border:1px solid #e5e5e5;">--bg #fafaf9</div>
+            <div class="swatch dark" style="background:#ffffff;border:1px solid #e5e5e5;">--bg-elevated</div>
+            <div class="swatch light" style="background:#15803d;">--ok</div>
+            <div class="swatch light" style="background:#c2410c;">--warn</div>
+          </div>
+
+          <h3>字号（modular scale 1.25）</h3>
+          <div class="swatch-line"><span class="label">text-xs / 12</span><span class="sample" style="font-size:12px;color:#52525b;">A small text in production system</span></div>
+          <div class="swatch-line"><span class="label">text-sm / 14</span><span class="sample" style="font-size:14px;">Standard UI text</span></div>
+          <div class="swatch-line"><span class="label">text-base / 15</span><span class="sample" style="font-size:15px;">Body copy for long form content</span></div>
+          <div class="swatch-line"><span class="label">text-lg / 18</span><span class="sample" style="font-size:18px;color:#18181b;">Larger body text for hero</span></div>
+          <div class="swatch-line"><span class="label">text-2xl / 28</span><span class="sample" style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">Section title</span></div>
+          <div class="swatch-line"><span class="label">display / 56</span><span class="sample" style="font-size:56px;font-weight:800;letter-spacing:-0.035em;line-height:1.05;">标准化范本</span></div>
+
+          <h3>阴影（克制，多层）</h3>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
+            <div style="width:120px;height:80px;background:white;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;font-size:11px;color:#a1a1aa;font-family:monospace;">--sh-sm</div>
+            <div style="width:120px;height:80px;background:white;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;font-size:11px;color:#a1a1aa;font-family:monospace;">--sh-md</div>
+            <div style="width:120px;height:80px;background:white;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:#a1a1aa;font-family:monospace;">--sh-lg</div>
+            <div style="width:120px;height:80px;background:white;border-radius:10px;box-shadow:0 8px 24px rgba(196,69,105,0.18);display:flex;align-items:center;justify-content:center;font-size:11px;color:#c44569;font-family:monospace;">--sh-accent</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span>© 2026 SRE Wiki · Thorvald</span>
+        <ul class="footer-links">
+          <li><a href="#">首页</a></li>
+          <li><a href="#">关于</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">联系</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
