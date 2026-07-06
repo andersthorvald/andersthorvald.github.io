@@ -207,17 +207,11 @@ function toggleDark() {
   var isDark = !document.body.classList.contains('dark-mode');
   applyDark(isDark); localStorage.setItem('dark-mode-manual', isDark);
 }
+// 修：不再按时间自动切 dark mode。默认 light，用户手动切才生效。
 (function initDark() {
-  var h = new Date().getHours();
-  var d = h < 7 || h >= 19;
   var m = localStorage.getItem('dark-mode-manual');
-  if (m !== null) d = m === 'true';
-  applyDark(d);
+  applyDark(m === 'true');
 })();
-setInterval(function() {
-  var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
-  if (m === null) { var ad = h < 7 || h >= 19; if (ad !== document.body.classList.contains('dark-mode')) applyDark(ad); }
-}, 60000);
 </script>
     <script>
     (function initLike() {

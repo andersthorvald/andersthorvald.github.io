@@ -802,7 +802,7 @@ ZC3TK-63GE6-481JY-WWW5T-Z7ATA</code></pre>
       localStorage.setItem('dark-mode-manual', d);
     }
     (function(){
-      var h = new Date().getHours(), d = h < 7 || h >= 19;
+      
       var m = localStorage.getItem('dark-mode-manual');
       if(m !== null) d = m === 'true';
       applyDark(d);
