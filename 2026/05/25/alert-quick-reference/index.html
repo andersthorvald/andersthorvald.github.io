@@ -27,6 +27,7 @@
   <meta name="twitter:image" content="https://andersthorvald.github.io/images/og-image.png">
 
   <link rel="stylesheet" href="/css/article.css">
+  <link rel="stylesheet" href="/css/design-system.css">
   <link rel="stylesheet" href="/css/about.css">
   
   <script type="application/ld+json">
@@ -135,7 +136,13 @@ journalctl <span class="fl">-k</span> <span class="op">|</span> grep <span class
     </div>
   </main>
 
-  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+  <button class="scroll-progress" id="scrollProgress" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 36 36">
+      <circle class="bg" cx="18" cy="18" r="16"></circle>
+      <circle class="fg" cx="18" cy="18" r="16"></circle>
+    </svg>
+    <span class="arrow">↑</span>
+  </button>
   <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
 
   <script>
@@ -247,5 +254,6 @@ setInterval(function() {
     })();
   </script>
   <script src="/js/animation.js" defer></script>
+  <script src="/js/toc.js" defer></script>
 </body>
 </html>
