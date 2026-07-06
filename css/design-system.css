@@ -611,7 +611,7 @@ body.dark-mode .live-dot { background: #4ade80; }
 }
 .article-toc a.is-active .toc-dot { background: var(--accent-solid); }
 
-@media (max-width: 1280px) {
+@media (max-width: 1400px) {
   .article-toc { display: none; }
 }
 
