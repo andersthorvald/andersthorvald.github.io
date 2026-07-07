@@ -1,12 +1,12 @@
 ﻿/* =================================================================
  * SRE Wiki — 全站动效公共脚本
- * v0.1.0
+ * v0.2.0 (refined for v2 design system)
  *
  * 功能：
- *   1. 自动 inject bg-mesh + 2 个 blob 到 body 顶部
+ *   1. 自动 inject bg-mesh + 2 个 blob 到 body 顶部（克制版）
  *   2. 给一组 selector 打 .reveal class
- *   3. IntersectionObserver 触发 .is-visible（错开 80ms）
- *   4. Scroll-tied parallax：mesh 反向、blob 正向
+ *   3. IntersectionObserver 触发 .is-visible（错开 60ms）
+ *   4. Scroll-tied parallax：mesh 反向 0.04、blob 正向 0.03/0.045
  *   5. prefers-reduced-motion 全局跳过
  *
  * 自定义：<body data-anim-scope="default|minimal">
@@ -82,7 +82,7 @@
         if (entry.isIntersecting) {
           var el = entry.target;
           var idx = parseInt(el.dataset.revealIdx || '0', 10);
-          var delay = Math.min(idx * 80, 720);
+          var delay = Math.min(idx * 60, 540);     /* 80 → 60ms, max 540 */
           setTimeout(function () { el.classList.add('is-visible'); }, delay);
           io.unobserve(el);
         }
@@ -105,10 +105,10 @@
           var y = window.scrollY;
           if (mesh) {
             mesh.style.setProperty('transform',
-              'translate3d(0,' + (y * -0.06).toFixed(2) + 'px,0) scale(1.04)');
+              'translate3d(0,' + (y * -0.04).toFixed(2) + 'px,0) scale(1.02)');  /* -0.06 → -0.04 */
           }
           blobs.forEach(function (b, i) {
-            var speed = 0.04 + i * 0.02;
+            var speed = 0.03 + i * 0.015;       /* 0.04/0.06 → 0.03/0.045 */
             b.style.setProperty('transform',
               'translate3d(0,' + (y * speed).toFixed(2) + 'px,0)');
           });
