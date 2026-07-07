@@ -122,6 +122,7 @@
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">跳到主要内容</a>
   <div class="bg-aurora"></div>
   <div class="bg-grid"></div>
 
@@ -129,7 +130,7 @@
   <header class="site-header">
     <div class="nav-inner">
       <div class="site-title"><a href="/"><span class="mark"></span>SRE Wiki</a></div>
-      <ul class="nav-links">
+      <ul class="nav-links" role="navigation" aria-label="主导航">
         <li><a href="/" class="active">首页</a></li>
         <li><a href="#articles">文档</a></li>
         <li><a href="#projects">项目</a></li>
@@ -139,7 +140,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class="container">
 
       <!-- ============ Hero ============ -->
@@ -394,7 +395,7 @@
     </footer>
   </main>
 
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式" aria-label="切换深色模式">🌙</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式" aria-label="切换深色模式" aria-label="切换深色模式" type="button">🌙</button>
   <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
 
   <script>

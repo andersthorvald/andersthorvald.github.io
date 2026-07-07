@@ -189,6 +189,7 @@
   <link rel="stylesheet" href="/css/animation.css">
 </head>
 <body>
+  <a href="#main" class="skip-link">跳到主要内容</a>
   <div class="dot-grid"></div>
   <div class="particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div>
   <div class="blob blob-1"></div>
@@ -198,10 +199,10 @@
 
   <header class="site-header">
     <div class="site-title"><a href="/">SRE Wiki</a></div>
-    <ul class="nav-links"><li><a href="/">首页</a></li></ul>
+    <ul class="nav-links" role="navigation" aria-label="主导航"><li><a href="/">首页</a></li></ul>
   </header>
 
-  <main class="container">
+  <main id="main" class="container">
     <a href="/" class="back-link">← 返回首页</a>
 
     <article class="article-card">
@@ -222,16 +223,16 @@
         
         <h3>下载 Rocky Linux 10 镜像</h3>
         <div class="url-box">
-          完整版 DVD：<a href="https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-dvd.iso" target="_blank">https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-dvd.iso</a>
+          完整版 DVD：<a href="https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-dvd.iso" rel="noopener noreferrer" target="_blank">https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-dvd.iso</a>
         </div>
         <div class="url-box">
-          精简版 Minimal：<a href="https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-minimal.iso" target="_blank">https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-minimal.iso</a>
+          精简版 Minimal：<a href="https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-minimal.iso" rel="noopener noreferrer" target="_blank">https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.0-x86_64-minimal.iso</a>
         </div>
 
         <h3>下载 VMware Workstation Pro</h3>
         <p>前往 Broadcom 官网下载 VMware Workstation Pro：</p>
         <div class="url-box">
-          <a href="https://support.broadcom.com/group/ecx/productdownloads" target="_blank">https://support.broadcom.com/group/ecx/productdownloads</a>
+          <a href="https://support.broadcom.com/group/ecx/productdownloads" rel="noopener noreferrer" target="_blank">https://support.broadcom.com/group/ecx/productdownloads</a>
         </div>
         <div class="warn-box">
           <strong>提示：</strong>下载前请先注册登录 Broadcom 账号。推荐下载最新版本 VMware Workstation Pro 17.x。
@@ -772,8 +773,8 @@ ZC3TK-63GE6-481JY-WWW5T-Z7ATA</code></pre>
     </div>
   </main>
 
-  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部">↑</button>
-  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式">🌙</button>
+  <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部" type="button">↑</button>
+  <button class="dark-toggle" onclick="toggleDark()" title="切换深色模式" aria-label="切换深色模式" type="button">🌙</button>
 
   <script>
     // ===== 阅读进度条 =====

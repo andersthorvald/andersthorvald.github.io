@@ -520,6 +520,7 @@
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">跳到主要内容</a>
   <div class="bg-aurora"></div>
   <div class="bg-grid"></div>
 
@@ -534,7 +535,7 @@
         <span class="mark"></span>
         SRE Wiki
       </a>
-      <ul class="nav-links">
+      <ul class="nav-links" role="navigation" aria-label="主导航">
         <li><a href="#" class="active">首页</a></li>
         <li><a href="#">文档</a></li>
         <li><a href="#">系列</a></li>
@@ -544,7 +545,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main" tabindex="-1">
     <div class="container">
       <!-- Hero -->
       <section class="hero">
