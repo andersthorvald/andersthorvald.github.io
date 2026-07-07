@@ -791,30 +791,22 @@ ZC3TK-63GE6-481JY-WWW5T-Z7ATA</code></pre>
     })();
     function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    // ===== 深色模式 =====
+    // ===== 深色模式（仅按用户手动切换，不再按时间自动切）=====
     function applyDark(d) {
       document.body.classList[d ? 'add' : 'remove']('dark-mode');
       var b = document.querySelector('.dark-toggle');
-      if(b) b.textContent = d ? '☀️' : '🌙';
+      if (b) b.textContent = d ? '☀️' : '🌙';
     }
     function toggleDark() {
       var d = !document.body.classList.contains('dark-mode');
       applyDark(d);
-      localStorage.setItem('dark-mode-manual', d);
+      try { localStorage.setItem('dark-mode-manual', String(d)); } catch (e) {}
     }
-    (function(){
-      
-      var m = localStorage.getItem('dark-mode-manual');
-      if(m !== null) d = m === 'true';
-      applyDark(d);
+    (function initDark() {
+      var m = null;
+      try { m = localStorage.getItem('dark-mode-manual'); } catch (e) {}
+      applyDark(m === 'true');
     })();
-    setInterval(function(){
-      var h = new Date().getHours(), m = localStorage.getItem('dark-mode-manual');
-      if(m === null) {
-        var ad = h < 7 || h >= 19;
-        if(ad !== document.body.classList.contains('dark-mode')) applyDark(ad);
-      }
-    }, 60000);
 
     // ===== 点赞 =====
     var aid = 'rocky-linux-vm-install-2026';

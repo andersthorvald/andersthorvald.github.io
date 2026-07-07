@@ -245,8 +245,8 @@ body.dark-mode .article-content .danger-callout strong { color: #fbbf24; }
   margin: 32px 0;
 }
 
-/* ===== Dark Mode 适配（用 design-system 的 dark token） ===== */
-body.dark-mode .article-content code { color: #ff9a9e; }
+/* ===== Dark Mode 适配（用 design-system 的 dark token，零硬编码） ===== */
+body.dark-mode .article-content code { color: var(--accent-from); }
 body.dark-mode .article-content pre { background: #0e0e1a; }
 body.dark-mode .article-content table { border-color: var(--border); }
 body.dark-mode .article-content th { background: rgba(255,154,158,0.08); color: var(--text-primary); }
